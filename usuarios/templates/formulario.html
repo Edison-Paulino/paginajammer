@@ -1,0 +1,10 @@
+<form method="post" action="/actualizar/">
+  {% csrf_token %}
+  <label>Frecuencia:</label>
+  <input type="text" name="frecuencia"><br>
+  <label>Ganancia:</label>
+  <input type="text" name="ganancia"><br>
+  <label>Selector (0/1):</label>
+  <input type="text" name="selector"><br>
+  <button type="submit">Actualizar</button>
+</form>

@@ -1,0 +1,116 @@
+{% extends 'base_login.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% include 'usuarios/modal_recuperar_password.html' %}
+
+{% block content %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #1e293b;
+    }
+
+    .form-login {
+        background-color: #0f172a;
+        padding: 30px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .form-login input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+        background-color: #1e3a5f;
+        color: white;
+    }
+
+    .form-login button {
+        background-color: #1d4ed8;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .form-login a {
+        display: block;
+        margin-top: 15px;
+        font-size: 0.9em;
+        color: #93c5fd;
+        text-align: center;
+    }
+
+    .alert-login {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #dc2626;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        opacity: 0.9;
+    }
+</style>
+
+<div class="form-login">
+    <h2 style="color:white; text-align:center;">INICIAR SESIÓN</h2>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Nombre de usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <button type="submit">ENTRAR</button>
+        <a href="#" onclick="abrirModalRecuperar()">Olvidé mi contraseña</a>
+    </form>
+</div>
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'error_login' %}
+      <div class="alert-login" id="alerta-login">{{ message }}</div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<!-- Modal recuperación -->
+{% include 'usuarios/modal_recuperar_password.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const alert = document.getElementById("alerta-login");
+    if (alert) {
+      setTimeout(function () {
+        alert.style.display = "none";
+      }, 3000);
+    }
+  });
+
+  function abrirModalRecuperar() {
+    document.getElementById("modalRecuperarPassword").style.display = "block";
+  }
+
+  function cerrarModalRecuperar() {
+    document.getElementById("modalRecuperarPassword").style.display = "none";
+  }
+  function abrirModalRecuperar() {
+    document.getElementById("modalRecuperarPassword").style.display = "block";
+  }
+  function cerrarModalRecuperar() {
+    document.getElementById("modalRecuperarPassword").style.display = "none";
+  }
+  
+</script>
+{% endblock %}

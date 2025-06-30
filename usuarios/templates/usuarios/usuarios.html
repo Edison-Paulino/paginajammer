@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<style>
+    h2 {
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #334155;
+        text-align: left;
+    }
+    th {
+        background-color: #1e40af;
+    }
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+    .btn-editar {
+        background-color: #22d3ee;
+        color: black;
+    }
+    .btn-eliminar {
+        background-color: #ef4444;
+        color: white;
+    }
+    .btn-agregar {
+        background-color: #10b981;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .modal input[type="text"],
+    .modal input[type="email"],
+    .modal input[type="password"],
+    .modal select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+        background-color: #0f172a;
+        color: white;
+        font-size: 14px;
+    }
+    .modal label {
+        color: white;
+        font-weight: bold;
+    }
+    .alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #1e3a8a;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        opacity: 0.9;
+    }
+</style>
+
+<h2>Gestión de Usuarios</h2>
+<button class="btn btn-agregar" onclick="abrirModal()">AGREGAR USUARIO</button>
+
+<!-- Alertas -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert" id="alerta-{{ forloop.counter }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Usuario</th>
+      <th>Email</th>
+      <th>Teléfono</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios %}
+    <tr>
+      <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+      <td>{{ usuario.username }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.perfilusuario.telefono }}</td>
+      <td>
+        <button class="btn btn-editar"
+                onclick="abrirModalEditar(this)"
+                data-id="{{ usuario.id }}"
+                data-firstname="{{ usuario.first_name }}"
+                data-lastname="{{ usuario.last_name }}"
+                data-segapellido="{{ usuario.perfilusuario.segundo_apellido }}"
+                data-segnombre="{{ usuario.perfilusuario.segundo_nombre }}"
+                data-email="{{ usuario.email }}"
+                data-telefono="{{ usuario.perfilusuario.telefono }}"
+                data-username="{{ usuario.username }}">
+          Editar
+        </button>
+        <button class="btn btn-eliminar" onclick="abrirModalEliminar({{ usuario.id }})">Eliminar</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modales -->
+{% include 'usuarios/modal_agregar.html' %}
+{% include 'usuarios/modal_editar.html' %}
+{% include 'usuarios/modal_eliminar.html' %}
+
+<!-- Modal Confirmar Eliminación -->
+<div id="modalEliminarUsuario" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+  <form id="formEliminarUsuario" method="POST" action="{% url 'eliminar_usuario' %}">
+    {% csrf_token %}
+    <input type="hidden" id="delete_user_id" name="usuario_id">
+    <div style="background:#1e3a5f; width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
+      <h3 style="color: white;">¿Estás seguro de que deseas eliminar este usuario?</h3>
+      <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-eliminar">Sí, eliminar</button>
+        <button type="button" class="btn btn-agregar" onclick="cerrarModalEliminar()">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function abrirModal() {
+    document.getElementById("modalUsuario").style.display = "block";
+  }
+
+  function cerrarModal() {
+    document.getElementById("modalUsuario").style.display = "none";
+  }
+
+  function abrirModalEditar(button) {
+    document.getElementById("edit_user_id").value = button.dataset.id;
+    document.getElementById("edit_first_name").value = button.dataset.firstname;
+    document.getElementById("edit_last_name").value = button.dataset.lastname;
+    document.getElementById("edit_segundo_apellido").value = button.dataset.segapellido;
+    document.getElementById("edit_segundo_nombre").value = button.dataset.segnombre;
+    document.getElementById("edit_email").value = button.dataset.email;
+    document.getElementById("edit_telefono").value = button.dataset.telefono;
+    document.getElementById("modalEditarUsuario").style.display = "block";
+  }
+
+  function cerrarModalEditar() {
+    document.getElementById("modalEditarUsuario").style.display = "none";
+  }
+
+  function abrirModalEliminar(userId) {
+    document.getElementById("delete_user_id").value = userId;
+    document.getElementById("modalEliminarUsuario").style.display = "block";
+  }
+
+  function cerrarModalEliminar() {
+    document.getElementById("modalEliminarUsuario").style.display = "none";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const alerts = document.querySelectorAll(".alert");
+    alerts.forEach(function (alert) {
+      setTimeout(function () {
+        alert.style.display = "none";
+      }, 3000);
+    });
+  });
+</script>
+
+{% endblock %}

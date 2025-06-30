@@ -1,0 +1,21 @@
+<!-- templates/usuarios/modal_agregar.html -->
+<div id="modalUsuario" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div style="background:#1e3a5f; width:500px; margin:100px auto; padding:30px; border-radius:10px; position:relative;">
+        <h3>Agregar Usuario</h3>
+        <form method="POST" action="{% url 'crear_usuario' %}">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="Primer Nombre" required>
+            <input type="text" name="segundo_nombre" placeholder="Segundo Nombre (opcional)">
+            <input type="text" name="last_name" placeholder="Primer Apellido" required>
+            <input type="text" name="segundo_apellido" placeholder="Segundo Apellido">
+            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <input type="text" name="telefono" placeholder="Teléfono">
+            <input type="password" name="password" placeholder="Contraseña" required>
+
+            <div style="text-align:right; margin-top:20px;">
+                <button type="button" onclick="cerrarModal()" class="btn btn-eliminar">Cancelar</button>
+                <button type="submit" class="btn btn-agregar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

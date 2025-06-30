@@ -1,0 +1,21 @@
+<!-- templates/usuarios/modal_editar.html -->
+<div id="modalEditarUsuario" class="modal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <form method="POST" action="{% url 'editar_usuario' %}">
+        {% csrf_token %}
+        <input type="hidden" id="edit_user_id" name="usuario_id">
+        <div style="background:#1e3a5f; width:500px; margin:100px auto; padding:30px; border-radius:10px; position:relative;">
+            <h3>Editar Usuario</h3>
+            <input type="text" id="edit_first_name" name="first_name" placeholder="Primer nombre">
+            <input type="text" id="edit_segundo_nombre" name="segundo_nombre" placeholder="Segundo nombre">
+            <input type="text" id="edit_last_name" name="last_name" placeholder="Apellido paterno">
+            <input type="text" id="edit_segundo_apellido" name="segundo_apellido" placeholder="Apellido materno">
+            <input type="email" id="edit_email" name="email" placeholder="Correo electrónico">
+            <input type="text" id="edit_telefono" name="telefono" placeholder="Teléfono">
+
+            <div style="text-align:right; margin-top:20px;">
+                <button type="submit" class="btn btn-agregar">Guardar Cambios</button>
+                <button type="button" class="btn btn-eliminar" onclick="cerrarModalEditar()">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>

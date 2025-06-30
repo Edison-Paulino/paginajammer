@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0f172a;
+            color: white;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 220px;
+            height: 100vh;
+            background-color: #1e3a5f;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar-avatar {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .avatar-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.4);
+        }
+        .username {
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+            margin-top: -5px;
+        }
+        .sidebar .menu-btn {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #1e40af;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .sidebar .menu-btn:hover {
+            background-color: #2563eb;
+        }
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #1e293b;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px;
+            color: white;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            background-color: #334155;
+            color: white;
+        }
+        .modal-content button {
+            background-color: #1e40af;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .modal-content button.cancel {
+            background-color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-avatar">
+        {% if request.user.perfilusuario.foto %}
+            <img src="{{ request.user.perfilusuario.foto.url }}" alt="avatar" class="avatar-img">
+        {% else %}
+            <img src="{% static 'default/avatar.png' %}" alt="avatar" class="avatar-img">
+        {% endif %}
+        <p class="text-white mt-2 font-semibold">
+                {{ request.user.first_name }} {{ request.user.last_name }}
+        </p>
+    </div>
+
+    <a class="menu-btn" href="{% url 'perfil' %}">Perfil</a>
+    <a class="menu-btn" href="{% url 'inicio' %}">Inicio</a>
+    <a class="menu-btn" href="{% url 'alertas' %}">Alertas</a>
+    <a class="menu-btn" href="{% url 'exportar' %}">Exportar</a>
+    {% if request.user.is_staff %}
+        <a class="menu-btn" href="{% url 'usuarios' %}">Usuarios</a>
+    {% endif %}
+    <a class="menu-btn" href="{% url 'logout' %}">Salir</a>
+</div>
+
+<div class="main">
+    {% block content %}
+    <!-- Aquí irá el contenido de cada página -->
+    {% endblock %}
+</div>
+
+<!-- Modal flotante para agregar usuario -->
+<div id="modalAgregarUsuario" class="modal">
+    <div class="modal-content">
+        <h3>Agregar Nuevo Usuario</h3>
+        <form method="POST" id="formAgregarUsuario">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="Primer Nombre" required>
+            <input type="text" name="segundo_nombre" placeholder="Segundo Nombre">
+            <input type="text" name="last_name" placeholder="Primer Apellido" required>
+            <input type="text" name="segundo_apellido" placeholder="Segundo Apellido" required>
+            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <input type="text" name="telefono" placeholder="Teléfono">
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="password" name="confirm_password" placeholder="Confirmar Contraseña" required>
+            <div style="text-align:right;">
+                <button type="submit">Guardar</button>
+                <button type="button" class="cancel" onclick="document.getElementById('modalAgregarUsuario').style.display='none'">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Para abrir el modal desde un botón externo
+function abrirModalUsuario() {
+    document.getElementById("modalAgregarUsuario").style.display = "block";
+}
+</script>
+
+</body>
+</html>
