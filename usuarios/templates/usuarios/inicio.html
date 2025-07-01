@@ -10,10 +10,12 @@
         {% csrf_token %}
         
         <label for="provincia" style="color:white; font-size:18px;">Seleccionar provincia:</label>
-        <select id="provincia" name="provincia" class="select-provincia" required>
+        <select id="provincia" name="provincia" class="select-provincia" required
+        data-selected="{{ provincia_seleccionada }}">
+
             <option value="">Buscar provincia...</option>
             {% for prov in provincias %}
-                <option value="{{ prov }}">{{ prov }}</option>
+                <option value="{{ prov }}" {% if provincia_seleccionada == prov %}selected{% endif %}>{{ prov }}</option>
             {% endfor %}
         </select>
 
@@ -188,6 +190,28 @@
         background-color: #1e3a8a;
         color: white;
     }
+
+    select {
+        background-color: #0f172a;
+        color: white;
+        border: 1px solid #334155;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 10px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #1e40af;
+        box-shadow: 0 0 5px #1e40af;
+    }
+
+
 </style>
 
 <script>
@@ -223,18 +247,24 @@
 
     // Select2 para provincias
     $(document).ready(function () {
-        $('#provincia').select2({
+        const $provincia = $('#provincia');
+
+        $provincia.select2({
             placeholder: "Buscar provincia...",
             allowClear: true,
             minimumResultsForSearch: 0,
             dropdownAutoWidth: true,
-            width: 'resolve',
-            dropdownCssClass: "select2-dark-dropdown",
-            containerCssClass: "select2-dark-container"
+            width: 'resolve'
         }).on('select2:open', function () {
-            // Mostrar 5 resultados a la vez
             $('.select2-results__options').css('max-height', '200px');
         });
+
+        // Preseleccionar provincia si hay valor
+        const selectedProvincia = $provincia.data('selected');
+        if (selectedProvincia) {
+            $provincia.val(selectedProvincia).trigger('change');
+        }
     });
+
 </script>
 {% endblock %}

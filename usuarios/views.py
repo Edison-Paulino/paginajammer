@@ -9,11 +9,17 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 import configparser
 import os
+from datetime import datetime
+
+from paginajammer import utils_db_registros, utils_alertas_db
+from paginajammer.utils_jammer_logs import leer_estado_actual, leer_historial_apagados
 
 from .forms import PerfilForm, PerfilUsuarioForm, RegistroForm
 from .models import PerfilUsuario
 
 User = get_user_model()
+
+INI_PATH = 'D:\django_project\paginajammer\paginajammer\CONFIG.INI'
 
 # === AUTENTICACIÓN ===
 
@@ -34,6 +40,7 @@ def logout_view(request):
     logout(request)
     return redirect("login")
 
+
 # === FUNCIONES AUXILIARES ===
 
 def generar_username(nombre, apellido1, apellido2):
@@ -45,17 +52,16 @@ def generar_username(nombre, apellido1, apellido2):
             return username
         contador += 1
 
+
 # === PÁGINAS ===
 
 @login_required
 def home_view(request):
     return redirect("inicio")
 
-from datetime import datetime
 
 @login_required
 def inicio_view(request):
-    # Provincias de República Dominicana
     provincias = [
         "Distrito Nacional", "Azua", "Bahoruco", "Barahona", "Dajabón", "Duarte",
         "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal",
@@ -67,50 +73,124 @@ def inicio_view(request):
     ]
 
     if request.method == "POST":
-        # VALIDAR PROVINCIA
         provincia = request.POST.get("provincia")
         if not provincia:
             messages.error(request, "Debe seleccionar una provincia.")
             return redirect("inicio")
 
-        # Frecuencia y selector
-        frecuencia_mhz = request.POST.get("frecuencia")
-        selector = "1" if request.POST.get("selector") == "1" else "0"
+        nueva_frecuencia_mhz = request.POST.get("frecuencia")
+        nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
 
         try:
-            frecuencia_hz = int(float(frecuencia_mhz) * 1_000_000)
+            nueva_frecuencia_hz = int(float(nueva_frecuencia_mhz) * 1_000_000)
         except (ValueError, TypeError):
-            frecuencia_hz = 915000000  # valor por defecto si hay error
+            nueva_frecuencia_hz = 915000000
 
-        guardar_configuracion_ini(frecuencia_hz, selector)
+        datos_anteriores = cargar_configuracion_ini()
+        anterior_selector = datos_anteriores.get("selector", "0")
+        anterior_frecuencia_mhz = str(int(int(datos_anteriores.get("frecuencia", "915000000")) / 1_000_000))
+
+        guardar_configuracion_ini(nueva_frecuencia_hz, nuevo_selector)
+
+        # === Registro de uso ===
+        if anterior_selector == "1":
+            if nuevo_selector == "0":
+                # Jammer se APAGÓ
+                utils_db_registros.cerrar_todos_registros_abiertos(
+                    usuario_fin=request.user.username,
+                    fin_registro=datetime.now().isoformat()
+                )
+            elif anterior_frecuencia_mhz != nueva_frecuencia_mhz:
+                # Cambió frecuencia
+                utils_db_registros.cerrar_todos_registros_abiertos(
+                    usuario_fin=request.user.username,
+                    fin_registro=datetime.now().isoformat()
+                )
+                utils_db_registros.insertar_registro(
+                    usuario_inicio=request.user.username,
+                    frecuencia_mhz=float(nueva_frecuencia_mhz),
+                    ubicacion=provincia,
+                    inicio_registro=datetime.now().isoformat()
+                )
+        elif anterior_selector == "0" and nuevo_selector == "1":
+            # Jammer se ENCENDIÓ
+            utils_db_registros.cerrar_todos_registros_abiertos(
+                usuario_fin=request.user.username,
+                fin_registro=datetime.now().isoformat()
+            )
+            utils_db_registros.insertar_registro(
+                usuario_inicio=request.user.username,
+                frecuencia_mhz=float(nueva_frecuencia_mhz),
+                ubicacion=provincia,
+                inicio_registro=datetime.now().isoformat()
+            )
+
         messages.success(request, "Parámetros guardados correctamente.")
         return redirect("inicio")
 
-    # GET
+    # === GET ===
     datos = cargar_configuracion_ini()
     frecuencia = datos.get("frecuencia", "915000000")
     selector = datos.get("selector", "0")
-
-    # Fecha y hora del sistema local (la Raspberry Pi)
     fecha_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    # 👉 Intenta precargar la ubicación si hay registro abierto y frecuencia coincide
+    ubicacion = ""
+    if selector == "1":
+        registro_abierto = utils_db_registros.obtener_cualquier_registro_abierto()
+        if registro_abierto:
+            freq_registro = str(int(registro_abierto[2]))
+            freq_actual = str(int(int(frecuencia) / 1_000_000))
+            if freq_registro == freq_actual:
+                ubicacion = registro_abierto[3]
 
     return render(request, "usuarios/inicio.html", {
         "frecuencia": int(int(frecuencia) / 1000000),
         "selector": selector,
         "fecha_hora": fecha_hora,
         "provincias": provincias,
+        "provincia_seleccionada": ubicacion,
     })
-
-
 
 
 @login_required
 def alertas_view(request):
-    return render(request, "usuarios/alertas.html")
+    estado = leer_estado_actual()
+    selector = int(estado.get("selector", "0")) if estado else 0
+
+    if selector == 1:
+        historial_logs = leer_historial_apagados()
+        for linea in historial_logs:
+            if not utils_alertas_db.existe_alerta_descripcion(linea):
+                utils_alertas_db.insertar_alerta(
+                    titulo="Apagado inesperado detectado",
+                    descripcion=linea,
+                    nivel="WARN",
+                    usuario="sistema"
+                )
+
+    alertas = utils_alertas_db.obtener_todas_alertas()
+
+    return render(request, "usuarios/alertas.html", {
+        'alertas': alertas
+    })
+
 
 @login_required
 def exportar_view(request):
     return render(request, "usuarios/exportar.html")
+
+@login_required
+def usos_view(request):
+    if request.user.is_staff:
+        registros = utils_db_registros.obtener_todos_registros()
+    else:
+        registros = utils_db_registros.obtener_registros_por_usuario(request.user.username)
+
+    return render(request, "usuarios/usos.html", {
+        "registros": registros
+    })
+
 
 @login_required
 def perfil_view(request):
@@ -152,12 +232,16 @@ def perfil_view(request):
         "perfil": perfil
     })
 
+    
+
+
 # === USUARIOS ===
 
 @staff_member_required
 def gestion_usuarios(request):
     usuarios = User.objects.all().select_related("perfilusuario")
     return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
+
 
 @staff_member_required
 @csrf_exempt
@@ -198,6 +282,7 @@ def crear_usuario_modal_view(request):
 
     return redirect("usuarios")
 
+
 @require_POST
 @user_passes_test(lambda u: u.is_staff)
 def editar_usuario_view(request):
@@ -233,6 +318,7 @@ def editar_usuario_view(request):
     messages.success(request, "Usuario actualizado correctamente.")
     return redirect("usuarios")
 
+
 @staff_member_required
 def eliminar_usuario(request):
     if request.method == "POST":
@@ -241,6 +327,7 @@ def eliminar_usuario(request):
         user.delete()
         messages.success(request, "Usuario eliminado exitosamente.")
     return redirect("usuarios")
+
 
 @staff_member_required
 def obtener_usuario_json(request, user_id):
@@ -289,14 +376,14 @@ def recuperar_password_view(request):
 
     return redirect('login')
 
-# === ARCHIVO .INI ===
 
-INI_PATH = 'D:\Proyecto_Jammer\Funcionales\Jammer_Canal_Remoto\Presentacion\Config.INI'
+# === ARCHIVO .INI ===
 
 def cargar_configuracion_ini():
     config = configparser.ConfigParser()
     config.read(INI_PATH)
     return dict(config['PARAMETROS']) if 'PARAMETROS' in config else {}
+
 
 def guardar_configuracion_ini(frecuencia, selector):
     config = configparser.ConfigParser()

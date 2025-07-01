@@ -3,6 +3,97 @@
 {% block title %}Alertas{% endblock %}
 
 {% block content %}
-<h1>Alertas</h1>
-<p>Esta es la vista temporal de alertas.</p>
+<style>
+    h2 {
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #334155;
+        text-align: left;
+    }
+    th {
+        background-color: #1e40af;
+        color: white;
+    }
+    .nivel-INFO {
+        background-color: #10b981;
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+    .nivel-WARN {
+        background-color: #facc15;
+        color: black;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+    .nivel-ERROR {
+        background-color: #ef4444;
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+    .nivel-CRITICAL {
+        background-color: #b91c1c;
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+</style>
+
+<h2>Alertas del Sistema</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert" id="alerta-{{ forloop.counter }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Fecha/Hora</th>
+      <th>Título</th>
+      <th>Descripción</th>
+      <th>Nivel</th>
+      <th>Usuario</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in alertas %}
+    <tr>
+      <td>{{ a.4 }}</td>
+      <td>{{ a.1 }}</td>
+      <td>{{ a.2 }}</td>
+      <td><span class="nivel-{{ a.3|upper }}">{{ a.3 }}</span></td>
+      <td>{{ a.5 }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No hay alertas registradas.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const alerts = document.querySelectorAll(".alert");
+    alerts.forEach(function (alert) {
+      setTimeout(function () {
+        alert.style.display = "none";
+      }, 3000);
+    });
+  });
+</script>
 {% endblock %}

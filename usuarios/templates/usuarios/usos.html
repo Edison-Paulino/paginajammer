@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro de Usos{% endblock %}
+
+{% block content %}
+<style>
+    h2 {
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #334155;
+        text-align: left;
+    }
+    th {
+        background-color: #1e40af;
+        color: white;
+    }
+    .alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #1e3a8a;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        opacity: 0.9;
+    }
+</style>
+
+<h2>Registro de Usos del Jammer</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert" id="alerta-{{ forloop.counter }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Usuario que encendió</th>
+      <th>Usuario que apagó</th>
+      <th>Frecuencia (MHz)</th>
+      <th>Ubicación</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in registros %}
+    <tr>
+      <td>{{ r.1 }}</td>
+      <td>{{ r.2|default:"-" }}</td>
+      <td>{{ r.3 }}</td>
+      <td>{{ r.4 }}</td>
+      <td>{{ r.5 }}</td>
+      <td>{{ r.6|default:"-" }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">No hay registros disponibles.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const alerts = document.querySelectorAll(".alert");
+    alerts.forEach(function (alert) {
+      setTimeout(function () {
+        alert.style.display = "none";
+      }, 3000);
+    });
+  });
+</script>
+
+{% endblock %}

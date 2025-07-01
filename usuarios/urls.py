@@ -12,7 +12,7 @@ urlpatterns = [
     path('inicio/', views.inicio_view, name='inicio'),
     path('perfil/', views.perfil_view, name='perfil'),
     path('alertas/', views.alertas_view, name='alertas'),
-    path('exportar/', views.exportar_view, name='exportar'),
+    path('usos/', views.usos_view, name='usos'),
 
     # Gestión de usuarios (solo admins)
     path('usuarios/', views.gestion_usuarios, name='usuarios'),
