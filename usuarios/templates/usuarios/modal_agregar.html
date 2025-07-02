@@ -1,21 +1,66 @@
 <!-- templates/usuarios/modal_agregar.html -->
 <div id="modalUsuario" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
-    <div style="background:#1e3a5f; width:500px; margin:100px auto; padding:30px; border-radius:10px; position:relative;">
-        <h3>Agregar Usuario</h3>
-        <form method="POST" action="{% url 'crear_usuario' %}">
-            {% csrf_token %}
-            <input type="text" name="first_name" placeholder="Primer Nombre" required>
-            <input type="text" name="segundo_nombre" placeholder="Segundo Nombre (opcional)">
-            <input type="text" name="last_name" placeholder="Primer Apellido" required>
-            <input type="text" name="segundo_apellido" placeholder="Segundo Apellido">
-            <input type="email" name="email" placeholder="Correo Electrónico" required>
-            <input type="text" name="telefono" placeholder="Teléfono">
-            <input type="password" name="password" placeholder="Contraseña" required>
+  <div style="background:#1e3a5f; width:500px; max-width:90%; margin:100px auto; padding:30px; border-radius:12px; position:relative; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+    <h3 style="color:white; text-align:center; margin-bottom:20px;">Agregar Usuario</h3>
+    <form method="POST" action="{% url 'crear_usuario' %}">
+      {% csrf_token %}
+      <input type="text" name="first_name" placeholder="Primer Nombre" required class="input-modal">
+      <input type="text" name="segundo_nombre" placeholder="Segundo Nombre (opcional)" class="input-modal">
+      <input type="text" name="last_name" placeholder="Primer Apellido" required class="input-modal">
+      <input type="text" name="segundo_apellido" placeholder="Segundo Apellido" class="input-modal">
+      <input type="email" name="email" placeholder="Correo Electrónico" required class="input-modal">
+      <input type="text" name="telefono" placeholder="Teléfono" class="input-modal">
+      <input type="password" name="password" placeholder="Contraseña" required class="input-modal">
 
-            <div style="text-align:right; margin-top:20px;">
-                <button type="button" onclick="cerrarModal()" class="btn btn-eliminar">Cancelar</button>
-                <button type="submit" class="btn btn-agregar">Guardar</button>
-            </div>
-        </form>
-    </div>
+      <div style="text-align:right; margin-top:20px;">
+        <button type="button" onclick="cerrarModal()" class="btn btn-eliminar">Cancelar</button>
+        <button type="submit" class="btn btn-agregar">Guardar</button>
+      </div>
+    </form>
+  </div>
 </div>
+
+<style>
+  .input-modal {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #42649a;
+    color: #f1f5f9;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .input-modal::placeholder {
+    color: #94a3b8;
+  }
+
+  .input-modal:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 5px #3b82f6;
+    outline: none;
+  }
+
+  .btn-agregar {
+    background-color: #10b981;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btn-eliminar {
+    background-color: #ef4444;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+</style>

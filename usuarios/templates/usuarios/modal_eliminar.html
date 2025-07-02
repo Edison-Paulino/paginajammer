@@ -1,16 +1,38 @@
-<!-- Modal Eliminar Usuario -->
+<!-- templates/usuarios/modal_eliminar.html -->
 <div id="modalEliminarUsuario" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
-    <form id="formEliminarUsuario" method="POST" action="{% url 'eliminar_usuario' %}">
-        {% csrf_token %}
-        <input type="hidden" id="delete_user_id" name="usuario_id">
-        <div style="background:#1e3a5f; width:500px; margin:100px auto; padding:30px; border-radius:10px; position:relative;">
-            <h3 style="color:white; text-align:center;">Confirmar Eliminación</h3>
-            <p style="color:white; text-align:center;">¿Estás seguro de que deseas eliminar este usuario?</p>
-            <div style="text-align:right; margin-top:20px;">
-                <button type="submit" class="btn btn-eliminar">Sí, eliminar</button>
-                <button type="button" class="btn btn-agregar" onclick="cerrarModalEliminar()">Cancelar</button>
-            </div>
-        </div>
-    </form>
+  <form id="formEliminarUsuario" method="POST" action="{% url 'eliminar_usuario' %}">
+    {% csrf_token %}
+    <input type="hidden" id="delete_user_id" name="usuario_id">
+    <div style="background:#1e3a5f; width:500px; max-width:90%; margin:100px auto; padding:30px; border-radius:12px; position:relative; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+      <h3 style="color:white; text-align:center; margin-bottom:20px;">Confirmar Eliminación</h3>
+      <p style="color:#f1f5f9; text-align:center; margin-bottom:30px;">¿Estás seguro de que deseas eliminar este usuario?</p>
+      <div style="text-align:right;">
+        <button type="submit" class="btn btn-eliminar">Sí, eliminar</button>
+        <button type="button" class="btn btn-agregar" onclick="cerrarModalEliminar()">Cancelar</button>
+      </div>
+    </div>
+  </form>
 </div>
 
+<style>
+  .btn-agregar {
+    background-color: #10b981;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btn-eliminar {
+    background-color: #ef4444;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+</style>

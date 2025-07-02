@@ -16,7 +16,7 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.user.email}"
 
-# Crear el perfil automáticamente al crear el usuario
+
 @receiver(post_save, sender=User)
 def crear_perfil_usuario(sender, instance, created, **kwargs):
     if created:
@@ -42,6 +42,7 @@ class FrecuenciaControl(models.Model):
         estado_str = "ON" if self.estado else "OFF"
         return f"{self.usuario.username} - {self.frecuencia} Hz - {estado_str}"
 
+
 # ---------------------------
 # Log de Acciones
 # ---------------------------
@@ -52,3 +53,22 @@ class LogAcciones(models.Model):
 
     def __str__(self):
         return f"{self.fecha} - {self.usuario.username if self.usuario else 'Desconocido'} - {self.accion}"
+
+
+# ---------------------------
+# Registro de Usos del Jammer
+# ---------------------------
+class RegistroJammer(models.Model):
+    usuario_inicio = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='registros_iniciados')
+    usuario_fin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='registros_finalizados')
+    frecuencia_mhz = models.DecimalField(max_digits=10, decimal_places=2)
+    ubicacion = models.CharField(max_length=100, blank=True)
+    inicio_registro = models.DateTimeField()
+    fin_registro = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return (
+            f"{self.usuario_inicio} ({self.frecuencia_mhz} MHz) "
+            f"desde {self.inicio_registro} "
+            f"hasta {self.fin_registro or 'Activo'}"
+        )

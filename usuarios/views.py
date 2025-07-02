@@ -19,7 +19,7 @@ from .models import PerfilUsuario
 
 User = get_user_model()
 
-INI_PATH = 'D:\django_project\paginajammer\paginajammer\CONFIG.INI'
+INI_PATH = r'D:\django_project\paginajammer\paginajammer\CONFIG.INI'
 
 # === AUTENTICACIÓN ===
 
@@ -203,6 +203,7 @@ def perfil_view(request):
         accion = request.POST.get("accion")
 
         if accion == "editar_foto" and "nueva_foto" in request.FILES:
+            # Solo actualiza la foto, sin tocar nada más
             perfil.foto = request.FILES["nueva_foto"]
             perfil.save()
             messages.success(request, "Foto de perfil actualizada.")
@@ -215,6 +216,7 @@ def perfil_view(request):
             return redirect("perfil")
 
         elif accion == "guardar":
+            # Actualiza todos los demás campos del perfil y usuario
             user_form = PerfilForm(request.POST, instance=user)
             perfil_form = PerfilUsuarioForm(request.POST, request.FILES, instance=perfil)
 
@@ -227,9 +229,10 @@ def perfil_view(request):
                 messages.error(request, "Verifica los campos ingresados.")
 
     return render(request, "usuarios/perfil.html", {
+        "user": user,
+        "perfil": perfil,
         "user_form": user_form,
-        "perfil_form": perfil_form,
-        "perfil": perfil
+        "perfil_form": perfil_form
     })
 
     

@@ -2,8 +2,6 @@
 
 {% block title %}Iniciar Sesión{% endblock %}
 
-{% include 'usuarios/modal_recuperar_password.html' %}
-
 {% block content %}
 <style>
     body, html {
@@ -43,6 +41,7 @@
         border-radius: 8px;
         width: 100%;
         margin-top: 10px;
+        cursor: pointer;
     }
 
     .form-login a {
@@ -51,6 +50,8 @@
         font-size: 0.9em;
         color: #93c5fd;
         text-align: center;
+        cursor: pointer;
+        text-decoration: underline;
     }
 
     .alert-login {
@@ -85,7 +86,6 @@
   {% endfor %}
 {% endif %}
 
-<!-- Modal recuperación -->
 {% include 'usuarios/modal_recuperar_password.html' %}
 
 <script>
@@ -105,12 +105,5 @@
   function cerrarModalRecuperar() {
     document.getElementById("modalRecuperarPassword").style.display = "none";
   }
-  function abrirModalRecuperar() {
-    document.getElementById("modalRecuperarPassword").style.display = "block";
-  }
-  function cerrarModalRecuperar() {
-    document.getElementById("modalRecuperarPassword").style.display = "none";
-  }
-  
 </script>
 {% endblock %}
