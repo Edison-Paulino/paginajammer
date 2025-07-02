@@ -10,6 +10,10 @@ from django.contrib.auth.models import User
 import configparser
 import os
 from datetime import datetime
+from django.core.paginator import Paginator
+from django.core.paginator import Paginator
+from django.utils.http import urlencode
+
 
 from paginajammer import utils_db_registros, utils_alertas_db
 from paginajammer.utils_jammer_logs import leer_estado_actual, leer_historial_apagados
@@ -153,6 +157,7 @@ def inicio_view(request):
     })
 
 
+
 @login_required
 def alertas_view(request):
     estado = leer_estado_actual()
@@ -171,14 +176,48 @@ def alertas_view(request):
 
     alertas = utils_alertas_db.obtener_todas_alertas()
 
+    page_size = int(request.GET.get('page_size', 25))
+    paginator = Paginator(alertas, page_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    sort_by = request.GET.get('sort_by', 'fecha')
+    order = request.GET.get('order', 'asc')
+    page_size = int(request.GET.get('page_size', 10))
+
+    alertas = utils_alertas_db.obtener_todas_alertas()
+
+    # Función de clave de ordenamiento
+    def sort_key(a):
+        if sort_by == 'fecha':
+            return a[4]
+        elif sort_by == 'titulo':
+            return a[1].lower()
+        elif sort_by == 'descripcion':
+            return a[2].lower()
+        elif sort_by == 'nivel':
+            return a[3].lower()
+        elif sort_by == 'usuario':
+            return (a[5] or '').lower()
+        return a[4]
+
+    # Ordenar
+    alertas.sort(key=sort_key, reverse=(order == 'desc'))
+
+    # Paginar como antes
+    paginator = Paginator(alertas, page_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "usuarios/alertas.html", {
-        'alertas': alertas
+        'alertas': page_obj,
+        'page_obj': page_obj,
+        'page_size': page_size,
+        'sort_by': sort_by,
+        'order': order,
     })
 
 
-@login_required
-def exportar_view(request):
-    return render(request, "usuarios/exportar.html")
 
 @login_required
 def usos_view(request):
@@ -187,9 +226,42 @@ def usos_view(request):
     else:
         registros = utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
+    # === Ordenamiento ===
+    sort_by = request.GET.get('sort_by', 'inicio')
+    order = request.GET.get('order', 'asc')
+    page_size = int(request.GET.get('page_size', 10))
+
+    # Función de clave de ordenamiento
+    def sort_key(r):
+        if sort_by == 'usuario_inicio':
+            return (r[1] or '').lower()
+        elif sort_by == 'usuario_fin':
+            return (r[2] or '').lower()
+        elif sort_by == 'frecuencia':
+            return float(r[3]) if r[3] else 0
+        elif sort_by == 'ubicacion':
+            return (r[4] or '').lower()
+        elif sort_by == 'inicio':
+            return r[5]
+        elif sort_by == 'fin':
+            return r[6] or ''
+        return r[5]
+
+    registros.sort(key=sort_key, reverse=(order == 'desc'))
+
+    # === Paginación ===
+    paginator = Paginator(registros, page_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "usuarios/usos.html", {
-        "registros": registros
+        "registros": page_obj,
+        "page_obj": page_obj,
+        "page_size": page_size,
+        "sort_by": sort_by,
+        "order": order,
     })
+
 
 
 @login_required
@@ -240,10 +312,42 @@ def perfil_view(request):
 
 # === USUARIOS ===
 
+from django.core.paginator import Paginator
+
 @staff_member_required
 def gestion_usuarios(request):
     usuarios = User.objects.all().select_related("perfilusuario")
-    return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
+
+    # === Ordenamiento ===
+    sort_by = request.GET.get('sort_by', 'nombre')
+    order = request.GET.get('order', 'asc')
+
+    def sort_key(u):
+        if sort_by == 'nombre':
+            return (u.first_name.lower(), u.last_name.lower())
+        elif sort_by == 'username':
+            return u.username.lower()
+        elif sort_by == 'email':
+            return u.email.lower()
+        elif sort_by == 'telefono':
+            return (u.perfilusuario.telefono or '').lower()
+        return (u.first_name.lower(), u.last_name.lower())
+
+    usuarios = sorted(usuarios, key=sort_key, reverse=(order == 'desc'))
+
+    # === Paginación ===
+    page_size = int(request.GET.get('page_size', 10))
+    paginator = Paginator(usuarios, page_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'usuarios/usuarios.html', {
+        'usuarios': page_obj,
+        'page_obj': page_obj,
+        'page_size': page_size,
+        'sort_by': sort_by,
+        'order': order,
+    })
 
 
 @staff_member_required
