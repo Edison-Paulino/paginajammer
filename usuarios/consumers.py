@@ -34,13 +34,13 @@ class MonitorConsumer(AsyncWebsocketConsumer):
 
     async def receive_fft(self):
         samp_rate = 28e6
-        fft_size = 8192
+        fft_size = 2048
         while self.running:
             try:
                 # Leer frecuencia desde .ini
                 config = configparser.ConfigParser()
                 config.read('D:/django_project/paginajammer/paginajammer/CONFIG.INI')
-                center_freq = float(config['PARAMETROS']['frecuency'])
+                center_freq = float(config['PARAMETROS']['frecuencia'])
 
                 msg = await self.zmq_socket.recv()
                 raw_data = list(memoryview(msg).cast('f'))

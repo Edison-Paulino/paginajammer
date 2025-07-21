@@ -75,6 +75,13 @@ def inicio_view(request):
         "San Pedro de Macorís", "Sánchez Ramírez", "Santiago", "Santiago Rodríguez",
         "Santo Domingo", "Valverde"
     ]
+    canales_wifi = [
+        ("1", 2412), ("2", 2417), ("3", 2422), ("4", 2427),
+        ("5", 2432), ("6", 2437), ("7", 2442), ("8", 2447),
+        ("9", 2452), ("10", 2457), ("11", 2462), ("12", 2467),
+        ("13", 2472), ("14", 2484),
+    ]
+
 
     if request.method == "POST":
         provincia = request.POST.get("provincia")
@@ -154,6 +161,8 @@ def inicio_view(request):
         "fecha_hora": fecha_hora,
         "provincias": provincias,
         "provincia_seleccionada": ubicacion,
+        "canales_wifi": canales_wifi,
+
     })
 
 
