@@ -82,7 +82,7 @@ def inicio_view(request):
             messages.error(request, "Debe seleccionar una provincia.")
             return redirect("inicio")
 
-        nueva_frecuencia_mhz = request.POST.get("frecuencia")
+        nueva_frecuencia_mhz = request.POST.get("frecuency")
         nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
 
         try:

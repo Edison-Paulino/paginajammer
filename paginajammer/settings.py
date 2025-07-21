@@ -27,7 +27,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
     'django_extensions',
+    'channels',
 ]
+
+
+ASGI_APPLICATION = 'paginajammer.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
