@@ -33,6 +33,10 @@ def login_view(request):
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user:
+            perfil = getattr(user, 'perfilusuario', None)
+            if perfil and perfil.estado == "inactivo":
+                messages.error(request, "Este usuario está inactivo. Contacte al administrador.", extra_tags='error_login')
+                return redirect("login")
             login(request, user)
             return redirect(request.GET.get("next", "inicio"))
         else:
@@ -145,7 +149,7 @@ def inicio_view(request):
     selector = datos.get("selector", "0")
     fecha_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-    # 👉 Intenta precargar la ubicación si hay registro abierto y frecuencia coincide
+    # Intenta precargar la ubicación si hay registro abierto y frecuencia coincide
     ubicacion = ""
     if selector == "1":
         registro_abierto = utils_db_registros.obtener_cualquier_registro_abierto()
@@ -235,9 +239,16 @@ def usos_view(request):
     else:
         registros = utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
+    from datetime import datetime
+
+    for i, r in enumerate(registros):
+        inicio = datetime.fromisoformat(r[5]) if r[5] else None
+        fin = datetime.fromisoformat(r[6]) if r[6] else None
+        registros[i] = r[:5] + (inicio, fin)
+
     # === Ordenamiento ===
     sort_by = request.GET.get('sort_by', 'inicio')
-    order = request.GET.get('order', 'asc')
+    order = request.GET.get('order', 'desc') 
     page_size = int(request.GET.get('page_size', 10))
 
     # Función de clave de ordenamiento
@@ -256,20 +267,27 @@ def usos_view(request):
             return r[6] or ''
         return r[5]
 
+    # Ordenar
     registros.sort(key=sort_key, reverse=(order == 'desc'))
 
-    # === Paginación ===
+    # Paginación
     paginator = Paginator(registros, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "usuarios/usos.html", {
+    context = {
         "registros": page_obj,
         "page_obj": page_obj,
         "page_size": page_size,
         "sort_by": sort_by,
         "order": order,
-    })
+    }
+
+    # Si la petición viene de HTMX, devuelve solo el fragmento
+    if request.headers.get('Hx-Request') == 'true':
+        return render(request, "usuarios/fragmento_tabla_usos.html", context)
+
+    return render(request, "usuarios/usos.html", context)
 
 
 
@@ -340,7 +358,10 @@ def gestion_usuarios(request):
             return u.email.lower()
         elif sort_by == 'telefono':
             return (u.perfilusuario.telefono or '').lower()
+        elif sort_by == 'estado':
+            return (u.perfilusuario.estado or '').lower()
         return (u.first_name.lower(), u.last_name.lower())
+
 
     usuarios = sorted(usuarios, key=sort_key, reverse=(order == 'desc'))
 
@@ -513,3 +534,49 @@ def guardar_configuracion_ini(frecuencia, selector):
 
     with open(INI_PATH, 'w') as configfile:
         config.write(configfile)
+
+
+@user_passes_test(lambda u: u.is_staff)
+def deshabilitar_usuario(request, id):
+    usuario = get_object_or_404(User, id=id)
+    if usuario.is_superuser:
+        messages.error(request, "No puedes deshabilitar al superusuario.")
+        return redirect('usuarios')
+    usuario.is_active = False
+    usuario.save()
+    messages.success(request, f"Usuario '{usuario.username}' deshabilitado.")
+    return redirect('usuarios')
+
+@user_passes_test(lambda u: u.is_staff)
+def habilitar_usuario(request, id):
+    usuario = get_object_or_404(User, id=id)
+    usuario.is_active = True
+    usuario.save()
+    messages.success(request, f"Usuario '{usuario.username}' habilitado.")
+    return redirect('usuarios')
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_staff)
+@csrf_exempt
+def eliminar_usuarios(request):
+    import json
+    data = json.loads(request.body)
+    ids = data.get('ids', [])
+    User.objects.filter(id__in=ids).delete()
+    return JsonResponse({'status': 'ok'})
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_staff)
+@csrf_exempt
+def cambiar_estado_usuarios(request):
+    import json
+    data = json.loads(request.body)
+    ids = data.get('ids', [])
+    for user in User.objects.filter(id__in=ids):
+        perfil = getattr(user, 'perfilusuario', None)
+        if perfil:
+            perfil.estado = 'inactivo' if perfil.estado == 'activo' else 'activo'
+            perfil.save()
+    return JsonResponse({'status': 'ok'})

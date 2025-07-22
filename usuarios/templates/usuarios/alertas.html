@@ -10,20 +10,33 @@
       text-align: center;
   }
   table {
-      width: 100%;
+      width: 1000px;  /* Puedes ajustar el tamaño según el contenido */
+      table-layout: fixed;
       border-collapse: collapse;
-      margin-bottom: 20px;
       background-color: #0f172a;
       color: white;
       border-radius: 10px;
       overflow: hidden;
+      margin: auto;
   }
+
   th, td {
       padding: 12px 16px;
       border: 1px solid #334155;
       text-align: left;
       font-size: 14px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
   }
+  th:nth-child(1), td:nth-child(1) { width: 120px; }  /* Fecha */
+  th:nth-child(2), td:nth-child(2) { width: 300px; }  /* Título */
+  th:nth-child(3), td:nth-child(3) { width: 400px; }  /* Descripción */
+  th:nth-child(4), td:nth-child(4) { width: 80px; }  /* Nivel */
+  th:nth-child(5), td:nth-child(5) { width: 100px; }  /* Usuario */
+
   th {
       background-color: #1e40af;
       color: white;

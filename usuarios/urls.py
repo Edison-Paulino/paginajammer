@@ -24,6 +24,10 @@ urlpatterns = [
     path('usuarios/obtener/<int:user_id>/', views.obtener_usuario_json, name='obtener_usuario_json'),
 
     path('recuperar-password/', views.recuperar_password_view, name='recuperar_password'),
+
+    path('usuarios/eliminar-multiples/', views.eliminar_usuarios, name='eliminar_usuarios'),
+    path('usuarios/cambiar-estado/', views.cambiar_estado_usuarios, name='cambiar_estado_usuarios'),
+
 ]
 
 # Servir archivos de usuario (solo en desarrollo)

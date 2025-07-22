@@ -4,15 +4,17 @@ from .models import PerfilUsuario, FrecuenciaControl, LogAcciones
 
 @admin.register(PerfilUsuario)
 class PerfilUsuarioAdmin(admin.ModelAdmin):
-    list_display = ('user', 'foto_miniatura', 'segundo_nombre', 'segundo_apellido', 'telefono')
+    list_display = ('user', 'foto_miniatura', 'segundo_nombre', 'segundo_apellido', 'telefono', 'estado')
     search_fields = ('user__username', 'user__email', 'telefono')
     readonly_fields = ('foto_miniatura',)
+    list_filter = ('estado',)
 
     def foto_miniatura(self, obj):
         if obj.foto:
             return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 50%"/>', obj.foto.url)
         return "(Sin foto)"
     foto_miniatura.short_description = "Foto"
+
 
 @admin.register(FrecuenciaControl)
 class FrecuenciaControlAdmin(admin.ModelAdmin):

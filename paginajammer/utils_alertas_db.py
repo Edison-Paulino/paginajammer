@@ -24,21 +24,31 @@ def insertar_alerta(titulo, descripcion, nivel, usuario=None):
     conn.commit()
     conn.close()
 
+
+from datetime import datetime
+
+def formatear_fecha(fecha_str):
+    try:
+        dt = datetime.fromisoformat(fecha_str)
+        return dt.strftime("%d/%m/%Y %H:%M")
+    except Exception:
+        return fecha_str
+
 def obtener_todas_alertas():
-    """
-    Devuelve todas las alertas registradas.
-    """
-    conn = obtener_conexion()
-    cursor = conn.cursor()
-    sql = """
-        SELECT id, titulo, descripcion, nivel, fecha_hora, usuario
-        FROM alertas
-        ORDER BY fecha_hora DESC
-    """
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    conn.close()
-    return results
+    conexion = sqlite3.connect(DB_PATH)
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM alertas")
+    datos = cursor.fetchall()
+    conexion.close()
+
+    alertas = []
+    for a in datos:
+        alerta = list(a)
+        alerta[4] = formatear_fecha(alerta[4])
+        alertas.append(alerta)
+
+    return alertas
+
 
 
 def existe_alerta_descripcion(descripcion):

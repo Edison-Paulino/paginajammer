@@ -177,7 +177,7 @@
 </style>
 
 <div class="section">
-  <h1 id="fechaHora"></h1>
+  <div id="fechaHora" style="color: white; font-size: 34px; font-weight: bold; margin-bottom: 25px;"></div>
   <form method="POST">
     {% csrf_token %}
 
@@ -386,5 +386,24 @@
     });
   });
 </script>
+<script>
+  function actualizarFechaHora() {
+    const ahora = new Date();
+    const opciones = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const fechaFormateada = ahora.toLocaleString('es-DO', opciones).replace(',', '');
+    document.getElementById("fechaHora").innerText = fechaFormateada;
+  }
+
+  setInterval(actualizarFechaHora, 1000);
+  actualizarFechaHora();
+</script>
+
 
 {% endblock %}
