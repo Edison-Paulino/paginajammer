@@ -28,6 +28,15 @@ urlpatterns = [
     path('usuarios/eliminar-multiples/', views.eliminar_usuarios, name='eliminar_usuarios'),
     path('usuarios/cambiar-estado/', views.cambiar_estado_usuarios, name='cambiar_estado_usuarios'),
 
+    # Exportación de registros de usos
+    path('usos/exportar/csv/', views.exportar_usos_csv, name='exportar_usos_csv'),
+    path('usos/exportar/pdf/', views.exportar_usos_pdf, name='exportar_usos_pdf'),
+
+    # Exportación de alertas
+    path('alertas/exportar/csv/', views.exportar_alertas_csv, name='exportar_alertas_csv'),
+    path('alertas/exportar/pdf/', views.exportar_alertas_pdf, name='exportar_alertas_pdf'),
+
+
 ]
 
 # Servir archivos de usuario (solo en desarrollo)

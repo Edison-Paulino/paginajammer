@@ -152,6 +152,35 @@
   gap: 10px;
   margin-bottom: 15px;
 }
+.btn-export-csv {
+    background-color: #f59e0b; /* amarillo suave */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-export-csv:hover {
+    background-color: #d97706;
+}
+
+.btn-export-pdf {
+    background-color: #ec4899; /* rosado suave */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-export-pdf:hover {
+    background-color: #db2777;
+}
 
   
 </style>
@@ -187,6 +216,10 @@
   </div>
 </form>
 
+<div style="text-align: right; margin: 20px auto; max-width: 1000px;">
+  <a href="{% url 'exportar_usos_csv' %}" class="btn-export-csv">Exportar CSV</a>
+  <a href="{% url 'exportar_usos_pdf' %}" class="btn-export-pdf">Exportar PDF</a>
+</div>
 
 
 <div id="tabla-usos" hx-get="{% url 'usos' %}" hx-trigger="click from:.sort-link" hx-target="#tabla-usos" hx-swap="outerHTML">

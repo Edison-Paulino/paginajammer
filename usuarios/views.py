@@ -14,6 +14,16 @@ from django.core.paginator import Paginator
 from django.core.paginator import Paginator
 from django.utils.http import urlencode
 
+import csv
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+
+
+
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 from paginajammer import utils_db_registros, utils_alertas_db
 from paginajammer.utils_jammer_logs import leer_estado_actual, leer_historial_apagados
@@ -708,3 +718,120 @@ def cambiar_estado_usuarios(request):
             perfil.estado = 'inactivo' if perfil.estado == 'activo' else 'activo'
             perfil.save()
     return JsonResponse({'status': 'ok'})
+
+
+
+def formatear_fecha(fecha):
+    if not fecha:
+        return ''
+    try:
+        return datetime.fromisoformat(str(fecha)).strftime("%d/%m/%Y %H:%M:%S")
+    except:
+        return str(fecha)
+
+
+
+@login_required
+def exportar_usos_csv(request):
+    registros = utils_db_registros.obtener_todos_registros() if request.user.is_staff else utils_db_registros.obtener_registros_por_usuario(request.user.username)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="usos.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Usuario Inicio', 'Usuario Fin', 'Frecuencia MHz', 'Ubicación', 'Inicio', 'Fin'])
+
+    for r in registros:
+        usuario_inicio = r[1] if request.user.is_staff or r[1] == request.user.username else "Otro usuario"
+        usuario_fin = r[2] if request.user.is_staff or r[2] == request.user.username else "Otro usuario"
+        writer.writerow([
+            usuario_inicio, usuario_fin, r[3], r[4],
+            formatear_fecha(r[5]), formatear_fecha(r[6]) or 'Activo'
+        ])
+    return response
+
+
+
+
+@login_required
+def exportar_usos_pdf(request):
+    registros_raw = utils_db_registros.obtener_todos_registros() if request.user.is_staff else utils_db_registros.obtener_registros_por_usuario(request.user.username)
+
+    def formatear_fecha(f):
+        from datetime import datetime
+        if not f: return ""
+        try: return datetime.fromisoformat(str(f)).strftime("%d/%m/%Y %H:%M:%S")
+        except: return str(f)
+
+    registros = []
+    for r in registros_raw:
+        usuario_inicio = r[1] if request.user.is_staff or r[1] == request.user.username else "Otro usuario"
+        usuario_fin = r[2] if request.user.is_staff or r[2] == request.user.username else "Otro usuario"
+        registros.append({
+            "usuario_inicio": usuario_inicio,
+            "usuario_fin": usuario_fin,
+            "frecuencia": r[3],
+            "ubicacion": r[4],
+            "inicio": formatear_fecha(r[5]),
+            "fin": formatear_fecha(r[6]) or "Activo"
+        })
+
+    template = get_template("pdf/uso_exportado.html")
+    html = template.render({"registros": registros, "now": datetime.now().strftime("%d/%m/%Y %H:%M:%S")})
+
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="usos.pdf"'
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse("Hubo un error generando el PDF", status=500)
+
+    return response
+
+
+@login_required
+def exportar_alertas_csv(request):
+    alertas = utils_alertas_db.obtener_todas_alertas()
+
+    if not request.user.is_staff:
+        alertas = [(a[0], a[1], a[2], a[3], a[4], "Otro usuario" if a[5] != request.user.username else a[5]) for a in alertas]
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="alertas.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Fecha', 'Título', 'Descripción', 'Nivel', 'Usuario'])
+
+    for a in alertas:
+        fecha_str = a[4] if isinstance(a[4], str) else a[4].strftime("%d/%m/%Y %H:%M:%S")
+
+        writer.writerow([fecha_str, a[1], a[2], a[3], a[5]])
+    return response
+
+
+@login_required
+def exportar_alertas_pdf(request):
+    alertas_raw = utils_alertas_db.obtener_todas_alertas()
+    alertas = []
+
+    for a in alertas_raw:
+        fecha_str = a[4] if isinstance(a[4], str) else a[4].strftime("%d/%m/%Y %H:%M:%S")
+
+        usuario = a[5] if request.user.is_staff or a[5] == request.user.username else "Otro usuario"
+        alertas.append({
+            "titulo": a[1],
+            "descripcion": a[2],
+            "nivel": a[3],
+            "fecha": fecha_str,
+            "usuario": usuario
+        })
+
+    template = get_template("pdf/alertas_exportado.html")
+    html = template.render({"alertas": alertas, "now": datetime.now().strftime("%d/%m/%Y %H:%M:%S")})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="alertas.pdf"'
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse("Hubo un error generando el PDF", status=500)
+
+    return response

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Helvetica, sans-serif;
+      font-size: 12px;
+      background-color: #1b2f50;
+    }
+    .page {
+      width: 595px;
+      margin: 0 auto;
+      background-color: #1b2f50;
+    }
+    .header {
+      background-color: #1e3a5f;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      color: #4ade80;
+    }
+    table.data {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-size: 12px;
+      background-color: #1e3a5f;
+    }
+    table.data th, table.data td {
+      padding: 8px;
+      border: 1px solid #334155;
+      text-align: left;
+      color: white;
+      word-wrap: break-word;
+    }
+    table.data th {
+      background-color: #2563eb;
+    }
+    table.data tr.alt { background-color: #22406e; }
+    table.data tr.odd { background-color: #1e3352; }
+    .footer {
+      background-color: #1e3a5f;
+      text-align: center;
+      padding: 12px;
+    }
+    .footer small {
+      font-size: 11px;
+      color: #cbd5e1;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <h1>Registro de Alertas del Sistema</h1>
+    </div>
+
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Nivel</th>
+          <th>Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in alertas %}
+        <tr class="{% cycle 'alt' 'odd' %}">
+          <td>{{ a.fecha }}</td>
+          <td>{{ a.titulo }}</td>
+          <td>{{ a.descripcion }}</td>
+          <td>{{ a.nivel }}</td>
+          <td>{{ a.usuario }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="footer">
+      <small>Sistema de Administración Jammer SDR | Generado automáticamente: {{ now }}</small>
+    </div>
+  </div>
+</body>
+</html>

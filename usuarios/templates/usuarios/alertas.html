@@ -175,6 +175,35 @@ th a:hover {
     background-color: #b91c1c;
     color: white;
   }
+
+  .exportar-csv, .exportar-pdf {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .exportar-csv {
+    background-color: #f59e0b; /* azul brillante */
+  }
+
+  .exportar-csv:hover {
+    background-color: #d97706;
+  }
+
+  .exportar-pdf {
+    background-color: #ec4899; /* verde lima/menta */
+  }
+
+  .exportar-pdf:hover {
+    background-color: #db2777;
+  }
+
+  
 </style>
 
 <h2>Alertas del Sistema</h2>
@@ -207,6 +236,11 @@ th a:hover {
     <input type="text" name="usuario" placeholder="Filtrar por usuario" value="{{ usuario_q }}">
     <input type="hidden" name="mostrar_filtros" id="mostrarFiltrosInput" value="{{ mostrar_filtros }}">
   </form>
+</div>
+
+<div style="text-align: right; margin: 20px auto; max-width: 1150px;">
+  <a href="{% url 'exportar_alertas_csv' %}" class="exportar-csv">Exportar CSV</a>
+  <a href="{% url 'exportar_alertas_pdf' %}" class="exportar-pdf">Exportar PDF</a>
 </div>
 
 <div style="overflow-x: auto;">
