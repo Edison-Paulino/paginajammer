@@ -189,35 +189,61 @@ def alertas_view(request):
 
     alertas = utils_alertas_db.obtener_todas_alertas()
 
-    page_size = int(request.GET.get('page_size', 25))
-    paginator = Paginator(alertas, page_size)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # Filtros
+    titulo_q = request.GET.get("titulo", "").strip().lower()
+    descripcion_q = request.GET.get("descripcion", "").strip().lower()
+    nivel_q = request.GET.get("nivel", "").strip().lower()
+    usuario_q = request.GET.get("usuario", "").strip().lower()
+    fecha_q = request.GET.get("fecha", "").strip()
 
+    mostrar_filtros = request.GET.get("mostrar_filtros", "false")
+
+    # Formato fecha personalizado
+    def parse_datetime_custom(valor):
+        for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y", "%H:%M:%S", "%H:%M"):
+            try:
+                return datetime.strptime(valor.strip(), fmt)
+            except ValueError:
+                continue
+        return None
+
+    if titulo_q:
+        alertas = [a for a in alertas if titulo_q in a[1].lower()]
+    if descripcion_q:
+        alertas = [a for a in alertas if descripcion_q in a[2].lower()]
+    if nivel_q:
+        alertas = [a for a in alertas if nivel_q in a[3].lower()]
+    if usuario_q:
+        alertas = [a for a in alertas if usuario_q in (a[5] or '').lower()]
+    if fecha_q:
+        if "-" in fecha_q:
+            partes = fecha_q.split("-")
+            fecha_min = parse_datetime_custom(partes[0])
+            fecha_max = parse_datetime_custom(partes[1]) if len(partes) > 1 else None
+            if fecha_min and fecha_max:
+                alertas = [a for a in alertas if a[4] and fecha_min <= a[4] <= fecha_max]
+        else:
+            fecha_b = parse_datetime_custom(fecha_q)
+            if fecha_b:
+                alertas = [a for a in alertas if fecha_b.strftime("%d/%m/%Y") in a[4].strftime("%d/%m/%Y %H:%M:%S")
+                           or fecha_b.strftime("%H:%M") in a[4].strftime("%H:%M:%S")]
+
+    # Ordenamiento
     sort_by = request.GET.get('sort_by', 'fecha')
     order = request.GET.get('order', 'asc')
-    page_size = int(request.GET.get('page_size', 10))
 
-    alertas = utils_alertas_db.obtener_todas_alertas()
-
-    # Función de clave de ordenamiento
     def sort_key(a):
-        if sort_by == 'fecha':
-            return a[4]
-        elif sort_by == 'titulo':
-            return a[1].lower()
-        elif sort_by == 'descripcion':
-            return a[2].lower()
-        elif sort_by == 'nivel':
-            return a[3].lower()
-        elif sort_by == 'usuario':
-            return (a[5] or '').lower()
+        if sort_by == 'fecha': return a[4]
+        elif sort_by == 'titulo': return a[1].lower()
+        elif sort_by == 'descripcion': return a[2].lower()
+        elif sort_by == 'nivel': return a[3].lower()
+        elif sort_by == 'usuario': return (a[5] or '').lower()
         return a[4]
 
-    # Ordenar
     alertas.sort(key=sort_key, reverse=(order == 'desc'))
 
-    # Paginar como antes
+    # Paginación
+    page_size = int(request.GET.get('page_size', 10))
     paginator = Paginator(alertas, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -228,6 +254,12 @@ def alertas_view(request):
         'page_size': page_size,
         'sort_by': sort_by,
         'order': order,
+        'titulo_q': titulo_q,
+        'descripcion_q': descripcion_q,
+        'nivel_q': nivel_q,
+        'usuario_q': usuario_q,
+        'fecha_q': fecha_q,
+        'mostrar_filtros': mostrar_filtros,
     })
 
 
@@ -239,19 +271,91 @@ def usos_view(request):
     else:
         registros = utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
-    from datetime import datetime
-
+    # Convertir fechas ISO a objetos datetime antes de filtrar
     for i, r in enumerate(registros):
-        inicio = datetime.fromisoformat(r[5]) if r[5] else None
-        fin = datetime.fromisoformat(r[6]) if r[6] else None
+        try:
+            inicio = datetime.fromisoformat(r[5]) if r[5] else None
+        except Exception:
+            inicio = None
+        try:
+            fin = datetime.fromisoformat(r[6]) if r[6] else None
+        except Exception:
+            fin = None
         registros[i] = r[:5] + (inicio, fin)
 
-    # === Ordenamiento ===
+    # === FILTROS GET ===
+    usuario_inicio_q = request.GET.get("usuario_inicio", "").strip().lower()
+    usuario_fin_q = request.GET.get("usuario_fin", "").strip().lower()
+    frecuencia_q = request.GET.get("frecuencia", "").strip()
+    ubicacion_q = request.GET.get("ubicacion", "").strip().lower()
+    inicio_q = request.GET.get("inicio", "").strip()
+    fin_q = request.GET.get("fin", "").strip()
+    mostrar_filtros = request.GET.get("mostrar_filtros", "false")
+
+    # Función para convertir texto a datetime con varios formatos
+    def parse_datetime_custom(valor):
+        for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y", "%H:%M:%S", "%H:%M"):
+            try:
+                return datetime.strptime(valor.strip(), fmt)
+            except ValueError:
+                continue
+        return None
+
+    def cumple_filtro(r):
+        if usuario_inicio_q and usuario_inicio_q not in (r[1] or '').lower():
+            return False
+        if usuario_fin_q and usuario_fin_q not in (r[2] or '').lower():
+            return False
+        if frecuencia_q and frecuencia_q not in str(r[3]):
+            return False
+        if ubicacion_q and ubicacion_q not in (r[4] or '').lower():
+            return False
+
+        # Filtro por inicio
+        if inicio_q:
+            if "-" in inicio_q:
+                partes = inicio_q.split("-")
+                start = parse_datetime_custom(partes[0])
+                end = parse_datetime_custom(partes[1]) if len(partes) > 1 else None
+                if start and end:
+                    if not (r[5] and start <= r[5] <= end):
+                        return False
+            else:
+                fecha = parse_datetime_custom(inicio_q)
+                if fecha:
+                    if not r[5] or (
+                        fecha.strftime("%d/%m/%Y") not in r[5].strftime("%d/%m/%Y %H:%M:%S") and
+                        fecha.strftime("%H:%M") not in r[5].strftime("%H:%M:%S")
+                    ):
+                        return False
+
+        # Filtro por fin
+        if fin_q:
+            if "-" in fin_q:
+                partes = fin_q.split("-")
+                start = parse_datetime_custom(partes[0])
+                end = parse_datetime_custom(partes[1]) if len(partes) > 1 else None
+                if start and end:
+                    if not (r[6] and start <= r[6] <= end):
+                        return False
+            else:
+                fecha = parse_datetime_custom(fin_q)
+                if fecha:
+                    if not r[6] or (
+                        fecha.strftime("%d/%m/%Y") not in r[6].strftime("%d/%m/%Y %H:%M:%S") and
+                        fecha.strftime("%H:%M") not in r[6].strftime("%H:%M:%S")
+                    ):
+                        return False
+
+        return True
+
+    registros = list(filter(cumple_filtro, registros))
+
+    # === ORDENAMIENTO ===
     sort_by = request.GET.get('sort_by', 'inicio')
-    order = request.GET.get('order', 'desc') 
+    order = request.GET.get('order', 'desc')
     page_size = int(request.GET.get('page_size', 10))
 
-    # Función de clave de ordenamiento
     def sort_key(r):
         if sort_by == 'usuario_inicio':
             return (r[1] or '').lower()
@@ -267,10 +371,8 @@ def usos_view(request):
             return r[6] or ''
         return r[5]
 
-    # Ordenar
     registros.sort(key=sort_key, reverse=(order == 'desc'))
 
-    # Paginación
     paginator = Paginator(registros, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -281,9 +383,15 @@ def usos_view(request):
         "page_size": page_size,
         "sort_by": sort_by,
         "order": order,
+        "usuario_inicio_q": usuario_inicio_q,
+        "usuario_fin_q": usuario_fin_q,
+        "frecuencia_q": frecuencia_q,
+        "ubicacion_q": ubicacion_q,
+        "inicio_q": inicio_q,
+        "fin_q": fin_q,
+        "mostrar_filtros": mostrar_filtros,
     }
 
-    # Si la petición viene de HTMX, devuelve solo el fragmento
     if request.headers.get('Hx-Request') == 'true':
         return render(request, "usuarios/fragmento_tabla_usos.html", context)
 

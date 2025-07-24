@@ -31,12 +31,12 @@
       text-overflow: ellipsis;
       white-space: nowrap;
   }
-  th:nth-child(1), td:nth-child(1) { width: 160px; }  /* Usuario Inicio */
-  th:nth-child(2), td:nth-child(2) { width: 160px; }  /* Usuario Fin */
+  th:nth-child(1), td:nth-child(1) { width: 120px; }  /* Usuario Inicio */
+  th:nth-child(2), td:nth-child(2) { width: 120px; }  /* Usuario Fin */
   th:nth-child(3), td:nth-child(3) { width: 150px; }  /* Frecuencia */
   th:nth-child(4), td:nth-child(4) { width: 200px; }  /* Ubicación */
-  th:nth-child(5), td:nth-child(5) { width: 180px; }  /* Inicio */
-  th:nth-child(6), td:nth-child(6) { width: 180px; }  /* Fin */
+  th:nth-child(5), td:nth-child(5) { width: 150px; }  /* Inicio */
+  th:nth-child(6), td:nth-child(6) { width: 150px; }  /* Fin */
 
   th {
       background-color: #1e40af;
@@ -117,6 +117,41 @@
   .sort-link span {
       margin-left: 5px;
   }
+.filter-form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-form input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1e3a5f;
+  color: white;
+  min-width: 180px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-filtro { background-color: #1e40af; color: white; }
+.btn-filtrar { background-color: #10b981; color: white; }
+.btn-limpiar { background-color: #ef4444; color: white; text-decoration: none; display: inline-block; }
+
+.filter-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
 
   
 </style>
@@ -128,6 +163,31 @@
     <div class="alert" id="alerta-{{ forloop.counter }}">{{ message }}</div>
   {% endfor %}
 {% endif %}
+
+
+<form method="get">
+  <div class="filter-actions">
+    <button type="submit" id="filtrarBtn" class="btn btn-filtrar" style="display: none;">Filtrar</button>
+    <button id="toggleFiltros" type="button" class="btn btn-filtro">Mostrar filtros</button>
+    <a id="limpiarBtn" href="{% url 'usos' %}?page_size={{ page_size }}" class="btn btn-limpiar" style="display: none;">Limpiar filtros</a>
+  </div>
+
+  <div id="contenedorFiltros" style="display: none; margin-bottom: 20px;" class="filter-form">
+    <input type="hidden" name="page_size" value="{{ page_size }}">
+    <input type="text" name="usuario_inicio" placeholder="Usuario inicio" value="{{ request.GET.usuario_inicio }}">
+    <input type="text" name="usuario_fin" placeholder="Usuario fin" value="{{ request.GET.usuario_fin }}">
+    <input type="text" name="frecuencia" placeholder="Frecuencia MHz" value="{{ request.GET.frecuencia }}">
+    <input type="text" name="ubicacion" placeholder="Ubicación" value="{{ request.GET.ubicacion }}">
+    <input type="text" name="inicio" placeholder="Inicio (DD-MM-YYYY)" value="{{ request.GET.inicio }}">
+    <input type="text" name="fin" placeholder="Fin (DD-MM-YYYY)" value="{{ request.GET.fin }}">
+
+    <input type="hidden" name="sort_by" value="{{ sort_by }}">
+    <input type="hidden" name="order" value="{{ order }}">
+    <input type="hidden" name="mostrar_filtros" id="mostrarFiltrosInput" value="{{ mostrar_filtros }}">
+  </div>
+</form>
+
+
 
 <div id="tabla-usos" hx-get="{% url 'usos' %}" hx-trigger="click from:.sort-link" hx-target="#tabla-usos" hx-swap="outerHTML">
   <table>
@@ -207,8 +267,29 @@
 {% if page_obj %}
   <div class="pagination">
     {% if page_obj.has_previous %}
-      <a href="?page=1{% if page_size %}&page_size={{ page_size }}{% endif %}">&laquo; Primera</a>
-      <a href="?page={{ page_obj.previous_page_number }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Anterior</a>
+      <a href="?page=1
+        &page_size={{ page_size }}
+        &sort_by={{ sort_by }}
+        &order={{ order }}
+        &usuario_inicio={{ usuario_inicio_q }}
+        &usuario_fin={{ usuario_fin_q }}
+        &frecuencia={{ frecuencia_q }}
+        &ubicacion={{ ubicacion_q }}
+        &inicio={{ inicio_q }}
+        &fin={{ fin_q }}
+        &mostrar_filtros={{ mostrar_filtros }}">&laquo; Primera</a>
+
+      <a href="?page={{ page_obj.previous_page_number }}
+        &page_size={{ page_size }}
+        &sort_by={{ sort_by }}
+        &order={{ order }}
+        &usuario_inicio={{ usuario_inicio_q }}
+        &usuario_fin={{ usuario_fin_q }}
+        &frecuencia={{ frecuencia_q }}
+        &ubicacion={{ ubicacion_q }}
+        &inicio={{ inicio_q }}
+        &fin={{ fin_q }}
+        &mostrar_filtros={{ mostrar_filtros }}">Anterior</a>
     {% endif %}
 
     <span class="current">
@@ -216,11 +297,69 @@
     </span>
 
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Siguiente</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Última &raquo;</a>
+      <a href="?page={{ page_obj.next_page_number }}
+        &page_size={{ page_size }}
+        &sort_by={{ sort_by }}
+        &order={{ order }}
+        &usuario_inicio={{ usuario_inicio_q }}
+        &usuario_fin={{ usuario_fin_q }}
+        &frecuencia={{ frecuencia_q }}
+        &ubicacion={{ ubicacion_q }}
+        &inicio={{ inicio_q }}
+        &fin={{ fin_q }}
+        &mostrar_filtros={{ mostrar_filtros }}">Siguiente</a>
+
+
+      <a href="?page={{ page_obj.paginator.num_pages }}
+        &page_size={{ page_size }}
+        &sort_by={{ sort_by }}
+        &order={{ order }}
+        &usuario_inicio={{ usuario_inicio_q }}
+        &usuario_fin={{ usuario_fin_q }}
+        &frecuencia={{ frecuencia_q }}
+        &ubicacion={{ ubicacion_q }}
+        &inicio={{ inicio_q }}
+        &fin={{ fin_q }}
+        &mostrar_filtros={{ mostrar_filtros }}">Última &raquo;</a>
     {% endif %}
   </div>
 {% endif %}
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btnToggle = document.getElementById("toggleFiltros");
+    const filtros = document.getElementById("contenedorFiltros");
+    const filtrarBtn = document.getElementById("filtrarBtn");
+    const limpiarBtn = document.getElementById("limpiarBtn");
+    const inputMostrar = document.getElementById("mostrarFiltrosInput");
+
+    const mostrar = "{{ mostrar_filtros }}" === "true";
+    if (mostrar) {
+      filtros.style.display = "flex";
+      filtrarBtn.style.display = "inline-block";
+      limpiarBtn.style.display = "inline-block";
+      btnToggle.textContent = "Ocultar filtros";
+    } else {
+      filtros.style.display = "none";
+      filtrarBtn.style.display = "none";
+      limpiarBtn.style.display = "none";
+      btnToggle.textContent = "Mostrar filtros";
+    }
+
+    btnToggle.addEventListener("click", function () {
+      const visible = filtros.style.display === "flex";
+      filtros.style.display = visible ? "none" : "flex";
+      filtrarBtn.style.display = visible ? "none" : "inline-block";
+      limpiarBtn.style.display = visible ? "none" : "inline-block";
+      btnToggle.textContent = visible ? "Mostrar filtros" : "Ocultar filtros";
+      inputMostrar.value = visible ? "false" : "true";
+    });
+  });
+</script>
+
+
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

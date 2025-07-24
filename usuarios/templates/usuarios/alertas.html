@@ -5,108 +5,112 @@
 {% block content %}
 <style>
   h2 {
-      margin-bottom: 20px;
-      color: white;
-      text-align: center;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
   }
   table {
-      width: 1000px;  /* Puedes ajustar el tamaño según el contenido */
-      table-layout: fixed;
-      border-collapse: collapse;
-      background-color: #0f172a;
-      color: white;
-      border-radius: 10px;
-      overflow: hidden;
-      margin: auto;
+    width: 1000px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: #0f172a;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: auto;
   }
-
   th, td {
-      padding: 12px 16px;
-      border: 1px solid #334155;
-      text-align: left;
-      font-size: 14px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    padding: 12px 16px;
+    border: 1px solid #334155;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  th:nth-child(1), td:nth-child(1) { width: 120px; }  /* Fecha */
-  th:nth-child(2), td:nth-child(2) { width: 300px; }  /* Título */
-  th:nth-child(3), td:nth-child(3) { width: 400px; }  /* Descripción */
-  th:nth-child(4), td:nth-child(4) { width: 80px; }  /* Nivel */
-  th:nth-child(5), td:nth-child(5) { width: 100px; }  /* Usuario */
-
+  th:nth-child(1), td:nth-child(1) { width: 120px; }
+  th:nth-child(2), td:nth-child(2) { width: 300px; }
+  th:nth-child(3), td:nth-child(3) { width: 400px; }
+  th:nth-child(4), td:nth-child(4) { width: 80px; }
+  th:nth-child(5), td:nth-child(5) { width: 100px; }
   th {
-      background-color: #1e40af;
-      color: white;
-  }
-  tr:nth-child(even) {
-      background-color: #1e293b;
-  }
-  tr:hover {
-      background-color: #334155;
+    background-color: #1e40af !important;
+    color: white !important;
   }
 
+  th a {
+  color: white !important;
+  text-decoration: none;
+}
+th a:hover {
+  color: #cbd5e1 !important;
+}
+
+
+  tr:nth-child(even) { background-color: #1e293b; }
+  tr:hover { background-color: #334155; }
   .alert {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #1e3a8a;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      z-index: 9999;
-      opacity: 0.9;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    opacity: 0.9;
   }
-
-  .nivel-INFO {
-      background-color: #10b981;
-  }
-  .nivel-WARN {
-      background-color: #facc15;
-      color: black;
-  }
-  .nivel-ERROR {
-      background-color: #ef4444;
-  }
-  .nivel-CRITICAL {
-      background-color: #b91c1c;
-  }
+  .nivel-INFO { background-color: #10b981; }
+  .nivel-WARN { background-color: #facc15; color: black; }
+  .nivel-ERROR { background-color: #ef4444; }
+  .nivel-CRITICAL { background-color: #b91c1c; }
   .nivel-INFO, .nivel-WARN, .nivel-ERROR, .nivel-CRITICAL {
-      font-weight: bold;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      display: inline-block;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: inline-block;
   }
-
   .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
   .pagination a, .pagination span {
-      color: white;
-      background-color: #1e3a5f;
-      padding: 8px 14px;
-      margin: 0 4px;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background-color 0.3s;
+    color: white;
+    background-color: #1e3a5f;
+    padding: 8px 14px;
+    margin: 0 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s;
   }
-  .pagination a:hover {
-      background-color: #2563eb;
-  }
+  .pagination a:hover { background-color: #2563eb; }
   .pagination .current {
-      background-color: #10b981;
-      font-weight: bold;
+    background-color: #10b981;
+    font-weight: bold;
   }
-
-  .page-size-form {
+  .pagination button {
+    color: white;
+    background-color: #1e3a5f;
+    padding: 8px 14px;
+    margin: 0 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .pagination button:hover {
+    background-color: #2563eb;
+  }
+    .page-size-form {
       text-align: center;
-      margin-bottom: 20px;
+      margin-top: 10px;
   }
   .page-size-form label {
       color: #f1f5f9;
@@ -120,28 +124,57 @@
       border: none;
       border-radius: 6px;
   }
-.sort-link {
-    color: #f1f5f9;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    padding: 6px 10px;
+  .btn {
+    padding: 8px 16px;
     border-radius: 6px;
-    background-color: #1e40af;
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-filtro { background-color: #1e40af; color: white; }
+  .btn-filtrar { background-color: #10b981; color: white; }
+  .btn-limpiar { background-color: #ef4444; color: white; text-decoration: none; display: inline-block; }
+  .filter-form {
+    display: flex;
+    justify-content: center;  /* Centra los filtros horizontalmente */
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 auto 20px auto;  /* Centrado horizontal y espacio inferior */
+    max-width: 1000px;         /* Igual al ancho de la tabla */
+  }
 
-.sort-link:hover {
-    background-color: #2563eb;
-    box-shadow: 0 0 5px #3b82f6;
-}
-
-
-.sort-link span {
-    margin-left: 5px;
-}
-
-
+  .filter-form input[type="text"], .filter-form select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #1e3a5f;  
+    color: white;
+    min-width: 180px;
+    font-size: 14px;
+  }
+  .filter-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+    select option.nivel-info {
+    background-color: #10b981;
+    color: white;
+  }
+  select option.nivel-warn {
+    background-color: #facc15;
+    color: black;
+  }
+  select option.nivel-error {
+    background-color: #ef4444;
+    color: white;
+  }
+  select option.nivel-critical {
+    background-color: #b91c1c;
+    color: white;
+  }
 </style>
 
 <h2>Alertas del Sistema</h2>
@@ -152,8 +185,29 @@
   {% endfor %}
 {% endif %}
 
+<div class="filter-actions">
+  <button id="filtrarBtn" class="btn btn-filtrar" style="display: none;" onclick="document.querySelector('.filter-form').submit()">Filtrar</button>
+  <button id="toggleFiltros" class="btn btn-filtro">Mostrar filtros</button>
+  <a id="limpiarBtn" href="{% url 'alertas' %}?page_size={{ page_size }}" class="btn btn-limpiar" style="display: none;">Limpiar filtros</a>
+</div>
 
-
+<div id="contenedorFiltros" style="display: none;">
+  <form method="get" class="filter-form">
+    <input type="hidden" name="page_size" value="{{ page_size }}">
+    <input type="text" name="fecha" placeholder="Filtrar por fecha (dd/mm/yyyy o hh:mm)" value="{{ fecha_q }}">
+    <input type="text" name="titulo" placeholder="Filtrar por título" value="{{ titulo_q }}">
+    <input type="text" name="descripcion" placeholder="Filtrar por descripción" value="{{ descripcion_q }}">
+    <select name="nivel">
+      <option value="">Filtrar por nivel</option>
+      <option value="INFO" class="nivel-info" {% if nivel_q == "INFO" %}selected{% endif %}>INFO</option>
+      <option value="WARN" class="nivel-warn" {% if nivel_q == "WARN" %}selected{% endif %}>WARN</option>
+      <option value="ERROR" class="nivel-error" {% if nivel_q == "ERROR" %}selected{% endif %}>ERROR</option>
+      <option value="CRITICAL" class="nivel-critical" {% if nivel_q == "CRITICAL" %}selected{% endif %}>CRITICAL</option>
+    </select>
+    <input type="text" name="usuario" placeholder="Filtrar por usuario" value="{{ usuario_q }}">
+    <input type="hidden" name="mostrar_filtros" id="mostrarFiltrosInput" value="{{ mostrar_filtros }}">
+  </form>
+</div>
 
 <div style="overflow-x: auto;">
   <table>
@@ -221,6 +275,7 @@
   </table>
 </div>
 
+
 <div class="page-size-form">
   <form method="get">
       <label for="page_size">Ver por página:</label>
@@ -237,26 +292,66 @@
   </form>
 </div>
 
+
 {% if page_obj %}
   <div class="pagination">
-    {% if page_obj.has_previous %}
-      <a href="?page=1{% if page_size %}&page_size={{ page_size }}{% endif %}">&laquo; Primera</a>
-      <a href="?page={{ page_obj.previous_page_number }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Anterior</a>
-    {% endif %}
+    <form method="get">
+      <input type="hidden" name="fecha" value="{{ fecha_q }}">
+      <input type="hidden" name="titulo" value="{{ titulo_q }}">
+      <input type="hidden" name="descripcion" value="{{ descripcion_q }}">
+      <input type="hidden" name="nivel" value="{{ nivel_q }}">
+      <input type="hidden" name="usuario" value="{{ usuario_q }}">
+      <input type="hidden" name="page_size" value="{{ page_size }}">
+      <input type="hidden" name="mostrar_filtros" value="{{ mostrar_filtros|default:'true' }}">
 
-    <span class="current">
-        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
+      {% if page_obj.has_previous %}
+        <button name="page" value="1">&laquo; Primera</button>
+        <button name="page" value="{{ page_obj.previous_page_number }}">Anterior</button>
+      {% endif %}
 
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Siguiente</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}{% if page_size %}&page_size={{ page_size }}{% endif %}">Última &raquo;</a>
-    {% endif %}
+      <span class="current">
+          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <button name="page" value="{{ page_obj.next_page_number }}">Siguiente</button>
+        <button name="page" value="{{ page_obj.paginator.num_pages }}">&Uacute;ltima &raquo;</button>
+      {% endif %}
+    </form>
   </div>
 {% endif %}
 
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    const btnToggle = document.getElementById("toggleFiltros");
+    const filtros = document.getElementById("contenedorFiltros");
+    const filtrarBtn = document.getElementById("filtrarBtn");
+    const limpiarBtn = document.getElementById("limpiarBtn");
+    const inputMostrar = document.getElementById("mostrarFiltrosInput");
+
+    const mostrar = "{{ mostrar_filtros }}" === "true";
+    if (mostrar) {
+      filtros.style.display = "flex";
+      filtrarBtn.style.display = "inline-block";
+      limpiarBtn.style.display = "inline-block";
+      btnToggle.textContent = "Ocultar filtros";
+    } else {
+      filtros.style.display = "none";
+      filtrarBtn.style.display = "none";
+      limpiarBtn.style.display = "none";
+      btnToggle.textContent = "Mostrar filtros";
+    }
+
+    btnToggle.addEventListener("click", function () {
+      const visible = filtros.style.display === "flex";
+      filtros.style.display = visible ? "none" : "flex";
+      filtrarBtn.style.display = visible ? "none" : "inline-block";
+      limpiarBtn.style.display = visible ? "none" : "inline-block";
+      btnToggle.textContent = visible ? "Mostrar filtros" : "Ocultar filtros";
+      inputMostrar.value = visible ? "false" : "true";
+    });
+
     const alerts = document.querySelectorAll(".alert");
     alerts.forEach(function (alert) {
       setTimeout(function () {
@@ -265,4 +360,5 @@
     });
   });
 </script>
+
 {% endblock %}
