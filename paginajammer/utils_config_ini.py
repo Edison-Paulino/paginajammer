@@ -64,3 +64,17 @@ def actualizar_frecuencia(valor, config_path=CONFIG_PATH):
 
     with open(config_path, "w") as configfile:
         config.write(configfile)
+
+# === FUNCIONES PARA COMPATIBILIDAD CON SISTEMA DE ALERTAS ===
+
+def leer_valor(seccion, clave):
+    params = leer_config()
+    return params.get(clave)
+
+def guardar_valor(seccion, clave, valor):
+    if clave == "frecuencia":
+        actualizar_frecuencia(valor)
+    elif clave == "selector":
+        escribir_selector(valor)
+    else:
+        raise ValueError(f"Parámetro no reconocido: {clave}")

@@ -84,3 +84,27 @@ class RegistroJammer(models.Model):
             f"desde {self.inicio_registro} "
             f"hasta {self.fin_registro or 'Activo'}"
         )
+
+
+
+# ---------------------------
+# # Alerta de Seguridad
+# ---------------------------
+class Alerta(models.Model):
+    NIVELES = [
+        ('INFO', 'Info'),
+        ('WARN', 'Advertencia'),
+        ('ERROR', 'Error'),
+        ('CRITICAL', 'Crítico'),
+    ]
+
+    numero_alerta = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    nivel = models.CharField(max_length=10, choices=NIVELES)
+    codigo = models.CharField(max_length=10)  # A002, C004, etc.
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.nivel}] {self.nombre} ({self.codigo})"
+

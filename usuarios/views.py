@@ -179,36 +179,21 @@ def inicio_view(request):
 
     })
 
+from usuarios.models import Alerta
 
 
 @login_required
 def alertas_view(request):
-    estado = leer_estado_actual()
-    selector = int(estado.get("selector", "0")) if estado else 0
+    alertas = list(Alerta.objects.all())
 
-    if selector == 1:
-        historial_logs = leer_historial_apagados()
-        for linea in historial_logs:
-            if not utils_alertas_db.existe_alerta_descripcion(linea):
-                utils_alertas_db.insertar_alerta(
-                    titulo="Apagado inesperado detectado",
-                    descripcion=linea,
-                    nivel="WARN",
-                    usuario="sistema"
-                )
-
-    alertas = utils_alertas_db.obtener_todas_alertas()
-
-    # Filtros
-    titulo_q = request.GET.get("titulo", "").strip().lower()
+    # Filtros GET
+    nombre_q = request.GET.get("titulo", "").strip().lower()
     descripcion_q = request.GET.get("descripcion", "").strip().lower()
     nivel_q = request.GET.get("nivel", "").strip().lower()
-    usuario_q = request.GET.get("usuario", "").strip().lower()
+    codigo_q = request.GET.get("usuario", "").strip().lower()  # ahora es el código
     fecha_q = request.GET.get("fecha", "").strip()
-
     mostrar_filtros = request.GET.get("mostrar_filtros", "false")
 
-    # Formato fecha personalizado
     def parse_datetime_custom(valor):
         for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y", "%H:%M:%S", "%H:%M"):
             try:
@@ -217,38 +202,42 @@ def alertas_view(request):
                 continue
         return None
 
-    if titulo_q:
-        alertas = [a for a in alertas if titulo_q in a[1].lower()]
+    # Aplicar filtros
+    if nombre_q:
+        alertas = [a for a in alertas if nombre_q in a.nombre.lower()]
     if descripcion_q:
-        alertas = [a for a in alertas if descripcion_q in a[2].lower()]
+        alertas = [a for a in alertas if descripcion_q in a.descripcion.lower()]
     if nivel_q:
-        alertas = [a for a in alertas if nivel_q in a[3].lower()]
-    if usuario_q:
-        alertas = [a for a in alertas if usuario_q in (a[5] or '').lower()]
+        alertas = [a for a in alertas if nivel_q in a.nivel.lower()]
+    if codigo_q:
+        alertas = [a for a in alertas if codigo_q in a.codigo.lower()]
     if fecha_q:
         if "-" in fecha_q:
             partes = fecha_q.split("-")
             fecha_min = parse_datetime_custom(partes[0])
             fecha_max = parse_datetime_custom(partes[1]) if len(partes) > 1 else None
             if fecha_min and fecha_max:
-                alertas = [a for a in alertas if a[4] and fecha_min <= a[4] <= fecha_max]
+                alertas = [a for a in alertas if a.fecha and fecha_min <= a.fecha <= fecha_max]
         else:
             fecha_b = parse_datetime_custom(fecha_q)
             if fecha_b:
-                alertas = [a for a in alertas if fecha_b.strftime("%d/%m/%Y") in a[4].strftime("%d/%m/%Y %H:%M:%S")
-                           or fecha_b.strftime("%H:%M") in a[4].strftime("%H:%M:%S")]
+                alertas = [
+                    a for a in alertas
+                    if fecha_b.strftime("%d/%m/%Y") in a.fecha.strftime("%d/%m/%Y %H:%M:%S")
+                    or fecha_b.strftime("%H:%M") in a.fecha.strftime("%H:%M:%S")
+                ]
 
     # Ordenamiento
     sort_by = request.GET.get('sort_by', 'fecha')
     order = request.GET.get('order', 'asc')
 
     def sort_key(a):
-        if sort_by == 'fecha': return a[4]
-        elif sort_by == 'titulo': return a[1].lower()
-        elif sort_by == 'descripcion': return a[2].lower()
-        elif sort_by == 'nivel': return a[3].lower()
-        elif sort_by == 'usuario': return (a[5] or '').lower()
-        return a[4]
+        if sort_by == 'fecha': return a.fecha
+        elif sort_by == 'titulo': return a.nombre.lower()
+        elif sort_by == 'descripcion': return a.descripcion.lower()
+        elif sort_by == 'nivel': return a.nivel.lower()
+        elif sort_by == 'usuario': return a.codigo.lower()  # ahora es código
+        return a.fecha
 
     alertas.sort(key=sort_key, reverse=(order == 'desc'))
 
@@ -264,10 +253,10 @@ def alertas_view(request):
         'page_size': page_size,
         'sort_by': sort_by,
         'order': order,
-        'titulo_q': titulo_q,
+        'titulo_q': nombre_q,
         'descripcion_q': descripcion_q,
         'nivel_q': nivel_q,
-        'usuario_q': usuario_q,
+        'usuario_q': codigo_q,
         'fecha_q': fecha_q,
         'mostrar_filtros': mostrar_filtros,
     })

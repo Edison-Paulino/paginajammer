@@ -30,11 +30,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  th:nth-child(1), td:nth-child(1) { width: 120px; }
+  th:nth-child(1), td:nth-child(1) { width: 150px; }
   th:nth-child(2), td:nth-child(2) { width: 300px; }
   th:nth-child(3), td:nth-child(3) { width: 400px; }
   th:nth-child(4), td:nth-child(4) { width: 80px; }
-  th:nth-child(5), td:nth-child(5) { width: 100px; }
+  th:nth-child(5), td:nth-child(5) { width: 70px; }
   th {
     background-color: #1e40af !important;
     color: white !important;
@@ -233,7 +233,7 @@ th a:hover {
       <option value="ERROR" class="nivel-error" {% if nivel_q == "ERROR" %}selected{% endif %}>ERROR</option>
       <option value="CRITICAL" class="nivel-critical" {% if nivel_q == "CRITICAL" %}selected{% endif %}>CRITICAL</option>
     </select>
-    <input type="text" name="usuario" placeholder="Filtrar por usuario" value="{{ usuario_q }}">
+    <input type="text" name="codigo" placeholder="Filtrar por código" value="{{ usuario_q }}">
     <input type="hidden" name="mostrar_filtros" id="mostrarFiltrosInput" value="{{ mostrar_filtros }}">
   </form>
 </div>
@@ -281,7 +281,7 @@ th a:hover {
         </th>
         <th>
           <a href="?sort_by=usuario&order={% if sort_by == 'usuario' and order == 'asc' %}desc{% else %}asc{% endif %}{% if request.GET.page_size %}&page_size={{ request.GET.page_size }}{% endif %}" class="sort-link">
-            Usuario
+            Código
             {% if sort_by == 'usuario' %}
               {% if order == 'asc' %}▲{% else %}▼{% endif %}
             {% endif %}
@@ -292,13 +292,13 @@ th a:hover {
 
 
     <tbody>
-      {% for a in alertas %}
+      {% for alerta in alertas %}
       <tr>
-        <td>{{ a.4 }}</td>
-        <td>{{ a.1 }}</td>
-        <td>{{ a.2 }}</td>
-        <td><span class="nivel-{{ a.3|upper }}">{{ a.3 }}</span></td>
-        <td>{{ a.5|default:"-" }}</td>
+        <td>{{ alerta.fecha|date:"d/m/Y H:i:s" }}</td>
+        <td>{{ alerta.nombre }}</td>
+        <td>{{ alerta.descripcion }}</td>
+        <td><span class="nivel-{{ alerta.nivel|upper }}">{{ alerta.nivel }}</span></td>
+        <td>{{ alerta.codigo }}</td>
       </tr>
       {% empty %}
       <tr>

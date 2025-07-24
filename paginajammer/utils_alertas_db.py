@@ -59,3 +59,20 @@ def existe_alerta_descripcion(descripcion):
     count = cursor.fetchone()[0]
     conn.close()
     return count > 0
+
+
+from usuarios.models import Alerta
+
+def crear_alerta(nombre, descripcion, nivel, codigo):
+    try:
+        alerta = Alerta.objects.create(
+            nombre=nombre,
+            descripcion=descripcion,
+            nivel=nivel,
+            codigo=codigo
+        )
+        print(f"✅ Alerta creada: {alerta}")
+        return True
+    except Exception as e:
+        print(f"❌ Error al crear alerta: {e}")
+        return False
