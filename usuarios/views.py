@@ -373,12 +373,32 @@ def usos_view(request):
 
     registros.sort(key=sort_key, reverse=(order == 'desc'))
 
+    # === PAGINACIÓN ===
     paginator = Paginator(registros, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # Convertir en una lista modificable
+    registros_visibles = list(page_obj)
+
+    # Enmascarar usuarios si no es admin
+    if not request.user.is_staff:
+        for i, r in enumerate(registros_visibles):
+            usuario_inicio = r[1]
+            usuario_fin = r[2]
+
+            usuario_inicio_visible = usuario_inicio if usuario_inicio == request.user.username else "Otro usuario"
+            usuario_fin_visible = usuario_fin if usuario_fin == request.user.username else "Otro usuario"
+
+            registros_visibles[i] = (
+                r[0], usuario_inicio_visible, usuario_fin_visible, r[3], r[4], r[5], r[6]
+            )
+    else:
+        registros_visibles = list(page_obj)
+
+
     context = {
-        "registros": page_obj,
+        "registros": registros_visibles,  # <- ahora esta es la lista final
         "page_obj": page_obj,
         "page_size": page_size,
         "sort_by": sort_by,
