@@ -6,9 +6,17 @@ PROJECT_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(PROJECT_BASE, 'db.sqlite3')
 
 
+
+# ------------------------------
+# Función: obtener_conexion
+# ------------------------------
 def obtener_conexion():
     return sqlite3.connect(DB_PATH)
 
+
+# ------------------------------
+# Función: insertar_alerta
+# ------------------------------
 def insertar_alerta(titulo, descripcion, nivel, usuario=None):
     """
     Inserta una nueva alerta en la base de datos.
@@ -27,6 +35,10 @@ def insertar_alerta(titulo, descripcion, nivel, usuario=None):
 
 from datetime import datetime
 
+
+# ------------------------------
+# Función: formatear_fecha
+# ------------------------------
 def formatear_fecha(fecha_str):
     try:
         dt = datetime.fromisoformat(fecha_str)
@@ -34,6 +46,10 @@ def formatear_fecha(fecha_str):
     except Exception:
         return fecha_str
 
+
+# ------------------------------
+# Función: obtener_todas_alertas
+# ------------------------------
 def obtener_todas_alertas():
     conexion = sqlite3.connect(DB_PATH)
     cursor = conexion.cursor()
@@ -51,6 +67,10 @@ def obtener_todas_alertas():
 
 
 
+
+# ------------------------------
+# Función: existe_alerta_descripcion
+# ------------------------------
 def existe_alerta_descripcion(descripcion):
     conn = obtener_conexion()
     cursor = conn.cursor()
@@ -63,6 +83,10 @@ def existe_alerta_descripcion(descripcion):
 
 from usuarios.models import Alerta
 
+
+# ------------------------------
+# Función: crear_alerta
+# ------------------------------
 def crear_alerta(nombre, descripcion, nivel, codigo):
     try:
         alerta = Alerta.objects.create(

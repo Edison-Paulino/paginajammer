@@ -2,6 +2,7 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
+<!-- Estilos de la página principal -->
 <style>
   .section {
     margin: 30px auto;
@@ -40,6 +41,7 @@
     margin-top: 10px;
   }
 
+/* Formulario de control de frecuencia y estado */
   .input-row {
     display: flex;
     justify-content: center;
@@ -49,6 +51,7 @@
     align-items: center;
   }
 
+/* Formulario de control de frecuencia y estado */
   .freq-input {
     font-size: 28px;
     width: 140px;
@@ -79,6 +82,7 @@
     margin-top: 0;
   }
 
+/* Formulario de control de frecuencia y estado */
   .switch input {
     display: none;
   }
@@ -103,10 +107,12 @@
     border-radius: 50%;
   }
 
+/* Formulario de control de frecuencia y estado */
   input:checked + .slider {
     background-color: #0ea5e9;
   }
 
+/* Formulario de control de frecuencia y estado */
   input:checked + .slider:before {
     transform: translateX(26px);
   }
@@ -142,6 +148,7 @@
     margin: 30px auto 10px auto;
   }
 
+/* Formulario de control de frecuencia y estado */
   .range-container input[type=range] {
     width: 100%;
     height: 8px;
@@ -177,7 +184,9 @@
 </style>
 
 <div class="section">
+<!-- Fecha y hora en tiempo real -->
   <div id="fechaHora" style="color: white; font-size: 34px; font-weight: bold; margin-bottom: 25px;"></div>
+<!-- Formulario de control de frecuencia y estado -->
   <form method="POST">
     {% csrf_token %}
 
@@ -190,6 +199,7 @@
     </select>
 
     <label>Seleccionar frecuencia a bloquear:</label>
+<!-- Formulario de control de frecuencia y estado -->
     <div class="input-row">
       <div>
         <label for="canalesWifi">Canales WiFi 2.4GHz:</label>
@@ -203,12 +213,15 @@
 
       <div>
         <label for="freqInput">Frecuencia Manual (MHz):</label>
+<!-- Formulario de control de frecuencia y estado -->
         <input type="number" id="freqInput" name="frecuency" value="{{ frecuencia }}" min="300" max="3800" class="freq-input" />
       </div>
 
       <div class="switch-container">
         <label class="switch">
+<!-- Formulario de control de frecuencia y estado -->
           <input type="hidden" name="selector" value="0">
+<!-- Formulario de control de frecuencia y estado -->
           <input type="checkbox" id="powerSwitch" name="selector" value="1" {% if selector == "1" %}checked{% endif %}>
           <span class="slider"></span>
         </label>
@@ -225,6 +238,7 @@
     </div>
 
     <div class="range-container">
+<!-- Formulario de control de frecuencia y estado -->
       <input type="range" id="freqSlider" min="300" max="3800" value="{{ frecuencia }}" step="1">
       <div class="range-labels">
         <span>300 MHz</span><span>3.8 GHz</span>
@@ -240,6 +254,7 @@
 </div>
 
 <script>
+<!-- Formulario de control de frecuencia y estado -->
   // Función para actualizar el input y el slider
   function setFrequency(freq) {
     document.getElementById("freqInput").value = freq;
@@ -263,6 +278,7 @@
       const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
       document.getElementById("fechaHora").textContent = now.toLocaleString('es-DO', options);
   }, 1000);
+<!-- Visualización en tiempo real por WebSocket -->
   const socket = new WebSocket("ws://" + window.location.host + "/ws/monitor/");
   const historyLength = 100;
   let waterfallData = [];
@@ -270,7 +286,7 @@
   socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     if (data.type === "fft") {
-      const OFFSET_DB = 70;
+      const OFFSET_DB = 30;
       const fftValues = data.values.map(v => v - OFFSET_DB);
       const f_start = (data.center_freq - data.samp_rate / 2) / 1e6;
       const f_stop = (data.center_freq + data.samp_rate / 2) / 1e6;
@@ -329,7 +345,7 @@
         zmax: 30,
         showscale: true
       }], {
-        title: { text: "Waterfall", font: { size: 20 } },
+        title: { text: "Cascada", font: { size: 20 } },
         xaxis: {
           title: "Frecuencia (MHz)",
           range: [f_start, f_stop],

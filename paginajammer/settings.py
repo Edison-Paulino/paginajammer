@@ -18,6 +18,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
+
+# Aplicaciones instaladas
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,7 +32,6 @@ INSTALLED_APPS = [
     'channels',
 ]
 
-
 ASGI_APPLICATION = 'paginajammer.asgi.application'
 
 CHANNEL_LAYERS = {
@@ -40,6 +41,7 @@ CHANNEL_LAYERS = {
 }
 
 
+# Middleware del proyecto
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,6 +73,8 @@ WSGI_APPLICATION = 'paginajammer.wsgi.application'
 
 # Database
 # Default: SQLite (para desarrollo)
+
+# Configuración de base de datos
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -78,20 +82,6 @@ DATABASES = {
     }
 }
 
-# 👉 Ejemplo de configuración MySQL (descomenta y completa para producción)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'nombre_de_tu_base',
-#         'USER': 'tu_usuario',
-#         'PASSWORD': 'tu_contraseña',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#         },
-#     }
-# }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -110,12 +100,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
+
+# Internacionalización y zona horaria
 LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'America/Santo_Domingo'
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+
+# Archivos estáticos
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "usuarios" / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -128,4 +122,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
 
 # Default primary key field type
+
+# Configuración del modelo por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

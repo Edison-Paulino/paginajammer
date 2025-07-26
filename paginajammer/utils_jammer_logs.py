@@ -1,18 +1,19 @@
 import os
 
-# Carpeta estándar en Raspberry Pi
 DEFAULT_LOG_DIR = "/var/log/jammer_logs/"
 
-# Para desarrollo local (puedes simular la carpeta)
 LOCAL_LOG_DIR = os.path.dirname(__file__)
 
-# Decide ruta en función de entorno
 LOG_DIR = os.environ.get("JAMMER_LOG_DIR", LOCAL_LOG_DIR)
 
 JAMMER_STATE_PATH = os.path.join(LOG_DIR, "jammer_state.flag")
 UNEXPECTED_LOG_PATH = os.path.join(LOG_DIR, "unexpected_shutdown.log")
 
 
+
+# ------------------------------
+# Función: leer_estado_actual
+# ------------------------------
 def leer_estado_actual():
     """
     Lee el archivo jammer_state.flag y devuelve un dict con:
@@ -33,6 +34,10 @@ def leer_estado_actual():
     return data
 
 
+
+# ------------------------------
+# Función: leer_historial_apagados
+# ------------------------------
 def leer_historial_apagados():
     """
     Lee el archivo unexpected_shutdown.log y devuelve lista de líneas (historial).

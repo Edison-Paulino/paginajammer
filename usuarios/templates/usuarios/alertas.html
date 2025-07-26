@@ -3,6 +3,7 @@
 {% block title %}Alertas{% endblock %}
 
 {% block content %}
+<!-- Estilos personalizados para la tabla de alertas -->
 <style>
   h2 {
     margin-bottom: 20px;
@@ -12,15 +13,19 @@
   table {
     width: 1000px;
     table-layout: fixed;
+  /* Bordes de la tabla y celdas */
     border-collapse: collapse;
+  /* Color de fondo de la tabla */
     background-color: #0f172a;
     color: white;
+  /* Bordes de la tabla y celdas */
     border-radius: 10px;
     overflow: hidden;
     margin: auto;
   }
   th, td {
     padding: 12px 16px;
+  /* Bordes de la tabla y celdas */
     border: 1px solid #334155;
     text-align: left;
     font-size: 14px;
@@ -36,6 +41,7 @@
   th:nth-child(4), td:nth-child(4) { width: 80px; }
   th:nth-child(5), td:nth-child(5) { width: 70px; }
   th {
+  /* Color de fondo de la tabla */
     background-color: #1e40af !important;
     color: white !important;
   }
@@ -49,26 +55,35 @@ th a:hover {
 }
 
 
+  /* Color de fondo de la tabla */
   tr:nth-child(even) { background-color: #1e293b; }
+  /* Color de fondo de la tabla */
   tr:hover { background-color: #334155; }
   .alert {
     position: fixed;
     top: 20px;
     right: 20px;
+  /* Color de fondo de la tabla */
     background-color: #1e3a8a;
     color: white;
     padding: 10px 20px;
+  /* Bordes de la tabla y celdas */
     border-radius: 8px;
     z-index: 9999;
     opacity: 0.9;
   }
+  /* Color de fondo de la tabla */
   .nivel-INFO { background-color: #10b981; }
+  /* Color de fondo de la tabla */
   .nivel-WARN { background-color: #facc15; color: black; }
+  /* Color de fondo de la tabla */
   .nivel-ERROR { background-color: #ef4444; }
+  /* Color de fondo de la tabla */
   .nivel-CRITICAL { background-color: #b91c1c; }
   .nivel-INFO, .nivel-WARN, .nivel-ERROR, .nivel-CRITICAL {
     font-weight: bold;
     padding: 4px 10px;
+  /* Bordes de la tabla y celdas */
     border-radius: 6px;
     font-size: 12px;
     display: inline-block;
@@ -81,31 +96,41 @@ th a:hover {
   }
   .pagination a, .pagination span {
     color: white;
+  /* Color de fondo de la tabla */
     background-color: #1e3a5f;
     padding: 8px 14px;
     margin: 0 4px;
+  /* Bordes de la tabla y celdas */
     border-radius: 6px;
     text-decoration: none;
+  /* Color de fondo de la tabla */
     transition: background-color 0.3s;
   }
+  /* Color de fondo de la tabla */
   .pagination a:hover { background-color: #2563eb; }
   .pagination .current {
+  /* Color de fondo de la tabla */
     background-color: #10b981;
     font-weight: bold;
   }
   .pagination button {
     color: white;
+  /* Color de fondo de la tabla */
     background-color: #1e3a5f;
     padding: 8px 14px;
     margin: 0 4px;
+  /* Bordes de la tabla y celdas */
     border-radius: 6px;
     text-decoration: none;
+  /* Color de fondo de la tabla */
     transition: background-color 0.3s;
+  /* Bordes de la tabla y celdas */
     border: none;
     font-weight: bold;
     cursor: pointer;
   }
   .pagination button:hover {
+  /* Color de fondo de la tabla */
     background-color: #2563eb;
   }
     .page-size-form {
@@ -118,22 +143,30 @@ th a:hover {
       font-weight: bold;
   }
   .page-size-form select {
+  /* Color de fondo de la tabla */
       background-color: #1e3a5f;
       color: white;
       padding: 6px 12px;
+  /* Bordes de la tabla y celdas */
       border: none;
+  /* Bordes de la tabla y celdas */
       border-radius: 6px;
   }
   .btn {
     padding: 8px 16px;
+  /* Bordes de la tabla y celdas */
     border-radius: 6px;
+  /* Bordes de la tabla y celdas */
     border: none;
     font-weight: bold;
     cursor: pointer;
     font-size: 14px;
   }
+  /* Color de fondo de la tabla */
   .btn-filtro { background-color: #1e40af; color: white; }
+  /* Color de fondo de la tabla */
   .btn-filtrar { background-color: #10b981; color: white; }
+  /* Color de fondo de la tabla */
   .btn-limpiar { background-color: #ef4444; color: white; text-decoration: none; display: inline-block; }
   .filter-form {
     display: flex;
@@ -146,8 +179,11 @@ th a:hover {
 
   .filter-form input[type="text"], .filter-form select {
     padding: 8px 12px;
+  /* Bordes de la tabla y celdas */
     border-radius: 6px;
+  /* Bordes de la tabla y celdas */
     border: none;
+  /* Color de fondo de la tabla */
     background-color: #1e3a5f;  
     color: white;
     min-width: 180px;
@@ -160,46 +196,57 @@ th a:hover {
     margin-bottom: 15px;
   }
     select option.nivel-info {
+  /* Color de fondo de la tabla */
     background-color: #10b981;
     color: white;
   }
   select option.nivel-warn {
+  /* Color de fondo de la tabla */
     background-color: #facc15;
     color: black;
   }
   select option.nivel-error {
+  /* Color de fondo de la tabla */
     background-color: #ef4444;
     color: white;
   }
   select option.nivel-critical {
+  /* Color de fondo de la tabla */
     background-color: #b91c1c;
     color: white;
   }
 
   .exportar-csv, .exportar-pdf {
     padding: 10px 16px;
+  /* Bordes de la tabla y celdas */
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
     color: white;
+  /* Bordes de la tabla y celdas */
     border: none;
+  /* Color de fondo de la tabla */
     transition: background-color 0.3s ease;
   }
 
   .exportar-csv {
+  /* Color de fondo de la tabla */
     background-color: #f59e0b; /* azul brillante */
   }
 
   .exportar-csv:hover {
+  /* Color de fondo de la tabla */
     background-color: #d97706;
   }
 
   .exportar-pdf {
+  /* Color de fondo de la tabla */
     background-color: #ec4899; /* verde lima/menta */
   }
 
   .exportar-pdf:hover {
+  /* Color de fondo de la tabla */
     background-color: #db2777;
   }
 
@@ -221,6 +268,7 @@ th a:hover {
 </div>
 
 <div id="contenedorFiltros" style="display: none;">
+<!-- Formulario de filtrado de alertas -->
   <form method="get" class="filter-form">
     <input type="hidden" name="page_size" value="{{ page_size }}">
     <input type="text" name="fecha" placeholder="Filtrar por fecha (dd/mm/yyyy o hh:mm)" value="{{ fecha_q }}">
@@ -244,6 +292,7 @@ th a:hover {
 </div>
 
 <div style="overflow-x: auto;">
+<!-- Tabla principal de alertas -->
   <table>
     <thead>
       <tr>
@@ -311,6 +360,7 @@ th a:hover {
 
 
 <div class="page-size-form">
+<!-- Formulario de filtrado de alertas -->
   <form method="get">
       <label for="page_size">Ver por página:</label>
       <select name="page_size" id="page_size" onchange="this.form.submit()">
@@ -329,6 +379,7 @@ th a:hover {
 
 {% if page_obj %}
   <div class="pagination">
+<!-- Formulario de filtrado de alertas -->
     <form method="get">
       <input type="hidden" name="fecha" value="{{ fecha_q }}">
       <input type="hidden" name="titulo" value="{{ titulo_q }}">

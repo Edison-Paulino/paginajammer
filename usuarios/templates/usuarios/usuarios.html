@@ -3,25 +3,33 @@
 {% block title %}Usuarios{% endblock %}
 
 {% block content %}
+<!-- Estilos personalizados para la gestión de usuarios -->
 <style>
   h2 {
       margin-bottom: 20px;
+  /* Color de texto o botones */
       color: white;
       text-align: center;
   }
   table {
     width: 1000px; /* Fijo o el valor que prefieras */
     table-layout: fixed;
+  /* Bordes y divisiones */
     border-collapse: collapse;
     margin-bottom: 20px;
+  /* Fondo de la tabla */
     background-color: #0f172a;
+  /* Color de texto o botones */
     color: white;
+  /* Bordes y divisiones */
     border-radius: 10px;
     overflow: hidden;
   }
 
   th, td {
+  /* Espaciado interno de celdas */
       padding: 12px 16px;
+  /* Bordes y divisiones */
       border: 1px solid #334155;
       text-align: left;
       font-size: 14px;
@@ -40,19 +48,26 @@
   th:nth-child(6), td:nth-child(6) { width: 120px; }     /* Estado */
 
   th {
+  /* Fondo de la tabla */
       background-color: #1e40af;
+  /* Color de texto o botones */
       color: white;
   }
   tr:nth-child(even) {
+  /* Fondo de la tabla */
       background-color: #1e293b;
   }
   tr:hover {
+  /* Fondo de la tabla */
       background-color: #334155;
   }
 
   .btn {
+  /* Espaciado interno de celdas */
       padding: 8px 16px;
+  /* Bordes y divisiones */
       border: none;
+  /* Bordes y divisiones */
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
@@ -60,54 +75,79 @@
       font-size: 14px;
   }
   .btn-editar {
+  /* Fondo de la tabla */
       background-color: #22d3ee;
+  /* Color de texto o botones */
       color: black;
   }
   .btn-eliminar {
+  /* Fondo de la tabla */
       background-color: #ef4444;
+  /* Color de texto o botones */
       color: white;
   }
   .btn-estado {
+  /* Fondo de la tabla */
       background-color: #facc15;
+  /* Color de texto o botones */
       color: black;
   }
   .btn-agregar {
+  /* Fondo de la tabla */
       background-color: #10b981;
+  /* Color de texto o botones */
       color: white;
       margin-bottom: 20px;
   }
   .badge-activo {
+  /* Fondo de la tabla */
       background-color: #22c55e;
+  /* Espaciado interno de celdas */
       padding: 5px 10px;
+  /* Bordes y divisiones */
       border-radius: 5px;
       font-weight: bold;
   }
   .badge-inactivo {
+  /* Fondo de la tabla */
       background-color: #ef4444;
+  /* Espaciado interno de celdas */
       padding: 5px 10px;
+  /* Bordes y divisiones */
       border-radius: 5px;
       font-weight: bold;
   }
   .pagination { display: flex; justify-content: center; align-items: center; margin-top: 20px; }
   .pagination a, .pagination span {
+  /* Fondo de la tabla */
       color: white; background-color: #1e3a5f;
+  /* Espaciado interno de celdas */
       padding: 8px 14px; margin: 0 4px;
+  /* Bordes y divisiones */
       border-radius: 6px; text-decoration: none;
   }
+  /* Fondo de la tabla */
   .pagination a:hover { background-color: #2563eb; }
+  /* Fondo de la tabla */
   .pagination .current { background-color: #10b981; font-weight: bold; }
 
   .sort-link {
+  /* Color de texto o botones */
     color: #f1f5f9;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
+  /* Espaciado interno de celdas */
     padding: 6px 10px;
+  /* Bordes y divisiones */
     border-radius: 6px;
+  /* Fondo de la tabla */
     background-color: #1e40af;
+  /* Fondo de la tabla */
     transition: background-color 0.3s, box-shadow 0.3s;
   }
   .sort-link:hover {
+  /* Fondo de la tabla */
     background-color: #2563eb;
     box-shadow: 0 0 5px #3b82f6;
   }
@@ -128,6 +168,7 @@
 </div>
 
 <div style="overflow-x: auto;">
+<!-- Tabla de gestión de usuarios -->
   <table>
     <thead>
       <tr>
@@ -198,7 +239,6 @@
   </table>
 </div>
 
-<!-- Paginación -->
 {% if page_obj %}
   <div class="pagination">
     {% if page_obj.has_previous %}
@@ -289,6 +329,7 @@
   }
 
   function cerrarModalEditar() {
+<!-- Modal para editar usuario -->
     document.getElementById("modalEditarUsuario").style.display = "none";
   }
 

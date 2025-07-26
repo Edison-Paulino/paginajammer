@@ -1,42 +1,78 @@
+# Importaciones de Django
 from django.shortcuts import render, redirect, get_object_or_404
+# Importaciones de Django
 from django.http import HttpResponse, JsonResponse
+# Importaciones de Django
 from django.contrib.auth import authenticate, login, logout, get_user_model
+# Importaciones de Django
 from django.contrib.auth.decorators import login_required, user_passes_test
+# Importaciones de Django
 from django.contrib.admin.views.decorators import staff_member_required
+# Importaciones de Django
 from django.views.decorators.csrf import csrf_exempt
+# Importaciones de Django
 from django.views.decorators.http import require_POST
+# Importaciones de Django
 from django.contrib import messages
+# Importaciones de Django
 from django.contrib.auth.models import User
 import configparser
 import os
+
+# Importaciones adicionales
 from datetime import datetime
+# Importaciones de Django
 from django.core.paginator import Paginator
+# Importaciones de Django
 from django.core.paginator import Paginator
+# Importaciones de Django
 from django.utils.http import urlencode
 
 import csv
+
+# Importaciones adicionales
 from io import BytesIO
+
+# Importaciones adicionales
 from reportlab.pdfgen import canvas
+
+# Importaciones adicionales
 from reportlab.lib.pagesizes import letter
+
+# Importaciones adicionales
 from reportlab.lib.units import inch
 
 
 
+# Importaciones de Django
 from django.template.loader import get_template
+
+# Importaciones adicionales
 from xhtml2pdf import pisa
 
+
+# Importaciones adicionales
 from paginajammer import utils_db_registros, utils_alertas_db
+
+# Importaciones adicionales
 from paginajammer.utils_jammer_logs import leer_estado_actual, leer_historial_apagados
 
+
+# Importaciones adicionales
 from .forms import PerfilForm, PerfilUsuarioForm, RegistroForm
+
+# Importaciones adicionales
 from .models import PerfilUsuario
 
 User = get_user_model()
 
 INI_PATH = r'D:\django_project\paginajammer\paginajammer\CONFIG.INI'
 
-# === AUTENTICACIÓN ===
 
+
+# ===============================
+# Vista: login_view
+# ===============================
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -54,13 +90,20 @@ def login_view(request):
     return render(request, "usuarios/login.html")
 
 
+
+# ===============================
+# Vista: logout_view
+# ===============================
 def logout_view(request):
     logout(request)
     return redirect("login")
 
 
-# === FUNCIONES AUXILIARES ===
 
+
+# ===============================
+# Vista: generar_username
+# ===============================
 def generar_username(nombre, apellido1, apellido2):
     base = (nombre[0] + apellido1[0] + (apellido2[0] if apellido2 else '')).lower()
     contador = 1
@@ -71,14 +114,21 @@ def generar_username(nombre, apellido1, apellido2):
         contador += 1
 
 
-# === PÁGINAS ===
 
 @login_required
+
+# ===============================
+# Vista: home_view
+# ===============================
 def home_view(request):
     return redirect("inicio")
 
 
 @login_required
+
+# ===============================
+# Vista: inicio_view
+# ===============================
 def inicio_view(request):
     provincias = [
         "Distrito Nacional", "Azua", "Bahoruco", "Barahona", "Dajabón", "Duarte",
@@ -117,16 +167,13 @@ def inicio_view(request):
 
         guardar_configuracion_ini(nueva_frecuencia_hz, nuevo_selector)
 
-        # === Registro de uso ===
         if anterior_selector == "1":
             if nuevo_selector == "0":
-                # Jammer se APAGÓ
                 utils_db_registros.cerrar_todos_registros_abiertos(
                     usuario_fin=request.user.username,
                     fin_registro=datetime.now().isoformat()
                 )
             elif anterior_frecuencia_mhz != nueva_frecuencia_mhz:
-                # Cambió frecuencia
                 utils_db_registros.cerrar_todos_registros_abiertos(
                     usuario_fin=request.user.username,
                     fin_registro=datetime.now().isoformat()
@@ -138,7 +185,6 @@ def inicio_view(request):
                     inicio_registro=datetime.now().isoformat()
                 )
         elif anterior_selector == "0" and nuevo_selector == "1":
-            # Jammer se ENCENDIÓ
             utils_db_registros.cerrar_todos_registros_abiertos(
                 usuario_fin=request.user.username,
                 fin_registro=datetime.now().isoformat()
@@ -153,13 +199,11 @@ def inicio_view(request):
         messages.success(request, "Parámetros guardados correctamente.")
         return redirect("inicio")
 
-    # === GET ===
     datos = cargar_configuracion_ini()
     frecuencia = datos.get("frecuencia", "915000000")
     selector = datos.get("selector", "0")
     fecha_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-    # Intenta precargar la ubicación si hay registro abierto y frecuencia coincide
     ubicacion = ""
     if selector == "1":
         registro_abierto = utils_db_registros.obtener_cualquier_registro_abierto()
@@ -179,14 +223,19 @@ def inicio_view(request):
 
     })
 
+
+# Importaciones adicionales
 from usuarios.models import Alerta
 
 
 @login_required
+
+# ===============================
+# Vista: alertas_view
+# ===============================
 def alertas_view(request):
     alertas = list(Alerta.objects.all())
 
-    # Filtros GET
     nombre_q = request.GET.get("titulo", "").strip().lower()
     descripcion_q = request.GET.get("descripcion", "").strip().lower()
     nivel_q = request.GET.get("nivel", "").strip().lower()
@@ -194,6 +243,10 @@ def alertas_view(request):
     fecha_q = request.GET.get("fecha", "").strip()
     mostrar_filtros = request.GET.get("mostrar_filtros", "false")
 
+
+# ===============================
+# Vista: parse_datetime_custom
+# ===============================
     def parse_datetime_custom(valor):
         for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y", "%H:%M:%S", "%H:%M"):
             try:
@@ -202,7 +255,6 @@ def alertas_view(request):
                 continue
         return None
 
-    # Aplicar filtros
     if nombre_q:
         alertas = [a for a in alertas if nombre_q in a.nombre.lower()]
     if descripcion_q:
@@ -227,10 +279,13 @@ def alertas_view(request):
                     or fecha_b.strftime("%H:%M") in a.fecha.strftime("%H:%M:%S")
                 ]
 
-    # Ordenamiento
     sort_by = request.GET.get('sort_by', 'fecha')
     order = request.GET.get('order', 'asc')
 
+
+# ===============================
+# Vista: sort_key
+# ===============================
     def sort_key(a):
         if sort_by == 'fecha': return a.fecha
         elif sort_by == 'titulo': return a.nombre.lower()
@@ -241,7 +296,6 @@ def alertas_view(request):
 
     alertas.sort(key=sort_key, reverse=(order == 'desc'))
 
-    # Paginación
     page_size = int(request.GET.get('page_size', 10))
     paginator = Paginator(alertas, page_size)
     page_number = request.GET.get('page')
@@ -264,25 +318,31 @@ def alertas_view(request):
 
 
 @login_required
+
+# ===============================
+# Vista: usos_view
+# ===============================
 def usos_view(request):
     if request.user.is_staff:
         registros = utils_db_registros.obtener_todos_registros()
     else:
         registros = utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
-    # Convertir fechas ISO a objetos datetime antes de filtrar
     for i, r in enumerate(registros):
         try:
+
+# Importaciones adicionales
             inicio = datetime.fromisoformat(r[5]) if r[5] else None
         except Exception:
             inicio = None
         try:
+
+# Importaciones adicionales
             fin = datetime.fromisoformat(r[6]) if r[6] else None
         except Exception:
             fin = None
         registros[i] = r[:5] + (inicio, fin)
 
-    # === FILTROS GET ===
     usuario_inicio_q = request.GET.get("usuario_inicio", "").strip().lower()
     usuario_fin_q = request.GET.get("usuario_fin", "").strip().lower()
     frecuencia_q = request.GET.get("frecuencia", "").strip()
@@ -291,7 +351,10 @@ def usos_view(request):
     fin_q = request.GET.get("fin", "").strip()
     mostrar_filtros = request.GET.get("mostrar_filtros", "false")
 
-    # Función para convertir texto a datetime con varios formatos
+
+# ===============================
+# Vista: parse_datetime_custom
+# ===============================
     def parse_datetime_custom(valor):
         for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y", "%H:%M:%S", "%H:%M"):
             try:
@@ -300,6 +363,10 @@ def usos_view(request):
                 continue
         return None
 
+
+# ===============================
+# Vista: cumple_filtro
+# ===============================
     def cumple_filtro(r):
         if usuario_inicio_q and usuario_inicio_q not in (r[1] or '').lower():
             return False
@@ -310,7 +377,6 @@ def usos_view(request):
         if ubicacion_q and ubicacion_q not in (r[4] or '').lower():
             return False
 
-        # Filtro por inicio
         if inicio_q:
             if "-" in inicio_q:
                 partes = inicio_q.split("-")
@@ -328,7 +394,6 @@ def usos_view(request):
                     ):
                         return False
 
-        # Filtro por fin
         if fin_q:
             if "-" in fin_q:
                 partes = fin_q.split("-")
@@ -350,11 +415,14 @@ def usos_view(request):
 
     registros = list(filter(cumple_filtro, registros))
 
-    # === ORDENAMIENTO ===
     sort_by = request.GET.get('sort_by', 'inicio')
     order = request.GET.get('order', 'desc')
     page_size = int(request.GET.get('page_size', 10))
 
+
+# ===============================
+# Vista: sort_key
+# ===============================
     def sort_key(r):
         if sort_by == 'usuario_inicio':
             return (r[1] or '').lower()
@@ -372,12 +440,10 @@ def usos_view(request):
 
     registros.sort(key=sort_key, reverse=(order == 'desc'))
 
-    # === PAGINACIÓN ===
     paginator = Paginator(registros, page_size)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Convertir en una lista modificable
     registros_visibles = list(page_obj)
 
     # Enmascarar usuarios si no es admin
@@ -419,6 +485,10 @@ def usos_view(request):
 
 
 @login_required
+
+# ===============================
+# Vista: perfil_view
+# ===============================
 def perfil_view(request):
     user = request.user
     perfil = PerfilUsuario.objects.get(user=user)
@@ -429,7 +499,6 @@ def perfil_view(request):
         accion = request.POST.get("accion")
 
         if accion == "editar_foto" and "nueva_foto" in request.FILES:
-            # Solo actualiza la foto, sin tocar nada más
             perfil.foto = request.FILES["nueva_foto"]
             perfil.save()
             messages.success(request, "Foto de perfil actualizada.")
@@ -466,16 +535,24 @@ def perfil_view(request):
 
 # === USUARIOS ===
 
+# Importaciones de Django
 from django.core.paginator import Paginator
 
 @staff_member_required
+
+# ===============================
+# Vista: gestion_usuarios
+# ===============================
 def gestion_usuarios(request):
     usuarios = User.objects.all().select_related("perfilusuario")
 
-    # === Ordenamiento ===
     sort_by = request.GET.get('sort_by', 'nombre')
     order = request.GET.get('order', 'asc')
 
+
+# ===============================
+# Vista: sort_key
+# ===============================
     def sort_key(u):
         if sort_by == 'nombre':
             return (u.first_name.lower(), u.last_name.lower())
@@ -492,7 +569,6 @@ def gestion_usuarios(request):
 
     usuarios = sorted(usuarios, key=sort_key, reverse=(order == 'desc'))
 
-    # === Paginación ===
     page_size = int(request.GET.get('page_size', 10))
     paginator = Paginator(usuarios, page_size)
     page_number = request.GET.get('page')
@@ -509,6 +585,10 @@ def gestion_usuarios(request):
 
 @staff_member_required
 @csrf_exempt
+
+# ===============================
+# Vista: crear_usuario_modal_view
+# ===============================
 def crear_usuario_modal_view(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -549,6 +629,10 @@ def crear_usuario_modal_view(request):
 
 @require_POST
 @user_passes_test(lambda u: u.is_staff)
+
+# ===============================
+# Vista: editar_usuario_view
+# ===============================
 def editar_usuario_view(request):
     user_id = request.POST.get("usuario_id")
     try:
@@ -584,6 +668,10 @@ def editar_usuario_view(request):
 
 
 @staff_member_required
+
+# ===============================
+# Vista: eliminar_usuario
+# ===============================
 def eliminar_usuario(request):
     if request.method == "POST":
         user_id = request.POST.get("usuario_id")
@@ -594,6 +682,10 @@ def eliminar_usuario(request):
 
 
 @staff_member_required
+
+# ===============================
+# Vista: obtener_usuario_json
+# ===============================
 def obtener_usuario_json(request, user_id):
     try:
         user = User.objects.get(id=user_id)
@@ -612,6 +704,10 @@ def obtener_usuario_json(request, user_id):
         return JsonResponse({"error": "Usuario no encontrado"}, status=404)
 
 
+
+# ===============================
+# Vista: recuperar_password_view
+# ===============================
 def recuperar_password_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -641,14 +737,21 @@ def recuperar_password_view(request):
     return redirect('login')
 
 
-# === ARCHIVO .INI ===
 
+
+# ===============================
+# Vista: cargar_configuracion_ini
+# ===============================
 def cargar_configuracion_ini():
     config = configparser.ConfigParser()
     config.read(INI_PATH)
     return dict(config['PARAMETROS']) if 'PARAMETROS' in config else {}
 
 
+
+# ===============================
+# Vista: guardar_configuracion_ini
+# ===============================
 def guardar_configuracion_ini(frecuencia, selector):
     config = configparser.ConfigParser()
     config.read(INI_PATH)
@@ -664,6 +767,10 @@ def guardar_configuracion_ini(frecuencia, selector):
 
 
 @user_passes_test(lambda u: u.is_staff)
+
+# ===============================
+# Vista: deshabilitar_usuario
+# ===============================
 def deshabilitar_usuario(request, id):
     usuario = get_object_or_404(User, id=id)
     if usuario.is_superuser:
@@ -675,6 +782,10 @@ def deshabilitar_usuario(request, id):
     return redirect('usuarios')
 
 @user_passes_test(lambda u: u.is_staff)
+
+# ===============================
+# Vista: habilitar_usuario
+# ===============================
 def habilitar_usuario(request, id):
     usuario = get_object_or_404(User, id=id)
     usuario.is_active = True
@@ -686,6 +797,10 @@ def habilitar_usuario(request, id):
 @require_POST
 @user_passes_test(lambda u: u.is_staff)
 @csrf_exempt
+
+# ===============================
+# Vista: eliminar_usuarios
+# ===============================
 def eliminar_usuarios(request):
     import json
     data = json.loads(request.body)
@@ -697,6 +812,10 @@ def eliminar_usuarios(request):
 @require_POST
 @user_passes_test(lambda u: u.is_staff)
 @csrf_exempt
+
+# ===============================
+# Vista: cambiar_estado_usuarios
+# ===============================
 def cambiar_estado_usuarios(request):
     import json
     data = json.loads(request.body)
@@ -710,10 +829,16 @@ def cambiar_estado_usuarios(request):
 
 
 
+
+# ===============================
+# Vista: formatear_fecha
+# ===============================
 def formatear_fecha(fecha):
     if not fecha:
         return ''
     try:
+
+# Importaciones adicionales
         return datetime.fromisoformat(str(fecha)).strftime("%d/%m/%Y %H:%M:%S")
     except:
         return str(fecha)
@@ -721,6 +846,10 @@ def formatear_fecha(fecha):
 
 
 @login_required
+
+# ===============================
+# Vista: exportar_usos_csv
+# ===============================
 def exportar_usos_csv(request):
     registros = utils_db_registros.obtener_todos_registros() if request.user.is_staff else utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
@@ -742,12 +871,24 @@ def exportar_usos_csv(request):
 
 
 @login_required
+
+# ===============================
+# Vista: exportar_usos_pdf
+# ===============================
 def exportar_usos_pdf(request):
     registros_raw = utils_db_registros.obtener_todos_registros() if request.user.is_staff else utils_db_registros.obtener_registros_por_usuario(request.user.username)
 
+
+# ===============================
+# Vista: formatear_fecha
+# ===============================
     def formatear_fecha(f):
+
+# Importaciones adicionales
         from datetime import datetime
         if not f: return ""
+
+# Importaciones adicionales
         try: return datetime.fromisoformat(str(f)).strftime("%d/%m/%Y %H:%M:%S")
         except: return str(f)
 
@@ -779,6 +920,10 @@ def exportar_usos_pdf(request):
 
 
 @login_required
+
+# ===============================
+# Vista: exportar_alertas_csv
+# ===============================
 def exportar_alertas_csv(request):
     alertas = utils_alertas_db.obtener_todas_alertas()
 
@@ -798,6 +943,10 @@ def exportar_alertas_csv(request):
 
 
 @login_required
+
+# ===============================
+# Vista: exportar_alertas_pdf
+# ===============================
 def exportar_alertas_pdf(request):
     alertas_raw = utils_alertas_db.obtener_todas_alertas()
     alertas = []

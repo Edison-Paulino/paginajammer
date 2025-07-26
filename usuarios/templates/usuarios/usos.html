@@ -3,6 +3,7 @@
 {% block title %}Registro de Usos{% endblock %}
 
 {% block content %}
+<!-- Estilos personalizados para la tabla de usos -->
 <style>
   h2 {
       margin-bottom: 20px;
@@ -12,16 +13,21 @@
   table {
       width: 1000px;  /* Puedes ajustar el tamaño según el contenido */
       table-layout: fixed;
+  /* Bordes de la tabla */
       border-collapse: collapse;
+  /* Fondo de la tabla */
       background-color: #0f172a;
       color: white;
+  /* Bordes de la tabla */
       border-radius: 10px;
       overflow: hidden;
       margin: auto;
    }
 
   th, td {
+  /* Espaciado interno de celdas */
       padding: 12px 16px;
+  /* Bordes de la tabla */
       border: 1px solid #334155;
       text-align: left;
       font-size: 14px;
@@ -39,22 +45,28 @@
   th:nth-child(6), td:nth-child(6) { width: 150px; }  /* Fin */
 
   th {
+  /* Fondo de la tabla */
       background-color: #1e40af;
       color: white;
   }
   tr:nth-child(even) {
+  /* Fondo de la tabla */
       background-color: #1e293b;
   }
   tr:hover {
+  /* Fondo de la tabla */
       background-color: #334155;
   }
   .alert {
       position: fixed;
       top: 20px;
       right: 20px;
+  /* Fondo de la tabla */
       background-color: #1e3a8a;
       color: white;
+  /* Espaciado interno de celdas */
       padding: 10px 20px;
+  /* Bordes de la tabla */
       border-radius: 8px;
       z-index: 9999;
       opacity: 0.9;
@@ -68,17 +80,23 @@
   }
   .pagination a, .pagination span {
       color: white;
+  /* Fondo de la tabla */
       background-color: #1e3a5f;
+  /* Espaciado interno de celdas */
       padding: 8px 14px;
       margin: 0 4px;
+  /* Bordes de la tabla */
       border-radius: 6px;
       text-decoration: none;
+  /* Fondo de la tabla */
       transition: background-color 0.3s;
   }
   .pagination a:hover {
+  /* Fondo de la tabla */
       background-color: #2563eb;
   }
   .pagination .current {
+  /* Fondo de la tabla */
       background-color: #10b981;
       font-weight: bold;
   }
@@ -93,10 +111,14 @@
       font-weight: bold;
   }
   .page-size-form select {
+  /* Fondo de la tabla */
       background-color: #1e3a5f;
       color: white;
+  /* Espaciado interno de celdas */
       padding: 6px 12px;
+  /* Bordes de la tabla */
       border: none;
+  /* Bordes de la tabla */
       border-radius: 6px;
   }
 
@@ -105,12 +127,17 @@
       text-decoration: none;
       font-weight: bold;
       display: inline-block;
+  /* Espaciado interno de celdas */
       padding: 6px 10px;
+  /* Bordes de la tabla */
       border-radius: 6px;
+  /* Fondo de la tabla */
       background-color: #1e40af;
+  /* Fondo de la tabla */
       transition: background-color 0.3s, box-shadow 0.3s;
   }
   .sort-link:hover {
+  /* Fondo de la tabla */
       background-color: #2563eb;
       box-shadow: 0 0 5px #3b82f6;
   }
@@ -125,9 +152,13 @@
 }
 
 .filter-form input[type="text"] {
+  /* Espaciado interno de celdas */
   padding: 8px 12px;
+  /* Bordes de la tabla */
   border-radius: 6px;
+  /* Bordes de la tabla */
   border: none;
+  /* Fondo de la tabla */
   background-color: #1e3a5f;
   color: white;
   min-width: 180px;
@@ -135,15 +166,21 @@
 }
 
 .btn {
+  /* Espaciado interno de celdas */
   padding: 8px 16px;
+  /* Bordes de la tabla */
   border-radius: 6px;
+  /* Bordes de la tabla */
   border: none;
   font-weight: bold;
   cursor: pointer;
   font-size: 14px;
 }
+  /* Fondo de la tabla */
 .btn-filtro { background-color: #1e40af; color: white; }
+  /* Fondo de la tabla */
 .btn-filtrar { background-color: #10b981; color: white; }
+  /* Fondo de la tabla */
 .btn-limpiar { background-color: #ef4444; color: white; text-decoration: none; display: inline-block; }
 
 .filter-actions {
@@ -153,32 +190,44 @@
   margin-bottom: 15px;
 }
 .btn-export-csv {
+  /* Fondo de la tabla */
     background-color: #f59e0b; /* amarillo suave */
     color: white;
     font-weight: bold;
+  /* Bordes de la tabla */
     border: none;
+  /* Bordes de la tabla */
     border-radius: 6px;
+  /* Espaciado interno de celdas */
     padding: 8px 16px;
     margin-left: 10px;
     text-decoration: none;
+  /* Fondo de la tabla */
     transition: background-color 0.3s;
 }
 .btn-export-csv:hover {
+  /* Fondo de la tabla */
     background-color: #d97706;
 }
 
 .btn-export-pdf {
+  /* Fondo de la tabla */
     background-color: #ec4899; /* rosado suave */
     color: white;
     font-weight: bold;
+  /* Bordes de la tabla */
     border: none;
+  /* Bordes de la tabla */
     border-radius: 6px;
+  /* Espaciado interno de celdas */
     padding: 8px 16px;
     margin-left: 10px;
     text-decoration: none;
+  /* Fondo de la tabla */
     transition: background-color 0.3s;
 }
 .btn-export-pdf:hover {
+  /* Fondo de la tabla */
     background-color: #db2777;
 }
 
@@ -194,6 +243,7 @@
 {% endif %}
 
 
+<!-- Filtros avanzados de búsqueda -->
 <form method="get">
   <div class="filter-actions">
     <button type="submit" id="filtrarBtn" class="btn btn-filtrar" style="display: none;">Filtrar</button>
@@ -223,6 +273,7 @@
 
 
 <div id="tabla-usos" hx-get="{% url 'usos' %}" hx-trigger="click from:.sort-link" hx-target="#tabla-usos" hx-swap="outerHTML">
+<!-- Tabla de registros de uso -->
   <table>
     <thead>
       <tr>
@@ -282,6 +333,7 @@
 </div>
 
 <div class="page-size-form">
+<!-- Filtros avanzados de búsqueda -->
   <form method="get">
       <label for="page_size">Ver por página:</label>
       <select name="page_size" id="page_size" onchange="this.form.submit()">

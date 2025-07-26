@@ -4,11 +4,15 @@
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
+<!-- Estilos personalizados del perfil de usuario -->
 <style>
   .section {
       margin-bottom: 40px;
+  /* Fondo del formulario */
       background-color: #1e3a5f;
+  /* Espaciado interno */
       padding: 20px;
+  /* Bordes redondeados de tarjetas o inputs */
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.4);
   }
@@ -23,12 +27,16 @@
       flex-wrap: wrap;
       justify-content: center;
   }
+/* Campo para subir foto de perfil */
   input[type="text"], input[type="email"], input[type="password"], input[type="file"] {
       width: 250px;
+  /* Espaciado interno */
       padding: 12px;
       margin: 8px;
+  /* Bordes redondeados de tarjetas o inputs */
       border-radius: 8px;
       border: 1px solid #334155;
+  /* Fondo del formulario */
       background-color: #42649a;
       color: #f1f5f9;
       font-size: 15px;
@@ -45,8 +53,10 @@
 
 .button {
     display: inline-block;
+  /* Espaciado interno */
     padding: 12px 24px;
     border: none;
+  /* Bordes redondeados de tarjetas o inputs */
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
@@ -65,29 +75,35 @@
 }
 
 .btn-guardar {
+  /* Fondo del formulario */
     background-color: #10b981;
     color: white;
 }
 
 .btn-guardar:hover {
+  /* Fondo del formulario */
     background-color: #059669;
 }
 
 .btn-cancelar {
+  /* Fondo del formulario */
     background-color: #ef4444;
     color: white;
 }
 
 .btn-cancelar:hover {
+  /* Fondo del formulario */
     background-color: #dc2626;
 }
 
 .btn-secundario {
+  /* Fondo del formulario */
     background-color: #1e40af;
     color: white;
 }
 
 .btn-secundario:hover {
+  /* Fondo del formulario */
     background-color: #2563eb;
 }
 
@@ -96,6 +112,7 @@
       width: 120px;
       height: 120px;
       object-fit: cover;
+  /* Bordes redondeados de tarjetas o inputs */
       border-radius: 50%;
       display: block;
       margin: 0 auto 20px auto;
@@ -104,20 +121,26 @@
 
   .custom-file-upload {
     display: inline-block;
+  /* Fondo del formulario */
     background-color: #42649a;
     color: #f1f5f9;
+  /* Espaciado interno */
     padding: 10px 20px;
+  /* Bordes redondeados de tarjetas o inputs */
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
     margin: 15px auto;
     border: 1px solid #334155;
+  /* Fondo del formulario */
     transition: background-color 0.3s, box-shadow 0.3s;
   }
   .custom-file-upload:hover {
+  /* Fondo del formulario */
     background-color: #3b82f6;
     box-shadow: 0 0 5px #3b82f6;
   }
+/* Campo para subir foto de perfil */
   .custom-file-upload input[type="file"] {
     display: none;
   }
@@ -128,10 +151,13 @@
   }
   .input-readonly {
     width: 250px;
+  /* Espaciado interno */
     padding: 10px;
     margin: 5px;
+  /* Bordes redondeados de tarjetas o inputs */
     border-radius: 10px;
     border: none;
+  /* Fondo del formulario */
     background-color: #334155;
     color: #cbd5e1;
     opacity: 0.8;
@@ -142,6 +168,7 @@
 <h1 style="text-align:center;">MI PERFIL</h1>
 <p style="text-align:center;">EDITAR LOS PARÁMETROS DE MI PERFIL</p>
 
+<!-- Formulario para actualizar datos del perfil -->
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
@@ -155,6 +182,7 @@
         
         <div class="upload-container">
             <label class="custom-file-upload">
+<!-- Campo para subir foto de perfil -->
                 <input type="file" name="nueva_foto" accept="image/*">
                 Seleccionar foto
             </label>
