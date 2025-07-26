@@ -239,7 +239,10 @@ def alertas_view(request):
     nombre_q = request.GET.get("titulo", "").strip().lower()
     descripcion_q = request.GET.get("descripcion", "").strip().lower()
     nivel_q = request.GET.get("nivel", "").strip().lower()
-    codigo_q = request.GET.get("usuario", "").strip().lower()  # ahora es el código
+    codigo_q = request.GET.get("codigo", "").strip().lower()
+    if codigo_q:
+        alertas = [a for a in alertas if codigo_q in a.codigo.lower()]
+
     fecha_q = request.GET.get("fecha", "").strip()
     mostrar_filtros = request.GET.get("mostrar_filtros", "false")
 
@@ -291,7 +294,7 @@ def alertas_view(request):
         elif sort_by == 'titulo': return a.nombre.lower()
         elif sort_by == 'descripcion': return a.descripcion.lower()
         elif sort_by == 'nivel': return a.nivel.lower()
-        elif sort_by == 'usuario': return a.codigo.lower()  # ahora es código
+        elif sort_by == 'codigo': return a.codigo.lower()  
         return a.fecha
 
     alertas.sort(key=sort_key, reverse=(order == 'desc'))
@@ -933,12 +936,12 @@ def exportar_alertas_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="alertas.csv"'
     writer = csv.writer(response)
-    writer.writerow(['Fecha', 'Título', 'Descripción', 'Nivel', 'Usuario'])
+    writer.writerow(['Fecha', 'Título', 'Descripción', 'Nivel', 'Código'])
 
     for a in alertas:
         fecha_str = a[4] if isinstance(a[4], str) else a[4].strftime("%d/%m/%Y %H:%M:%S")
+        writer.writerow([fecha_str, a[1], a[2], a[3], a[5]])  # a[5] debe ser el código
 
-        writer.writerow([fecha_str, a[1], a[2], a[3], a[5]])
     return response
 
 
@@ -953,18 +956,23 @@ def exportar_alertas_pdf(request):
 
     for a in alertas_raw:
         fecha_str = a[4] if isinstance(a[4], str) else a[4].strftime("%d/%m/%Y %H:%M:%S")
+        
+        # a[5] es ahora el código de la alerta
+        codigo = a[5]
 
-        usuario = a[5] if request.user.is_staff or a[5] == request.user.username else "Otro usuario"
         alertas.append({
             "titulo": a[1],
             "descripcion": a[2],
             "nivel": a[3],
             "fecha": fecha_str,
-            "usuario": usuario
+            "codigo": codigo
         })
 
     template = get_template("pdf/alertas_exportado.html")
-    html = template.render({"alertas": alertas, "now": datetime.now().strftime("%d/%m/%Y %H:%M:%S")})
+    html = template.render({
+        "alertas": alertas,
+        "now": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    })
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="alertas.pdf"'
@@ -973,3 +981,4 @@ def exportar_alertas_pdf(request):
         return HttpResponse("Hubo un error generando el PDF", status=500)
 
     return response
+

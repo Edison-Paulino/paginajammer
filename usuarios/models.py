@@ -71,8 +71,8 @@ class LogAcciones(models.Model):
 # Registro de Usos del Jammer
 # ---------------------------
 class RegistroJammer(models.Model):
-    usuario_inicio = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='registros_iniciados')
-    usuario_fin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='registros_finalizados')
+    usuario_inicio = models.CharField(max_length=100)
+    usuario_fin = models.CharField(max_length=100, blank=True, null=True)
     frecuencia_mhz = models.DecimalField(max_digits=10, decimal_places=2)
     ubicacion = models.CharField(max_length=100, blank=True)
     inicio_registro = models.DateTimeField()
@@ -84,6 +84,9 @@ class RegistroJammer(models.Model):
             f"desde {self.inicio_registro} "
             f"hasta {self.fin_registro or 'Activo'}"
         )
+    class Meta:
+        db_table = 'registros_jammer'
+
 
 
 

@@ -220,10 +220,31 @@
       {% for usuario in usuarios %}
       <tr data-id="{{ usuario.id }}">
         <td><input type="checkbox" class="check-usuario"></td>
-        <td>{{ usuario.first_name }} {{ usuario.perfilusuario.segundo_nombre }} {{ usuario.last_name }} {{ usuario.perfilusuario.segundo_apellido }}</td>
-        <td>{{ usuario.username }}</td>
+        
+        <!-- Nombre con iniciales mayúsculas -->
+        <td>
+          {{ usuario.first_name|title }} 
+          {{ usuario.perfilusuario.segundo_nombre|title }} 
+          {{ usuario.last_name|title }} 
+          {{ usuario.perfilusuario.segundo_apellido|title }}
+        </td>
+
+        <!-- Usuario en mayúsculas -->
+        <td>{{ usuario.username|upper }}</td>
+
+        <!-- Email normal -->
         <td>{{ usuario.email }}</td>
-        <td>{{ usuario.perfilusuario.telefono }}</td>
+
+        <!-- Teléfono con formato especial si tiene 10 dígitos -->
+        <td>
+          {% if usuario.perfilusuario.telefono|length == 10 %}
+            ({{ usuario.perfilusuario.telefono|slice:":3" }})-{{ usuario.perfilusuario.telefono|slice:"3:6" }}-{{ usuario.perfilusuario.telefono|slice:"6:" }}
+          {% else %}
+            {{ usuario.perfilusuario.telefono }}
+          {% endif %}
+        </td>
+
+        <!-- Estado visual (badge) -->
         <td>
           {% if usuario.perfilusuario.estado == "activo" %}
             <span class="badge-activo">ACTIVO</span>
@@ -236,6 +257,7 @@
       <tr><td colspan="6" style="text-align:center;">No hay usuarios registrados.</td></tr>
       {% endfor %}
     </tbody>
+
   </table>
 </div>
 

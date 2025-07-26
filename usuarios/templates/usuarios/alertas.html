@@ -36,9 +36,9 @@
     white-space: nowrap;
   }
   th:nth-child(1), td:nth-child(1) { width: 150px; }
-  th:nth-child(2), td:nth-child(2) { width: 300px; }
-  th:nth-child(3), td:nth-child(3) { width: 400px; }
-  th:nth-child(4), td:nth-child(4) { width: 80px; }
+  th:nth-child(2), td:nth-child(2) { width: 200px; }
+  th:nth-child(3), td:nth-child(3) { width: 470px; }
+  th:nth-child(4), td:nth-child(4) { width: 110px; }
   th:nth-child(5), td:nth-child(5) { width: 70px; }
   th {
   /* Color de fondo de la tabla */
@@ -281,7 +281,7 @@ th a:hover {
       <option value="ERROR" class="nivel-error" {% if nivel_q == "ERROR" %}selected{% endif %}>ERROR</option>
       <option value="CRITICAL" class="nivel-critical" {% if nivel_q == "CRITICAL" %}selected{% endif %}>CRITICAL</option>
     </select>
-    <input type="text" name="codigo" placeholder="Filtrar por código" value="{{ usuario_q }}">
+    <input type="text" name="codigo" placeholder="Filtrar por código" value="{{ codigo_q }}">
     <input type="hidden" name="mostrar_filtros" id="mostrarFiltrosInput" value="{{ mostrar_filtros }}">
   </form>
 </div>
@@ -329,9 +329,9 @@ th a:hover {
           </a>
         </th>
         <th>
-          <a href="?sort_by=usuario&order={% if sort_by == 'usuario' and order == 'asc' %}desc{% else %}asc{% endif %}{% if request.GET.page_size %}&page_size={{ request.GET.page_size }}{% endif %}" class="sort-link">
+          <a href="?sort_by=codigo&order={% if sort_by == 'usuario' and order == 'asc' %}desc{% else %}asc{% endif %}{% if request.GET.page_size %}&page_size={{ request.GET.page_size }}{% endif %}" class="sort-link">
             Código
-            {% if sort_by == 'usuario' %}
+            {% if sort_by == 'codigo' %}
               {% if order == 'asc' %}▲{% else %}▼{% endif %}
             {% endif %}
           </a>
@@ -346,7 +346,16 @@ th a:hover {
         <td>{{ alerta.fecha|date:"d/m/Y H:i:s" }}</td>
         <td>{{ alerta.nombre }}</td>
         <td>{{ alerta.descripcion }}</td>
-        <td><span class="nivel-{{ alerta.nivel|upper }}">{{ alerta.nivel }}</span></td>
+        <td>
+          <span class="nivel-{{ alerta.nivel|upper }}">
+            {% if alerta.nivel == "INFO" %}INFORMACION
+            {% elif alerta.nivel == "WARN" %}ADVERTENCIA
+            {% elif alerta.nivel == "ERROR" %}ERROR
+            {% elif alerta.nivel == "CRITICAL" %}CRÍTICA
+            {% else %}{{ alerta.nivel }}
+            {% endif %}
+          </span>
+        </td>
         <td>{{ alerta.codigo }}</td>
       </tr>
       {% empty %}

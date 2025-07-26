@@ -73,7 +73,7 @@
           <th>Título</th>
           <th>Descripción</th>
           <th>Nivel</th>
-          <th>Usuario</th>
+          <th>Codigo</th>
         </tr>
       </thead>
       <tbody>
@@ -82,8 +82,15 @@
           <td>{{ a.fecha }}</td>
           <td>{{ a.titulo }}</td>
           <td>{{ a.descripcion }}</td>
-          <td>{{ a.nivel }}</td>
-          <td>{{ a.usuario }}</td>
+          <td>
+            {% if a.nivel == "INFO" %}INFORMACIÓN
+            {% elif a.nivel == "WARN" %}ADVERTENCIA
+            {% elif a.nivel == "ERROR" %}ERROR
+            {% elif a.nivel == "CRITICAL" %}CRÍTICA
+            {% else %}{{ a.nivel }}
+            {% endif %}
+          </td>
+          <td>{{ a.codigo }}</td>
         </tr>
         {% endfor %}
       </tbody>
