@@ -430,17 +430,18 @@
 </script>
 
 
+
 <script>
   const socket = new WebSocket("ws://" + window.location.host + "/ws/monitor/");
-  const historyLength = 100;
+  const historyLength = 50;
   let waterfallData = [];
 
-  // Mantener conexión viva con pings cada 30 segundos
+  // Mantener conexión viva con pings cada 10 segundos
   setInterval(() => {
     if (socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify({ type: "ping" }));
     }
-  }, 30000);
+  }, 10000);
 
   // Intentar reconectar si se cierra el WebSocket
   socket.onclose = function () {
@@ -448,7 +449,11 @@
     setTimeout(() => location.reload(), 1000);
   };
 
-  // Crear gráfico FFT solo una vez
+  // Variables globales para throttling
+  let ultimoFrame = null;
+  let datosPendientes = null;
+
+  // Crear gráfico FFT inicial
   Plotly.newPlot('fft-plot', [{
     x: [], y: [],
     type: 'scatter',
@@ -457,100 +462,103 @@
   }], {
     title: { text: "FFT (Espectro)", font: { size: 20 } },
     xaxis: {
-      title: "Frecuencia (MHz)",
-      range: [0, 1],
-      fixedrange: true,
-      showgrid: true,
-      gridcolor: "#3b517c",
-      zeroline: false,
-      linecolor: '#ffffff',
-      linewidth: 1,
-      mirror: true
+      title: "Frecuencia (MHz)", range: [0, 1],
+      fixedrange: true, showgrid: true,
+      gridcolor: "#3b517c", zeroline: false,
+      linecolor: '#ffffff', linewidth: 1, mirror: true
     },
     yaxis: {
-      title: "Amplitud (dB)",
-      range: [-100, 30],
-      fixedrange: true,
-      showgrid: true,
-      gridcolor: "#3b517c",
-      zeroline: false,
-      linecolor: '#ffffff',
-      linewidth: 1,
-      mirror: true
+      title: "Amplitud (dB)", range: [-100, 30],
+      fixedrange: true, showgrid: true,
+      gridcolor: "#3b517c", zeroline: false,
+      linecolor: '#ffffff', linewidth: 1, mirror: true
     },
     paper_bgcolor: '#1e3a5f',
     plot_bgcolor: '#1e3a5f',
     font: { color: 'white' },
     margin: { t: 40 }
-  }, {
-    displayModeBar: false
-  });
+  }, { displayModeBar: false });
 
+  // === Leer frecuencia central y BW desde Django ===
+  const freq_center_mhz = parseFloat("{{ frecuencia }}");
+  const bandwidth_mhz = parseFloat("{{ bandwidth }}");
+  const f_start_init = freq_center_mhz - (bandwidth_mhz / 2);
+  const f_stop_init = freq_center_mhz + (bandwidth_mhz / 2);
+
+  // Crear gráfico Waterfall inicial
+  Plotly.newPlot('waterfall-plot', [{
+    z: [],
+    x: Array.from({ length: 512 }, (_, i) =>
+      f_start_init + (i * (f_stop_init - f_start_init) / 512)
+    ),
+    type: 'heatmap',
+    colorscale: 'jet',
+    zmin: -100,
+    zmax: 30,
+    showscale: true
+  }], {
+    title: { text: "Cascada", font: { size: 20 } },
+    xaxis: {
+      title: "Frecuencia (MHz)", range: [f_start_init, f_stop_init],
+      fixedrange: true, showgrid: true,
+      gridcolor: "#3b517c", zeroline: false,
+      linecolor: '#ffffff', linewidth: 1, mirror: true
+    },
+    yaxis: {
+      title: "Tiempo",
+      autorange: 'reversed', fixedrange: true, showgrid: true,
+      gridcolor: "#3b517c", zeroline: false,
+      linecolor: '#ffffff', linewidth: 1, mirror: true
+    },
+    paper_bgcolor: '#1e3a5f',
+    plot_bgcolor: '#1e3a5f',
+    font: { color: 'white' },
+    margin: { t: 40 }
+  }, { displayModeBar: false });
+
+  // === Función optimizada de redibujo con requestAnimationFrame ===
+  function procesarDatos() {
+    if (!datosPendientes) return;
+    const data = datosPendientes;
+    datosPendientes = null;
+
+    const OFFSET_DB = 60;
+    const fftValues = data.values.map(v => v - OFFSET_DB);
+    const f_start = (data.center_freq - data.samp_rate / 2) / 1e6;
+    const f_stop = (data.center_freq + data.samp_rate / 2) / 1e6;
+    const freqAxis = Array.from({ length: fftValues.length }, (_, i) =>
+      f_start + (i * (f_stop - f_start) / fftValues.length)
+    );
+
+    // Actualizar FFT
+    Plotly.update('fft-plot', { x: [freqAxis], y: [fftValues] });
+    Plotly.relayout('fft-plot', { 'xaxis.range': [f_start, f_stop] });
+
+    // Actualizar Waterfall
+    if (Array.isArray(fftValues) && fftValues.length > 0) {
+      if (waterfallData.length >= historyLength) waterfallData.shift();
+      waterfallData.push(fftValues.slice());
+    }
+
+    Plotly.update('waterfall-plot', {
+      z: [waterfallData],
+      x: [freqAxis]
+    });
+
+    ultimoFrame = null;  // listo para el siguiente frame
+  }
+
+  // WebSocket recibe datos
   socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     if (data.type === "fft") {
-      const OFFSET_DB = 0;
-      const fftValues = data.values.map(v => v - OFFSET_DB);
-      const f_start = (data.center_freq - data.samp_rate / 2) / 1e6;
-      const f_stop = (data.center_freq + data.samp_rate / 2) / 1e6;
-      const freqAxis = Array.from({ length: fftValues.length }, (_, i) =>
-        f_start + (i * (f_stop - f_start) / fftValues.length)
-      );
+      datosPendientes = data;
 
-      // Actualizar FFT
-      Plotly.update('fft-plot', {
-        x: [freqAxis],
-        y: [fftValues]
-      });
-      Plotly.relayout('fft-plot', {
-        'xaxis.range': [f_start, f_stop]
-      });
-
-      // Actualizar Waterfall (solo los últimos 100 frames)
-      if (Array.isArray(fftValues) && fftValues.length > 0) {
-        if (waterfallData.length >= historyLength) waterfallData.shift();
-        waterfallData.push(fftValues.slice());
+      if (!ultimoFrame) {
+        ultimoFrame = requestAnimationFrame(() => {
+          procesarDatos();
+        });
       }
-
-      Plotly.react('waterfall-plot', [{
-        z: waterfallData,
-        x: freqAxis,
-        type: 'heatmap',
-        colorscale: 'jet',
-        zmin: -100,
-        zmax: 30,
-        showscale: true
-      }], {
-        title: { text: "Cascada", font: { size: 20 } },
-        xaxis: {
-          title: "Frecuencia (MHz)",
-          range: [f_start, f_stop],
-          fixedrange: true,
-          showgrid: true,
-          gridcolor: "#3b517c",
-          zeroline: false,
-          linecolor: '#ffffff',
-          linewidth: 1,
-          mirror: true
-        },
-        yaxis: {
-          title: "Tiempo",
-          autorange: 'reversed',
-          fixedrange: true,
-          showgrid: true,
-          gridcolor: "#3b517c",
-          zeroline: false,
-          linecolor: '#ffffff',
-          linewidth: 1,
-          mirror: true
-        },
-        paper_bgcolor: '#1e3a5f',
-        plot_bgcolor: '#1e3a5f',
-        font: { color: 'white' },
-        margin: { t: 40 }
-      }, {
-        displayModeBar: false
-      });
     }
   };
 </script>
