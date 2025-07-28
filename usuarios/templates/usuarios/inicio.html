@@ -181,47 +181,59 @@
   #graficos-container {
     margin-top: 40px;
   }
+
+  .btn-aplicar:disabled {
+    background-color: #334155 !important;
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
+
 </style>
 
+
+
 <div class="section">
-<!-- Fecha y hora en tiempo real -->
-  <div id="fechaHora" style="color: white; font-size: 34px; font-weight: bold; margin-bottom: 25px;"></div>
-<!-- Formulario de control de frecuencia y estado -->
+  <h2>Configuración del sistema</h2>
+  <div id="fechaHora"></div>
+
   <form method="POST">
     {% csrf_token %}
 
     <label for="provincia">Seleccionar provincia:</label>
-    <select id="provincia" name="provincia" class="select-provincia" required data-selected="{{ provincia_seleccionada }}">
+    <select id="provincia" name="provincia" class="select-provincia" data-selected="{{ provincia_seleccionada }}">
       <option value="">Buscar provincia...</option>
       {% for prov in provincias %}
         <option value="{{ prov }}" {% if provincia_seleccionada == prov %}selected{% endif %}>{{ prov }}</option>
       {% endfor %}
-    </select>
+    </select> 
+
 
     <label>Seleccionar frecuencia a bloquear:</label>
-<!-- Formulario de control de frecuencia y estado -->
     <div class="input-row">
       <div>
         <label for="canalesWifi">Canales WiFi 2.4GHz:</label>
         <select id="canalesWifi" class="select-provincia" style="width: 250px;">
           <option value="">Selecciona un canal</option>
           {% for ch, freq in canales_wifi %}
-          <option value="{{ freq }}">Canal {{ ch }} - {{ freq }} MHz</option>
+            <option value="{{ freq }}">Canal {{ ch }} - {{ freq }} MHz</option>
           {% endfor %}
         </select>
       </div>
 
       <div>
         <label for="freqInput">Frecuencia Manual (MHz):</label>
-<!-- Formulario de control de frecuencia y estado -->
         <input type="number" id="freqInput" name="frecuency" value="{{ frecuencia }}" min="300" max="3800" class="freq-input" />
       </div>
+      <div>
+        <label for="bandwidthInput">Ancho de Banda (MHz):</label>
+        <input type="number" id="bandwidthInput" name="bandwidth" value="{{ bandwidth }}" min="2" max="28" class="freq-input" />
+      </div>
+      
+
 
       <div class="switch-container">
         <label class="switch">
-<!-- Formulario de control de frecuencia y estado -->
           <input type="hidden" name="selector" value="0">
-<!-- Formulario de control de frecuencia y estado -->
           <input type="checkbox" id="powerSwitch" name="selector" value="1" {% if selector == "1" %}checked{% endif %}>
           <span class="slider"></span>
         </label>
@@ -238,28 +250,143 @@
     </div>
 
     <div class="range-container">
-<!-- Formulario de control de frecuencia y estado -->
       <input type="range" id="freqSlider" min="300" max="3800" value="{{ frecuencia }}" step="1">
       <div class="range-labels">
         <span>300 MHz</span><span>3.8 GHz</span>
       </div>
+      <label for="gainInput">Ganancia RF (dB): <span id="gainValue">{{ rf_gain }}</span> dB</label>
+      <input type="range" id="gainInput" name="rf_gain" min="0" max="73" value="{{ rf_gain }}" step="1" />
+      <div class="range-labels">
+        <span>0 dB</span><span>73 dB</span>
+      </div>
+
     </div>
 
     <button type="submit" class="btn-aplicar">Aplicar cambios</button>
-  </form>  <!-- Gráficos -->
+    <button type="button" id="btnLimpiar" class="btn-aplicar" style="background-color: #f87171;" onclick="restaurarValores()" disabled>Limpiar cambios</button>
+
+  </form>
+</div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const freqInput = document.getElementById("freqInput");
+    const freqSlider = document.getElementById("freqSlider");
+    const bandwidthInput = document.getElementById("bandwidthInput");
+    const gainInput = document.getElementById("gainInput");
+    const selectorCheckbox = document.getElementById("powerSwitch");
+    const btnLimpiar = document.getElementById("btnLimpiar");
+    const gainValue = document.getElementById("gainValue");
+
+    // Guardar valores originales al cargar DOM
+    const valoresOriginales = {
+      frecuencia: Number(freqInput.value),
+      bandwidth: Number(bandwidthInput?.value),
+      rf_gain: Number(gainInput?.value),
+      selector: selectorCheckbox?.checked
+    };
+
+    function hayCambios() {
+      return (
+        Number(freqInput.value) !== valoresOriginales.frecuencia ||
+        Number(bandwidthInput?.value) !== valoresOriginales.bandwidth ||
+        Number(gainInput?.value) !== valoresOriginales.rf_gain ||
+        selectorCheckbox?.checked !== valoresOriginales.selector
+      );
+    }
+
+    function verificarCambios() {
+      btnLimpiar.disabled = !hayCambios();
+    }
+
+    function restaurarValores() {
+      freqInput.value = valoresOriginales.frecuencia;
+      freqSlider.value = valoresOriginales.frecuencia;
+
+      if (bandwidthInput)
+        bandwidthInput.value = valoresOriginales.bandwidth;
+
+      if (gainInput) {
+        gainInput.value = valoresOriginales.rf_gain;
+        if (gainValue) gainValue.textContent = valoresOriginales.rf_gain;
+      }
+
+      if (selectorCheckbox)
+        selectorCheckbox.checked = valoresOriginales.selector;
+
+      verificarCambios();
+    }
+
+    // Exponer para botón
+    window.restaurarValores = restaurarValores;
+
+    // Eventos
+    freqInput.addEventListener("input", () => {
+      freqSlider.value = freqInput.value;
+      verificarCambios();
+    });
+
+    freqSlider.addEventListener("input", () => {
+      freqInput.value = freqSlider.value;
+      verificarCambios();
+    });
+
+    gainInput?.addEventListener("input", () => {
+      if (gainValue) gainValue.textContent = gainInput.value;
+      verificarCambios();
+    });
+
+    [bandwidthInput, selectorCheckbox].forEach(el => {
+      if (el) el.addEventListener("input", verificarCambios);
+    });
+
+    // ✅ Reparar función setFrequency para botones rápidos
+    window.setFrequency = function(freq) {
+      freqInput.value = freq;
+      freqSlider.value = freq;
+      verificarCambios(); // fuerza el análisis
+    };
+
+    // También sincroniza los canales WiFi
+    const canalesWifi = document.getElementById("canalesWifi");
+    canalesWifi?.addEventListener("change", function () {
+      const selectedFreq = parseFloat(this.value);
+      if (!isNaN(selectedFreq)) {
+        setFrequency(selectedFreq);
+      }
+    });
+
+    verificarCambios(); // inicial
+  });
+</script>
+
+
+<!-- BLOQUE 2: Dashboards -->
+<div class="section">
+  <h2>Dashboards en tiempo real</h2>
   <div id="graficos-container">
     <div id="fft-plot" style="width: 100%; height: 400px;"></div>
     <div id="waterfall-plot" style="width: 100%; height: 400px; margin-top: 40px;"></div>
   </div>
 </div>
 
+
+
 <script>
 <!-- Formulario de control de frecuencia y estado -->
   // Función para actualizar el input y el slider
   function setFrequency(freq) {
-    document.getElementById("freqInput").value = freq;
-    document.getElementById("freqSlider").value = freq;
+    freqInput.value = freq;
+    freqSlider.value = freq;
+
+    // Forzar evento de cambio en ambos
+    freqInput.dispatchEvent(new Event("input"));
+    freqSlider.dispatchEvent(new Event("input"));
   }
+
+
 
   // Evento cuando se selecciona un canal WiFi del combobox
   document.getElementById("canalesWifi").addEventListener("change", function () {
@@ -272,21 +399,97 @@
 
 
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
 <script>
-    setInterval(() => {
-      const now = new Date();
-      const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-      document.getElementById("fechaHora").textContent = now.toLocaleString('es-DO', options);
-  }, 1000);
-<!-- Visualización en tiempo real por WebSocket -->
+  const gainSlider = document.getElementById("gainInput");
+  const gainValue = document.getElementById("gainValue");
+
+  gainSlider.addEventListener("input", function () {
+    gainValue.textContent = this.value;
+  });
+</script>
+
+<script>
+  const powerSwitch = document.getElementById("powerSwitch");
+  const provinciaSelect = document.getElementById("provincia");
+
+  function actualizarEstadoProvincia() {
+    const encendido = powerSwitch.checked;
+    provinciaSelect.required = encendido;
+
+    // Opcional: visual
+    if (encendido) {
+      provinciaSelect.style.opacity = "1";
+    } else {
+      provinciaSelect.style.opacity = "0.5";
+    }
+  }
+
+  powerSwitch.addEventListener("change", actualizarEstadoProvincia);
+  document.addEventListener("DOMContentLoaded", actualizarEstadoProvincia);
+</script>
+
+
+<script>
   const socket = new WebSocket("ws://" + window.location.host + "/ws/monitor/");
   const historyLength = 100;
   let waterfallData = [];
 
+  // Mantener conexión viva con pings cada 30 segundos
+  setInterval(() => {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: "ping" }));
+    }
+  }, 30000);
+
+  // Intentar reconectar si se cierra el WebSocket
+  socket.onclose = function () {
+    console.warn("WebSocket cerrado, recargando en 1 segundo...");
+    setTimeout(() => location.reload(), 1000);
+  };
+
+  // Crear gráfico FFT solo una vez
+  Plotly.newPlot('fft-plot', [{
+    x: [], y: [],
+    type: 'scatter',
+    mode: 'lines',
+    line: { color: 'deepskyblue' }
+  }], {
+    title: { text: "FFT (Espectro)", font: { size: 20 } },
+    xaxis: {
+      title: "Frecuencia (MHz)",
+      range: [0, 1],
+      fixedrange: true,
+      showgrid: true,
+      gridcolor: "#3b517c",
+      zeroline: false,
+      linecolor: '#ffffff',
+      linewidth: 1,
+      mirror: true
+    },
+    yaxis: {
+      title: "Amplitud (dB)",
+      range: [-100, 30],
+      fixedrange: true,
+      showgrid: true,
+      gridcolor: "#3b517c",
+      zeroline: false,
+      linecolor: '#ffffff',
+      linewidth: 1,
+      mirror: true
+    },
+    paper_bgcolor: '#1e3a5f',
+    plot_bgcolor: '#1e3a5f',
+    font: { color: 'white' },
+    margin: { t: 40 }
+  }, {
+    displayModeBar: false
+  });
+
   socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
     if (data.type === "fft") {
-      const OFFSET_DB = 30;
+      const OFFSET_DB = 0;
       const fftValues = data.values.map(v => v - OFFSET_DB);
       const f_start = (data.center_freq - data.samp_rate / 2) / 1e6;
       const f_stop = (data.center_freq + data.samp_rate / 2) / 1e6;
@@ -294,47 +497,20 @@
         f_start + (i * (f_stop - f_start) / fftValues.length)
       );
 
-      Plotly.react('fft-plot', [{
-        x: freqAxis,
-        y: fftValues,
-        type: 'scatter',
-        mode: 'lines',
-        line: { color: 'deepskyblue' }
-      }], {
-        title: { text: "FFT (Espectro)", font: { size: 20 } },
-        xaxis: {
-          title: "Frecuencia (MHz)",
-          range: [f_start, f_stop],
-          fixedrange: true,
-          showgrid: true,
-          gridcolor: "#3b517c",
-          zeroline: false,
-          linecolor: '#ffffff',
-          linewidth: 1,
-          mirror: true
-        },
-        yaxis: {
-          title: "Amplitud (dB)",
-          range: [-100, 30],
-          fixedrange: true,
-          showgrid: true,
-          gridcolor: "#3b517c",
-          zeroline: false,
-          linecolor: '#ffffff',
-          linewidth: 1,
-          mirror: true
-        },
-        paper_bgcolor: '#1e3a5f',
-        plot_bgcolor: '#1e3a5f',
-        font: { color: 'white' },
-        margin: { t: 40 }
-      }, {
-        staticPlot: true,
-        displayModeBar: false
+      // Actualizar FFT
+      Plotly.update('fft-plot', {
+        x: [freqAxis],
+        y: [fftValues]
+      });
+      Plotly.relayout('fft-plot', {
+        'xaxis.range': [f_start, f_stop]
       });
 
-      if (waterfallData.length >= historyLength) waterfallData.shift();
-      waterfallData.push(fftValues);
+      // Actualizar Waterfall (solo los últimos 100 frames)
+      if (Array.isArray(fftValues) && fftValues.length > 0) {
+        if (waterfallData.length >= historyLength) waterfallData.shift();
+        waterfallData.push(fftValues.slice());
+      }
 
       Plotly.react('waterfall-plot', [{
         z: waterfallData,
@@ -373,14 +549,14 @@
         font: { color: 'white' },
         margin: { t: 40 }
       }, {
-        staticPlot: true,
         displayModeBar: false
       });
     }
-  }
-
-
+  };
 </script>
+
+
+
 
 <script>
   function setFrequency(freq) {
@@ -402,6 +578,8 @@
     });
   });
 </script>
+
+
 <script>
   function actualizarFechaHora() {
     const ahora = new Date();

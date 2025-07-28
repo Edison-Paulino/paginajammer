@@ -53,6 +53,8 @@ from xhtml2pdf import pisa
 
 # Importaciones adicionales
 from paginajammer import utils_db_registros, utils_alertas_db
+from paginajammer.utils_config_ini import guardar_parametros
+
 
 # Importaciones adicionales
 from paginajammer.utils_jammer_logs import leer_estado_actual, leer_historial_apagados
@@ -125,10 +127,6 @@ def home_view(request):
 
 
 @login_required
-
-# ===============================
-# Vista: inicio_view
-# ===============================
 def inicio_view(request):
     provincias = [
         "Distrito Nacional", "Azua", "Bahoruco", "Barahona", "Dajabón", "Duarte",
@@ -146,27 +144,37 @@ def inicio_view(request):
         ("13", 2472), ("14", 2484),
     ]
 
-
     if request.method == "POST":
+        nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
         provincia = request.POST.get("provincia")
-        if not provincia:
-            messages.error(request, "Debe seleccionar una provincia.")
+
+        if nuevo_selector == "1" and not provincia:
+            messages.error(request, "Debe seleccionar una provincia si el jammer está encendido.")
             return redirect("inicio")
 
         nueva_frecuencia_mhz = request.POST.get("frecuency")
-        nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
+        new_bandwidth = request.POST.get("bandwidth")
+        new_rf_gain = request.POST.get("rf_gain")
 
         try:
             nueva_frecuencia_hz = int(float(nueva_frecuencia_mhz) * 1_000_000)
         except (ValueError, TypeError):
             nueva_frecuencia_hz = 915000000
 
+        # ⚠️ MOVER ESTO AQUÍ (leer antes de guardar)
         datos_anteriores = cargar_configuracion_ini()
         anterior_selector = datos_anteriores.get("selector", "0")
         anterior_frecuencia_mhz = str(int(int(datos_anteriores.get("frecuencia", "915000000")) / 1_000_000))
 
-        guardar_configuracion_ini(nueva_frecuencia_hz, nuevo_selector)
+        # Guardar todos los parámetros nuevos
+        guardar_parametros(
+            frecuencia=nueva_frecuencia_hz,
+            selector=nuevo_selector,
+            bandwidth=int(float(new_bandwidth) * 1_000_000),
+            rf_gain=new_rf_gain
+        )
 
+        # Lógica de registros
         if anterior_selector == "1":
             if nuevo_selector == "0":
                 utils_db_registros.cerrar_todos_registros_abiertos(
@@ -199,6 +207,10 @@ def inicio_view(request):
         messages.success(request, "Parámetros guardados correctamente.")
         return redirect("inicio")
 
+        messages.success(request, "Parámetros guardados correctamente.")
+        return redirect("inicio")
+
+    # === Vista GET ===
     datos = cargar_configuracion_ini()
     frecuencia = datos.get("frecuencia", "915000000")
     selector = datos.get("selector", "0")
@@ -211,7 +223,8 @@ def inicio_view(request):
             freq_registro = str(int(registro_abierto[2]))
             freq_actual = str(int(int(frecuencia) / 1_000_000))
             if freq_registro == freq_actual:
-                ubicacion = registro_abierto[3]
+                ubicacion = registro_abierto[3]  # <- esto se pasa a provincia_seleccionada
+
 
     return render(request, "usuarios/inicio.html", {
         "frecuencia": int(int(frecuencia) / 1000000),
@@ -220,8 +233,10 @@ def inicio_view(request):
         "provincias": provincias,
         "provincia_seleccionada": ubicacion,
         "canales_wifi": canales_wifi,
-
+        "bandwidth": int(int(datos.get("bandwidth", "28000000")) / 1_000_000),
+        "rf_gain": datos.get("rf_gain", "73"),
     })
+
 
 
 # Importaciones adicionales
@@ -487,14 +502,14 @@ def usos_view(request):
 
 
 
-@login_required
-
 # ===============================
 # Vista: perfil_view
 # ===============================
+@login_required
 def perfil_view(request):
     user = request.user
-    perfil = PerfilUsuario.objects.get(user=user)
+    perfil, creado = PerfilUsuario.objects.get_or_create(user=user)  # ✅ Evita el error
+
     user_form = PerfilForm(instance=user)
     perfil_form = PerfilUsuarioForm(instance=perfil)
 
@@ -514,7 +529,6 @@ def perfil_view(request):
             return redirect("perfil")
 
         elif accion == "guardar":
-            # Actualiza todos los demás campos del perfil y usuario
             user_form = PerfilForm(request.POST, instance=user)
             perfil_form = PerfilUsuarioForm(request.POST, request.FILES, instance=perfil)
 
@@ -532,6 +546,7 @@ def perfil_view(request):
         "user_form": user_form,
         "perfil_form": perfil_form
     })
+
 
     
 

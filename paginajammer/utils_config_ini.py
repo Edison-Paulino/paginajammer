@@ -93,3 +93,26 @@ def guardar_valor(seccion, clave, valor):
         escribir_selector(valor)
     else:
         raise ValueError(f"Parámetro no reconocido: {clave}")
+
+
+# ------------------------------
+# Función: guardar_parametros
+# ------------------------------
+def guardar_parametros(config_path=CONFIG_PATH, **kwargs):
+    """
+    Guarda múltiples parámetros en la sección [PARAMETROS] del archivo .ini.
+    Solo actualiza los valores pasados por kwargs.
+    Ejemplo:
+        guardar_parametros(frecuencia=915000000, selector=1, rf_gain=73)
+    """
+    config = configparser.ConfigParser()
+    config.read(config_path)
+
+    if "PARAMETROS" not in config:
+        config["PARAMETROS"] = {}
+
+    for clave, valor in kwargs.items():
+        config["PARAMETROS"][clave] = str(valor)
+
+    with open(config_path, "w") as configfile:
+        config.write(configfile)

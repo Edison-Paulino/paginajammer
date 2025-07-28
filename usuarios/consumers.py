@@ -34,7 +34,7 @@ class MonitorConsumer(AsyncWebsocketConsumer):
 
     async def receive_fft(self):
         samp_rate = 28e6
-        fft_size = 2048
+        fft_size = 8192
         while self.running:
             try:
                 # Leer frecuencia desde .ini
@@ -42,7 +42,11 @@ class MonitorConsumer(AsyncWebsocketConsumer):
                 config.read('D:/django_project/paginajammer/paginajammer/CONFIG.INI')
                 center_freq = float(config['PARAMETROS']['frecuencia'])
 
-                msg = await self.zmq_socket.recv()
+                if self.zmq_socket.poll(timeout=1000):  # 1 segundo
+                    msg = await self.zmq_socket.recv()
+                else:
+                    continue
+
                 raw_data = list(memoryview(msg).cast('f'))
 
                 # Recortar para asegurar tamaño válido
@@ -52,6 +56,8 @@ class MonitorConsumer(AsyncWebsocketConsumer):
                 #print("Datos enviados:", data[:10])
 
 
+                if self.scope.get("client") is None:
+                    break
 
                 # Verifica que aún el WebSocket esté abierto
                 if not self.running:
@@ -70,4 +76,6 @@ class MonitorConsumer(AsyncWebsocketConsumer):
 
             except Exception as e:
                 print("ZMQ error:", e)
-                await asyncio.sleep(0.5)
+                await self.send(json.dumps({"type": "error", "detail": str(e)}))
+                await asyncio.sleep(1)
+
