@@ -1,0 +1,22 @@
+2025-07-28 17:20:39,422 [INFO]  Logging iniciado correctamente
+2025-07-28 17:20:39,422 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:20:48,005 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-28 17:21:07,416 [INFO]  Logging iniciado correctamente
+2025-07-28 17:21:07,416 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:21:24,730 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
+2025-07-28 17:25:04,532 [INFO]  Detenido
+2025-07-28 17:25:09,120 [INFO]  Logging iniciado correctamente
+2025-07-28 17:25:09,120 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:25:17,716 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
+2025-07-28 17:25:35,267 [INFO]  Logging iniciado correctamente
+2025-07-28 17:25:35,268 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:25:52,469 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
+2025-07-28 17:25:52,483 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
+2025-07-28 17:29:33,886 [INFO]  Detenido
+2025-07-28 17:32:22,368 [INFO]  Logging iniciado correctamente
+2025-07-28 17:32:22,368 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:32:31,000 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
+2025-07-28 17:38:34,921 [INFO]  Logging iniciado correctamente
+2025-07-28 17:38:34,923 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-28 17:38:52,185 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
+2025-07-28 17:38:52,196 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
