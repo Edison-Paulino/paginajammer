@@ -316,16 +316,29 @@
     });
 
     btnEliminar.addEventListener("click", () => {
-      const ids = [...document.querySelectorAll(".check-usuario:checked")].map(cb => cb.closest("tr").dataset.id);
-      fetch("{% url 'eliminar_usuarios' %}", {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": "{{ csrf_token }}",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ids })
-      }).then(() => location.reload());
+      const seleccionados = document.querySelectorAll(".check-usuario:checked");
+      if (seleccionados.length === 0) return;
+
+      const ids = [];
+      const lista = document.getElementById("lista-usuarios-a-eliminar");
+      lista.innerHTML = ""; // Limpiar antes
+
+      seleccionados.forEach(cb => {
+        const fila = cb.closest("tr");
+        const id = fila.dataset.id;
+        const username = fila.children[2].textContent.trim(); // Columna de username (índice 2)
+        ids.push(id);
+
+        const li = document.createElement("li");
+        li.textContent = username;
+        lista.appendChild(li);
+      });
+
+      document.getElementById("ids-a-eliminar").value = ids.join(",");
+      document.getElementById("modalEliminar").style.display = "block";
     });
+
+
 
     btnCambiarEstado.addEventListener("click", () => {
       const ids = [...document.querySelectorAll(".check-usuario:checked")].map(cb => cb.closest("tr").dataset.id);
@@ -340,6 +353,30 @@
     });
   });
 </script>
+
+
+<script>
+  function confirmarEliminarUsuarios() {
+    const ids = document.getElementById("ids-a-eliminar").value.split(",");
+
+    fetch("{% url 'eliminar_usuarios' %}", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ids })
+    }).then(() => {
+      document.getElementById("modalEliminar").style.display = "none";
+      location.reload();
+    });
+  }
+
+  function cerrarModalEliminar() {
+    document.getElementById("modalEliminar").style.display = "none";
+  }
+</script>
+
 
 <script>
   function abrirModal() {
