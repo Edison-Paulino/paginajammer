@@ -207,8 +207,6 @@ def inicio_view(request):
         messages.success(request, "Parámetros guardados correctamente.")
         return redirect("inicio")
 
-        messages.success(request, "Parámetros guardados correctamente.")
-        return redirect("inicio")
 
     # === Vista GET ===
     datos = cargar_configuracion_ini()
