@@ -429,6 +429,15 @@
   document.addEventListener("DOMContentLoaded", actualizarEstadoProvincia);
 </script>
 
+<script>
+  let prevFFT = null;
+  const alpha = 0.2; // 0 = sin retención, 1 = retención total
+
+  function suavizarFFT(actual) {
+    return actual;  // ← NO suavizar
+  }
+
+</script>
 
 
 <script>
@@ -516,28 +525,28 @@
     margin: { t: 40 }
   }, { displayModeBar: false });
 
+  
   // === Función optimizada de redibujo con requestAnimationFrame ===
   function procesarDatos() {
     if (!datosPendientes) return;
     const data = datosPendientes;
     datosPendientes = null;
 
-    const OFFSET_DB = 60;
-    const fftValues = data.values.map(v => v - OFFSET_DB);
+    const fftValues = data.values;  // SIN OFFSET
     const f_start = (data.center_freq - data.samp_rate / 2) / 1e6;
     const f_stop = (data.center_freq + data.samp_rate / 2) / 1e6;
     const freqAxis = Array.from({ length: fftValues.length }, (_, i) =>
       f_start + (i * (f_stop - f_start) / fftValues.length)
     );
 
-    // Actualizar FFT
-    Plotly.update('fft-plot', { x: [freqAxis], y: [fftValues] });
+    const fftValuesSuave = suavizarFFT(fftValues);
+
+    Plotly.update('fft-plot', { x: [freqAxis], y: [fftValuesSuave] });
     Plotly.relayout('fft-plot', { 'xaxis.range': [f_start, f_stop] });
 
-    // Actualizar Waterfall
-    if (Array.isArray(fftValues) && fftValues.length > 0) {
+    if (Array.isArray(fftValuesSuave) && fftValuesSuave.length > 0) {
       if (waterfallData.length >= historyLength) waterfallData.shift();
-      waterfallData.push(fftValues.slice());
+      waterfallData.push(fftValuesSuave.slice());
     }
 
     Plotly.update('waterfall-plot', {
@@ -545,8 +554,9 @@
       x: [freqAxis]
     });
 
-    ultimoFrame = null;  // listo para el siguiente frame
+    ultimoFrame = null;
   }
+
 
   // WebSocket recibe datos
   socket.onmessage = function (event) {
