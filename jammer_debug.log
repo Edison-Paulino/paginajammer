@@ -530,3 +530,9 @@
 2025-07-29 15:14:04,196 [INFO]  Script JammerP2_NoGui iniciado correctamente
 2025-07-29 15:14:10,989 [INFO]  Logging iniciado correctamente
 2025-07-29 15:14:10,989 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:14:17,865 [INFO]  Logging iniciado correctamente
+2025-07-29 15:14:17,865 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:14:35,493 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
+2025-07-29 15:14:35,495 [INFO] [!] Error leyendo CONFIG.INI: input_index must be < ninputs
+2025-07-29 15:14:35,520 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
+2025-07-29 15:14:37,496 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
