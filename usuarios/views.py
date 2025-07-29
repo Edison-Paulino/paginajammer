@@ -126,8 +126,13 @@ def home_view(request):
     return redirect("inicio")
 
 
+
+from paginajammer.utils_config_ini import leer_tipo_jammer, escribir_tipo_jammer
+
+
 @login_required
 def inicio_view(request):
+    
     provincias = [
         "Distrito Nacional", "Azua", "Bahoruco", "Barahona", "Dajabón", "Duarte",
         "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal",
@@ -143,45 +148,66 @@ def inicio_view(request):
         ("9", 2452), ("10", 2457), ("11", 2462), ("12", 2467),
         ("13", 2472), ("14", 2484),
     ]
+    
 
     if request.method == "POST":
-        nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
-        provincia = request.POST.get("provincia")
-
-        if nuevo_selector == "1" and not provincia:
-            messages.error(request, "Debe seleccionar una provincia si el jammer está encendido.")
+        # === Formulario solo de tipo de jammer ===
+        if request.POST.get("form_tipo_jammer") == "1":
+            nuevo_tipo = request.POST.get("tipo_jammer")
+            if nuevo_tipo in ["0", "1"]:
+                escribir_tipo_jammer(int(nuevo_tipo))
             return redirect("inicio")
 
-        nueva_frecuencia_mhz = request.POST.get("frecuency")
-        new_bandwidth = request.POST.get("bandwidth")
-        new_rf_gain = request.POST.get("rf_gain")
+        # === Formulario principal de configuración ===
+        elif request.POST.get("form_configuracion") == "1":
+            nuevo_selector = "1" if request.POST.get("selector") == "1" else "0"
+            provincia = request.POST.get("provincia")
 
-        try:
-            nueva_frecuencia_hz = int(float(nueva_frecuencia_mhz) * 1_000_000)
-        except (ValueError, TypeError):
-            nueva_frecuencia_hz = 915000000
+            if nuevo_selector == "1" and not provincia:
+                messages.error(request, "Debe seleccionar una provincia si el jammer está encendido.")
+                return redirect("inicio")
 
-        # ⚠️ MOVER ESTO AQUÍ (leer antes de guardar)
-        datos_anteriores = cargar_configuracion_ini()
-        anterior_selector = datos_anteriores.get("selector", "0")
-        anterior_frecuencia_mhz = str(int(int(datos_anteriores.get("frecuencia", "915000000")) / 1_000_000))
+            nueva_frecuencia_mhz = request.POST.get("frecuency")
+            new_bandwidth = request.POST.get("bandwidth")
+            new_rf_gain = request.POST.get("rf_gain")
 
-        # Guardar todos los parámetros nuevos
-        guardar_parametros(
-            frecuencia=nueva_frecuencia_hz,
-            selector=nuevo_selector,
-            bandwidth=int(float(new_bandwidth) * 1_000_000),
-            rf_gain=new_rf_gain
-        )
+            try:
+                nueva_frecuencia_hz = int(float(nueva_frecuencia_mhz) * 1_000_000)
+            except (ValueError, TypeError):
+                nueva_frecuencia_hz = 915000000
 
-        # Lógica de registros
-        if anterior_selector == "1":
-            if nuevo_selector == "0":
-                utils_db_registros.cerrar_todos_registros_abiertos(
-                    usuario_fin=request.user.username,
-                    fin_registro=datetime.now().isoformat()
-                )
-            elif anterior_frecuencia_mhz != nueva_frecuencia_mhz:
+            # Leer configuración anterior antes de sobrescribir
+            datos_anteriores = cargar_configuracion_ini()
+            anterior_selector = datos_anteriores.get("selector", "0")
+            anterior_frecuencia_mhz = str(int(int(datos_anteriores.get("frecuencia", "915000000")) / 1_000_000))
+
+            # Guardar nuevos parámetros
+            guardar_parametros(
+                frecuencia=nueva_frecuencia_hz,
+                selector=nuevo_selector,
+                bandwidth=int(float(new_bandwidth) * 1_000_000),
+                rf_gain=new_rf_gain
+            )
+
+            # Registrar eventos según cambios
+            if anterior_selector == "1":
+                if nuevo_selector == "0":
+                    utils_db_registros.cerrar_todos_registros_abiertos(
+                        usuario_fin=request.user.username,
+                        fin_registro=datetime.now().isoformat()
+                    )
+                elif anterior_frecuencia_mhz != nueva_frecuencia_mhz:
+                    utils_db_registros.cerrar_todos_registros_abiertos(
+                        usuario_fin=request.user.username,
+                        fin_registro=datetime.now().isoformat()
+                    )
+                    utils_db_registros.insertar_registro(
+                        usuario_inicio=request.user.username,
+                        frecuencia_mhz=float(nueva_frecuencia_mhz),
+                        ubicacion=provincia,
+                        inicio_registro=datetime.now().isoformat()
+                    )
+            elif anterior_selector == "0" and nuevo_selector == "1":
                 utils_db_registros.cerrar_todos_registros_abiertos(
                     usuario_fin=request.user.username,
                     fin_registro=datetime.now().isoformat()
@@ -192,20 +218,10 @@ def inicio_view(request):
                     ubicacion=provincia,
                     inicio_registro=datetime.now().isoformat()
                 )
-        elif anterior_selector == "0" and nuevo_selector == "1":
-            utils_db_registros.cerrar_todos_registros_abiertos(
-                usuario_fin=request.user.username,
-                fin_registro=datetime.now().isoformat()
-            )
-            utils_db_registros.insertar_registro(
-                usuario_inicio=request.user.username,
-                frecuencia_mhz=float(nueva_frecuencia_mhz),
-                ubicacion=provincia,
-                inicio_registro=datetime.now().isoformat()
-            )
 
-        messages.success(request, "Parámetros guardados correctamente.")
-        return redirect("inicio")
+            messages.success(request, "Parámetros guardados correctamente.")
+            return redirect("inicio")
+
 
 
     # === Vista GET ===
@@ -223,7 +239,7 @@ def inicio_view(request):
             if freq_registro == freq_actual:
                 ubicacion = registro_abierto[3]  # <- esto se pasa a provincia_seleccionada
 
-
+    tipo = leer_tipo_jammer()
     return render(request, "usuarios/inicio.html", {
         "frecuencia": int(int(frecuencia) / 1000000),
         "selector": selector,
@@ -233,6 +249,7 @@ def inicio_view(request):
         "canales_wifi": canales_wifi,
         "bandwidth": int(int(datos.get("bandwidth", "28000000")) / 1_000_000),
         "rf_gain": datos.get("rf_gain", "73"),
+        "tipo_jammer": tipo
     })
 
 

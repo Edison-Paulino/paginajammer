@@ -116,3 +116,32 @@ def guardar_parametros(config_path=CONFIG_PATH, **kwargs):
 
     with open(config_path, "w") as configfile:
         config.write(configfile)
+
+
+# utils_config_ini.py
+from configparser import ConfigParser
+
+CONFIG_PATH = r'D:\django_project\paginajammer\paginajammer\CONFIG.INI'  # AJUSTA esto si es necesario
+
+def leer_tipo_jammer():
+    config = ConfigParser()
+    config.read(CONFIG_PATH)
+    try:
+        return config.getint('PARAMETROS', 'tipo')
+    except Exception:
+        return 0  # Por defecto: bruto
+
+import logging
+log = logging.getLogger(__name__)
+
+def escribir_tipo_jammer(valor):
+    config = ConfigParser()
+    config.read(CONFIG_PATH)
+    if not config.has_section('PARAMETROS'):
+        config.add_section('PARAMETROS')
+    config.set('PARAMETROS', 'tipo', str(valor))
+    with open(CONFIG_PATH, 'w') as f:
+        config.write(f)
+    log.info(f"[CONFIG] tipo actualizado a {valor}")
+
+

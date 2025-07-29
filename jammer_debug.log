@@ -1,198 +1,532 @@
-2025-07-28 17:20:39,422 [INFO]  Logging iniciado correctamente
-2025-07-28 17:20:39,422 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:20:48,005 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
-2025-07-28 17:21:07,416 [INFO]  Logging iniciado correctamente
-2025-07-28 17:21:07,416 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:21:24,730 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:25:04,532 [INFO]  Detenido
-2025-07-28 17:25:09,120 [INFO]  Logging iniciado correctamente
-2025-07-28 17:25:09,120 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:25:17,716 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
-2025-07-28 17:25:35,267 [INFO]  Logging iniciado correctamente
-2025-07-28 17:25:35,268 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:25:52,469 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:25:52,483 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:29:33,886 [INFO]  Detenido
-2025-07-28 17:32:22,368 [INFO]  Logging iniciado correctamente
-2025-07-28 17:32:22,368 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:32:31,000 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
-2025-07-28 17:38:34,921 [INFO]  Logging iniciado correctamente
-2025-07-28 17:38:34,923 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:38:52,185 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:38:52,196 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:39:26,261 [INFO]  Logging iniciado correctamente
-2025-07-28 17:39:26,261 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:39:43,465 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:39:43,475 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:45:17,698 [INFO]  Logging iniciado correctamente
-2025-07-28 17:45:17,698 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:45:34,991 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:45:35,012 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:55:36,368 [INFO]  Detenido
-2025-07-28 17:55:42,010 [INFO]  Logging iniciado correctamente
-2025-07-28 17:55:42,010 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:55:50,608 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
-2025-07-28 17:55:53,872 [INFO]  Logging iniciado correctamente
-2025-07-28 17:55:53,872 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:56:02,474 [INFO]  Error inicializando BladeRF: bladerf_common::init: Failed to open bladeRF device '*:instance=0': bladerf_common::open: Failed to open device for '*:instance=0': No devices available (-7)
-2025-07-28 17:56:05,713 [INFO]  Logging iniciado correctamente
-2025-07-28 17:56:05,713 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:56:22,941 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:56:22,951 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 17:58:05,317 [INFO]  Detenido
-2025-07-28 17:58:12,187 [INFO]  Logging iniciado correctamente
-2025-07-28 17:58:12,187 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 17:58:29,405 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 17:58:29,418 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:01:30,191 [INFO]  Detenido
-2025-07-28 18:06:43,847 [INFO]  Logging iniciado correctamente
-2025-07-28 18:06:43,848 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:07:01,082 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:07:01,090 [INFO] [!] Error leyendo CONFIG.INI: input_index must be < ninputs
-2025-07-28 18:07:01,100 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:07:03,092 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:08:06,936 [INFO]  Detenido
-2025-07-28 18:08:11,810 [INFO]  Logging iniciado correctamente
-2025-07-28 18:08:11,810 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:08:29,115 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:08:29,135 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:11:09,048 [INFO]  Detenido
-2025-07-28 18:11:14,711 [INFO]  Logging iniciado correctamente
-2025-07-28 18:11:14,711 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:11:31,999 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:11:31,999 [INFO] [!] Error leyendo CONFIG.INI: input_index must be < ninputs
-2025-07-28 18:11:32,010 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:11:34,000 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:14:12,070 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 50.0, 'selector': 0}
-2025-07-28 18:14:16,358 [INFO]  Detenido
-2025-07-28 18:14:22,169 [INFO]  Logging iniciado correctamente
-2025-07-28 18:14:22,169 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:14:39,422 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 50.0, 'selector': 0}
-2025-07-28 18:14:39,434 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:15:39,445 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:16:55,182 [INFO]  Detenido
-2025-07-28 18:17:01,587 [INFO]  Logging iniciado correctamente
-2025-07-28 18:17:01,587 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:17:18,790 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:17:18,790 [INFO] [!] Error leyendo CONFIG.INI: input_index must be < ninputs
-2025-07-28 18:17:18,801 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 18:17:20,791 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:17:49,242 [INFO]  Logging iniciado correctamente
-2025-07-28 18:17:49,243 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 18:18:06,489 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 18:18:06,512 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 19:02:08,260 [INFO]  Detenido
-2025-07-28 19:02:13,304 [INFO]  Logging iniciado correctamente
-2025-07-28 19:02:13,304 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:02:33,840 [INFO]  Logging iniciado correctamente
-2025-07-28 19:02:33,841 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:02:54,327 [INFO]  Logging iniciado correctamente
-2025-07-28 19:02:54,327 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:04:00,876 [INFO]  Logging iniciado correctamente
-2025-07-28 19:04:00,876 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:04:21,410 [INFO]  Logging iniciado correctamente
-2025-07-28 19:04:21,410 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:04:41,980 [INFO]  Logging iniciado correctamente
-2025-07-28 19:04:41,980 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:05:02,564 [INFO]  Logging iniciado correctamente
-2025-07-28 19:05:02,564 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:05:23,103 [INFO]  Logging iniciado correctamente
-2025-07-28 19:05:23,103 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:05:43,664 [INFO]  Logging iniciado correctamente
-2025-07-28 19:05:43,665 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:06:04,129 [INFO]  Logging iniciado correctamente
-2025-07-28 19:06:04,131 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:06:24,623 [INFO]  Logging iniciado correctamente
-2025-07-28 19:06:24,623 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:06:45,332 [INFO]  Logging iniciado correctamente
-2025-07-28 19:06:45,333 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:07:21,892 [INFO]  Logging iniciado correctamente
-2025-07-28 19:07:21,893 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:07:42,351 [INFO]  Logging iniciado correctamente
-2025-07-28 19:07:42,352 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:08:02,953 [INFO]  Logging iniciado correctamente
-2025-07-28 19:08:02,954 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:08:23,633 [INFO]  Logging iniciado correctamente
-2025-07-28 19:08:23,634 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:08:44,223 [INFO]  Logging iniciado correctamente
-2025-07-28 19:08:44,224 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:09:04,847 [INFO]  Logging iniciado correctamente
-2025-07-28 19:09:04,848 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:09:25,416 [INFO]  Logging iniciado correctamente
-2025-07-28 19:09:25,417 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:09:45,965 [INFO]  Logging iniciado correctamente
-2025-07-28 19:09:45,965 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:10:06,507 [INFO]  Logging iniciado correctamente
-2025-07-28 19:10:06,508 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:10:27,319 [INFO]  Logging iniciado correctamente
-2025-07-28 19:10:27,319 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:10:47,981 [INFO]  Logging iniciado correctamente
-2025-07-28 19:10:47,982 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:11:08,531 [INFO]  Logging iniciado correctamente
-2025-07-28 19:11:08,531 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:11:29,019 [INFO]  Logging iniciado correctamente
-2025-07-28 19:11:29,020 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:11:49,549 [INFO]  Logging iniciado correctamente
-2025-07-28 19:11:49,549 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:12:10,216 [INFO]  Logging iniciado correctamente
-2025-07-28 19:12:10,216 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:12:30,758 [INFO]  Logging iniciado correctamente
-2025-07-28 19:12:30,759 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:12:56,486 [INFO]  Logging iniciado correctamente
-2025-07-28 19:12:56,487 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:13:16,970 [INFO]  Logging iniciado correctamente
-2025-07-28 19:13:16,971 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:13:37,531 [INFO]  Logging iniciado correctamente
-2025-07-28 19:13:37,531 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:13:58,103 [INFO]  Logging iniciado correctamente
-2025-07-28 19:13:58,104 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:14:18,640 [INFO]  Logging iniciado correctamente
-2025-07-28 19:14:18,640 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:14:39,326 [INFO]  Logging iniciado correctamente
-2025-07-28 19:14:39,327 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:14:45,197 [INFO]  Logging iniciado correctamente
-2025-07-28 19:14:45,197 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:15:05,790 [INFO]  Logging iniciado correctamente
-2025-07-28 19:15:05,791 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:15:26,331 [INFO]  Logging iniciado correctamente
-2025-07-28 19:15:26,331 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:15:36,006 [INFO]  Logging iniciado correctamente
-2025-07-28 19:15:36,006 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:15:55,416 [INFO]  Logging iniciado correctamente
-2025-07-28 19:15:55,416 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:16:15,950 [INFO]  Logging iniciado correctamente
-2025-07-28 19:16:15,951 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:16:36,613 [INFO]  Logging iniciado correctamente
-2025-07-28 19:16:36,613 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:17:05,121 [INFO]  Logging iniciado correctamente
-2025-07-28 19:17:05,121 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:17:22,383 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 19:17:22,395 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 19:18:13,488 [INFO]  Detenido
-2025-07-28 19:28:03,765 [INFO]  Logging iniciado correctamente
-2025-07-28 19:28:03,766 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:28:21,067 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 19:28:21,077 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 19:28:48,784 [INFO]  Detenido
-2025-07-28 19:31:30,220 [INFO]  Logging iniciado correctamente
-2025-07-28 19:31:30,220 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:31:47,480 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 19:31:47,491 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 19:33:05,514 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 1}
-2025-07-28 19:33:11,516 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 19:35:18,365 [INFO]  Detenido
-2025-07-28 19:35:26,099 [INFO]  Logging iniciado correctamente
-2025-07-28 19:35:26,100 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:35:46,678 [INFO]  Logging iniciado correctamente
-2025-07-28 19:35:46,678 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:36:07,220 [INFO]  Logging iniciado correctamente
-2025-07-28 19:36:07,220 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:36:27,784 [INFO]  Logging iniciado correctamente
-2025-07-28 19:36:27,785 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:36:48,284 [INFO]  Logging iniciado correctamente
-2025-07-28 19:36:48,284 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:37:04,044 [INFO]  Logging iniciado correctamente
-2025-07-28 19:37:04,044 [INFO]  Script JammerP2_NoGui iniciado correctamente
-2025-07-28 19:37:21,382 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
-2025-07-28 19:37:21,393 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
-2025-07-28 19:41:08,882 [INFO]  Detenido
+2025-07-29 00:43:34,277 [INFO]  Logging iniciado correctamente
+2025-07-29 00:43:34,278 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:43:42,828 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:43:46,062 [INFO]  Logging iniciado correctamente
+2025-07-29 00:43:46,062 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:43:54,595 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:43:57,830 [INFO]  Logging iniciado correctamente
+2025-07-29 00:43:57,831 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:55:04,240 [INFO]  Logging iniciado correctamente
+2025-07-29 00:55:04,241 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:55:12,861 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:55:16,125 [INFO]  Logging iniciado correctamente
+2025-07-29 00:55:16,126 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:55:24,716 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:55:27,964 [INFO]  Logging iniciado correctamente
+2025-07-29 00:55:27,964 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:55:36,560 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:55:39,826 [INFO]  Logging iniciado correctamente
+2025-07-29 00:55:39,826 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:55:48,459 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:55:51,707 [INFO]  Logging iniciado correctamente
+2025-07-29 00:55:51,708 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:00,293 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:56:03,560 [INFO]  Logging iniciado correctamente
+2025-07-29 00:56:03,561 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:12,160 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:56:15,425 [INFO]  Logging iniciado correctamente
+2025-07-29 00:56:15,425 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:23,997 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:56:27,248 [INFO]  Logging iniciado correctamente
+2025-07-29 00:56:27,248 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:35,840 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:56:39,102 [INFO]  Logging iniciado correctamente
+2025-07-29 00:56:39,102 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:47,695 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:56:50,948 [INFO]  Logging iniciado correctamente
+2025-07-29 00:56:50,948 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 00:56:59,541 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 00:57:03,239 [INFO]  Logging iniciado correctamente
+2025-07-29 00:57:03,239 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:57:17,779 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:57:22,121 [INFO]  Logging iniciado correctamente
+2025-07-29 08:57:22,123 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:57:32,051 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:57:35,631 [INFO]  Logging iniciado correctamente
+2025-07-29 08:57:35,633 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:57:44,305 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:57:47,671 [INFO]  Logging iniciado correctamente
+2025-07-29 08:57:47,672 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:57:56,248 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:57:59,567 [INFO]  Logging iniciado correctamente
+2025-07-29 08:57:59,567 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:58:06,858 [INFO]  Logging iniciado correctamente
+2025-07-29 08:58:06,860 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:58:15,503 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:58:18,901 [INFO]  Logging iniciado correctamente
+2025-07-29 08:58:18,901 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:58:27,502 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:58:30,865 [INFO]  Logging iniciado correctamente
+2025-07-29 08:58:30,866 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:58:39,430 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:58:42,781 [INFO]  Logging iniciado correctamente
+2025-07-29 08:58:42,781 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:58:51,394 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:58:54,724 [INFO]  Logging iniciado correctamente
+2025-07-29 08:58:54,726 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:59:03,301 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:59:06,605 [INFO]  Logging iniciado correctamente
+2025-07-29 08:59:06,605 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:59:15,234 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:59:21,020 [INFO]  Logging iniciado correctamente
+2025-07-29 08:59:21,021 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:59:29,607 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:59:32,932 [INFO]  Logging iniciado correctamente
+2025-07-29 08:59:32,933 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:59:41,507 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:59:44,856 [INFO]  Logging iniciado correctamente
+2025-07-29 08:59:44,856 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 08:59:53,451 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 08:59:56,743 [INFO]  Logging iniciado correctamente
+2025-07-29 08:59:56,744 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:05,336 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:00:08,636 [INFO]  Logging iniciado correctamente
+2025-07-29 09:00:08,636 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:13,456 [INFO]  Logging iniciado correctamente
+2025-07-29 09:00:13,456 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:22,002 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:00:25,319 [INFO]  Logging iniciado correctamente
+2025-07-29 09:00:25,319 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:33,913 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:00:37,201 [INFO]  Logging iniciado correctamente
+2025-07-29 09:00:37,201 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:45,813 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:00:49,098 [INFO]  Logging iniciado correctamente
+2025-07-29 09:00:49,098 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:00:57,633 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:01:00,966 [INFO]  Logging iniciado correctamente
+2025-07-29 09:01:00,967 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:01:09,541 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:01:12,869 [INFO]  Logging iniciado correctamente
+2025-07-29 09:01:12,870 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:01:21,483 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:01:24,826 [INFO]  Logging iniciado correctamente
+2025-07-29 09:01:24,826 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:01:33,432 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:01:36,765 [INFO]  Logging iniciado correctamente
+2025-07-29 09:01:36,766 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:01:45,371 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:01:48,706 [INFO]  Logging iniciado correctamente
+2025-07-29 09:01:48,706 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:01:57,269 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:02:00,618 [INFO]  Logging iniciado correctamente
+2025-07-29 09:02:00,619 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:02:09,226 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:02:12,535 [INFO]  Logging iniciado correctamente
+2025-07-29 09:02:12,536 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:02:21,120 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:02:24,480 [INFO]  Logging iniciado correctamente
+2025-07-29 09:02:24,481 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:02:33,078 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:02:36,370 [INFO]  Logging iniciado correctamente
+2025-07-29 09:02:36,371 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:02:44,943 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:02:48,237 [INFO]  Logging iniciado correctamente
+2025-07-29 09:02:48,238 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:02:56,828 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:00,135 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:00,136 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:03:08,723 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:12,043 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:12,043 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:03:20,676 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:23,980 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:23,980 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:03:32,511 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:35,828 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:35,828 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:03:44,398 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:47,711 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:47,711 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:03:56,317 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:03:59,677 [INFO]  Logging iniciado correctamente
+2025-07-29 09:03:59,677 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:04:08,303 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:04:11,618 [INFO]  Logging iniciado correctamente
+2025-07-29 09:04:11,619 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:04:20,209 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:04:23,532 [INFO]  Logging iniciado correctamente
+2025-07-29 09:04:23,532 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:04:32,148 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:04:35,441 [INFO]  Logging iniciado correctamente
+2025-07-29 09:04:35,441 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:04:44,023 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:04:47,324 [INFO]  Logging iniciado correctamente
+2025-07-29 09:04:47,324 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:04:59,153 [INFO]  Logging iniciado correctamente
+2025-07-29 09:04:59,153 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:05:07,754 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:05:11,104 [INFO]  Logging iniciado correctamente
+2025-07-29 09:05:11,105 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:05:19,702 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:05:23,058 [INFO]  Logging iniciado correctamente
+2025-07-29 09:05:23,058 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:05:31,722 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:05:35,036 [INFO]  Logging iniciado correctamente
+2025-07-29 09:05:35,037 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:05:43,715 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:05:47,057 [INFO]  Logging iniciado correctamente
+2025-07-29 09:05:47,057 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:05:55,671 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:05:59,037 [INFO]  Logging iniciado correctamente
+2025-07-29 09:05:59,039 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:07,638 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:06:10,959 [INFO]  Logging iniciado correctamente
+2025-07-29 09:06:10,959 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:15,070 [INFO]  Logging iniciado correctamente
+2025-07-29 09:06:15,070 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:23,685 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:06:27,018 [INFO]  Logging iniciado correctamente
+2025-07-29 09:06:27,018 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:35,594 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:06:38,914 [INFO]  Logging iniciado correctamente
+2025-07-29 09:06:38,915 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:47,504 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:06:50,796 [INFO]  Logging iniciado correctamente
+2025-07-29 09:06:50,797 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:06:59,329 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:07:02,629 [INFO]  Logging iniciado correctamente
+2025-07-29 09:07:02,629 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:07:11,237 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:07:14,541 [INFO]  Logging iniciado correctamente
+2025-07-29 09:07:14,541 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:07:23,131 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:07:26,421 [INFO]  Logging iniciado correctamente
+2025-07-29 09:07:26,421 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:07:35,046 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:07:38,353 [INFO]  Logging iniciado correctamente
+2025-07-29 09:07:38,353 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:07:46,892 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:07:50,181 [INFO]  Logging iniciado correctamente
+2025-07-29 09:07:50,182 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:07:58,719 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 09:08:02,020 [INFO]  Logging iniciado correctamente
+2025-07-29 09:08:02,020 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 09:08:08,663 [INFO]  Logging iniciado correctamente
+2025-07-29 09:08:08,664 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:45:44,580 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:45:48,258 [INFO]  Logging iniciado correctamente
+2025-07-29 11:45:48,258 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:45:56,904 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:46:00,216 [INFO]  Logging iniciado correctamente
+2025-07-29 11:46:00,216 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:46:08,837 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:46:12,560 [INFO]  Logging iniciado correctamente
+2025-07-29 11:46:12,560 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:46:21,138 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:46:24,439 [INFO]  Logging iniciado correctamente
+2025-07-29 11:46:24,439 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:46:33,037 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:46:36,338 [INFO]  Logging iniciado correctamente
+2025-07-29 11:46:36,338 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:46:44,895 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:46:48,190 [INFO]  Logging iniciado correctamente
+2025-07-29 11:46:48,191 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:46:56,801 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:00,128 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:00,128 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:47:08,668 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:11,970 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:11,970 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:47:20,573 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:23,872 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:23,872 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:47:32,522 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:35,811 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:35,811 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:47:44,411 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:47,709 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:47,709 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:47:56,259 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:47:59,550 [INFO]  Logging iniciado correctamente
+2025-07-29 11:47:59,551 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:48:08,111 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:48:11,407 [INFO]  Logging iniciado correctamente
+2025-07-29 11:48:11,408 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:48:19,976 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:48:23,285 [INFO]  Logging iniciado correctamente
+2025-07-29 11:48:23,285 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:48:31,842 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:48:35,124 [INFO]  Logging iniciado correctamente
+2025-07-29 11:48:35,124 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:48:43,790 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:48:47,081 [INFO]  Logging iniciado correctamente
+2025-07-29 11:48:47,081 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:48:55,704 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:48:59,002 [INFO]  Logging iniciado correctamente
+2025-07-29 11:48:59,003 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:49:07,579 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:49:10,878 [INFO]  Logging iniciado correctamente
+2025-07-29 11:49:10,878 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:49:19,455 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:49:22,765 [INFO]  Logging iniciado correctamente
+2025-07-29 11:49:22,766 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:49:31,356 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:49:34,650 [INFO]  Logging iniciado correctamente
+2025-07-29 11:49:34,650 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:49:43,197 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:49:46,512 [INFO]  Logging iniciado correctamente
+2025-07-29 11:49:46,512 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:49:55,089 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:49:58,376 [INFO]  Logging iniciado correctamente
+2025-07-29 11:49:58,376 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:50:06,948 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:50:10,260 [INFO]  Logging iniciado correctamente
+2025-07-29 11:50:10,260 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:50:18,852 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:50:22,145 [INFO]  Logging iniciado correctamente
+2025-07-29 11:50:22,145 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:50:30,698 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:50:34,008 [INFO]  Logging iniciado correctamente
+2025-07-29 11:50:34,009 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:50:42,615 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:50:45,939 [INFO]  Logging iniciado correctamente
+2025-07-29 11:50:45,940 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:50:54,508 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:50:57,803 [INFO]  Logging iniciado correctamente
+2025-07-29 11:50:57,803 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:51:06,363 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:51:09,667 [INFO]  Logging iniciado correctamente
+2025-07-29 11:51:09,667 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:51:18,258 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:51:21,552 [INFO]  Logging iniciado correctamente
+2025-07-29 11:51:21,552 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:51:30,116 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:51:33,428 [INFO]  Logging iniciado correctamente
+2025-07-29 11:51:33,428 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:51:41,944 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:51:45,232 [INFO]  Logging iniciado correctamente
+2025-07-29 11:51:45,233 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:51:53,786 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:51:57,086 [INFO]  Logging iniciado correctamente
+2025-07-29 11:51:57,087 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:52:05,642 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:52:08,953 [INFO]  Logging iniciado correctamente
+2025-07-29 11:52:08,953 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:52:17,504 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:52:20,789 [INFO]  Logging iniciado correctamente
+2025-07-29 11:52:20,790 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:52:29,347 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:52:32,656 [INFO]  Logging iniciado correctamente
+2025-07-29 11:52:32,657 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:52:41,212 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:52:44,512 [INFO]  Logging iniciado correctamente
+2025-07-29 11:52:44,513 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:52:53,105 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:52:56,423 [INFO]  Logging iniciado correctamente
+2025-07-29 11:52:56,423 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:53:04,988 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:53:08,306 [INFO]  Logging iniciado correctamente
+2025-07-29 11:53:08,307 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:53:16,897 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:53:20,217 [INFO]  Logging iniciado correctamente
+2025-07-29 11:53:20,218 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:53:28,792 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:53:32,089 [INFO]  Logging iniciado correctamente
+2025-07-29 11:53:32,089 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:53:40,656 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:53:43,955 [INFO]  Logging iniciado correctamente
+2025-07-29 11:53:43,956 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:53:52,515 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:53:55,845 [INFO]  Logging iniciado correctamente
+2025-07-29 11:53:55,845 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:54:04,461 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:54:07,760 [INFO]  Logging iniciado correctamente
+2025-07-29 11:54:07,760 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:54:16,317 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:54:19,623 [INFO]  Logging iniciado correctamente
+2025-07-29 11:54:19,624 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:54:28,211 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:54:31,501 [INFO]  Logging iniciado correctamente
+2025-07-29 11:54:31,501 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:54:40,099 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:54:43,393 [INFO]  Logging iniciado correctamente
+2025-07-29 11:54:43,394 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:54:51,968 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:54:55,263 [INFO]  Logging iniciado correctamente
+2025-07-29 11:54:55,263 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:55:03,887 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:55:07,189 [INFO]  Logging iniciado correctamente
+2025-07-29 11:55:07,190 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:55:15,761 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:55:19,055 [INFO]  Logging iniciado correctamente
+2025-07-29 11:55:19,055 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:55:27,658 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:55:30,946 [INFO]  Logging iniciado correctamente
+2025-07-29 11:55:30,947 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:55:39,560 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:55:42,874 [INFO]  Logging iniciado correctamente
+2025-07-29 11:55:42,874 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:55:51,454 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:55:54,762 [INFO]  Logging iniciado correctamente
+2025-07-29 11:55:54,762 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:56:03,318 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:56:06,608 [INFO]  Logging iniciado correctamente
+2025-07-29 11:56:06,609 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:56:15,228 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:56:18,515 [INFO]  Logging iniciado correctamente
+2025-07-29 11:56:18,515 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:56:27,090 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:56:30,375 [INFO]  Logging iniciado correctamente
+2025-07-29 11:56:30,376 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:56:39,015 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:56:42,312 [INFO]  Logging iniciado correctamente
+2025-07-29 11:56:42,312 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:56:50,945 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:56:54,234 [INFO]  Logging iniciado correctamente
+2025-07-29 11:56:54,235 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:57:02,840 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:57:06,137 [INFO]  Logging iniciado correctamente
+2025-07-29 11:57:06,138 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:57:14,713 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:57:18,011 [INFO]  Logging iniciado correctamente
+2025-07-29 11:57:18,011 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:57:26,606 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:57:29,913 [INFO]  Logging iniciado correctamente
+2025-07-29 11:57:29,914 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:57:38,530 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:57:41,821 [INFO]  Logging iniciado correctamente
+2025-07-29 11:57:41,821 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:57:50,361 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:57:53,652 [INFO]  Logging iniciado correctamente
+2025-07-29 11:57:53,652 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:58:02,226 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:58:05,508 [INFO]  Logging iniciado correctamente
+2025-07-29 11:58:05,508 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:58:14,120 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:58:17,424 [INFO]  Logging iniciado correctamente
+2025-07-29 11:58:17,424 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:58:25,978 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:58:29,265 [INFO]  Logging iniciado correctamente
+2025-07-29 11:58:29,266 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:58:37,833 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:58:41,145 [INFO]  Logging iniciado correctamente
+2025-07-29 11:58:41,145 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:58:49,756 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:58:53,048 [INFO]  Logging iniciado correctamente
+2025-07-29 11:58:53,049 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:59:01,679 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:59:04,982 [INFO]  Logging iniciado correctamente
+2025-07-29 11:59:04,982 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:59:13,565 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:59:16,845 [INFO]  Logging iniciado correctamente
+2025-07-29 11:59:16,845 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:59:25,499 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:59:28,785 [INFO]  Logging iniciado correctamente
+2025-07-29 11:59:28,786 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:59:37,374 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:59:40,680 [INFO]  Logging iniciado correctamente
+2025-07-29 11:59:40,680 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 11:59:49,296 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 11:59:52,608 [INFO]  Logging iniciado correctamente
+2025-07-29 11:59:52,609 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:00:01,175 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:00:04,470 [INFO]  Logging iniciado correctamente
+2025-07-29 12:00:04,470 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:00:13,069 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:00:16,353 [INFO]  Logging iniciado correctamente
+2025-07-29 12:00:16,353 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:00:24,931 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:00:28,234 [INFO]  Logging iniciado correctamente
+2025-07-29 12:00:28,234 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:00:36,761 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:00:40,048 [INFO]  Logging iniciado correctamente
+2025-07-29 12:00:40,048 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:00:48,611 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:00:51,918 [INFO]  Logging iniciado correctamente
+2025-07-29 12:00:51,918 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:00,491 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:01:03,776 [INFO]  Logging iniciado correctamente
+2025-07-29 12:01:03,777 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:12,403 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:01:15,699 [INFO]  Logging iniciado correctamente
+2025-07-29 12:01:15,699 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:24,224 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:01:27,608 [INFO]  Logging iniciado correctamente
+2025-07-29 12:01:27,609 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:36,193 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:01:39,484 [INFO]  Logging iniciado correctamente
+2025-07-29 12:01:39,484 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:48,039 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:01:51,338 [INFO]  Logging iniciado correctamente
+2025-07-29 12:01:51,339 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:01:59,889 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:02:04,989 [INFO]  Logging iniciado correctamente
+2025-07-29 12:02:04,990 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:02:13,816 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:02:19,021 [INFO]  Logging iniciado correctamente
+2025-07-29 12:02:19,021 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:02:27,579 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:02:30,886 [INFO]  Logging iniciado correctamente
+2025-07-29 12:02:30,886 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:02:40,067 [INFO]  Logging iniciado correctamente
+2025-07-29 12:02:40,068 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:02:48,616 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:02:51,927 [INFO]  Logging iniciado correctamente
+2025-07-29 12:02:51,928 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:03:00,467 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:03:03,769 [INFO]  Logging iniciado correctamente
+2025-07-29 12:03:03,769 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:03:12,323 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:03:15,620 [INFO]  Logging iniciado correctamente
+2025-07-29 12:03:15,620 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:03:24,239 [INFO]  Error inicializando BladeRF: No supported devices found (check the connection and/or udev rules).
+2025-07-29 12:03:27,507 [INFO]  Logging iniciado correctamente
+2025-07-29 12:03:27,508 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 12:03:44,755 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
+2025-07-29 12:03:44,756 [INFO] [!] Error leyendo CONFIG.INI: input_index must be < ninputs
+2025-07-29 12:03:44,777 [INFO]  Jammer activo sin GUI... (Ctrl+C para detener)
+2025-07-29 12:03:46,757 [INFO]  Cambios detectados en CONFIG.INI -> Aplicando: {'frec': 433000000.0, 'rf_gain': 73.0, 'selector': 0}
+2025-07-29 12:03:57,086 [INFO]  Detenido
+2025-07-29 15:09:37,224 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:37,227 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:37,227 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:09:41,137 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:41,137 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:41,137 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:09:45,786 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:45,787 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:45,787 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:09:49,722 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:49,722 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:49,723 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:09:53,629 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:53,633 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:53,634 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:09:58,322 [INFO]  Logging iniciado correctamente
+2025-07-29 15:09:58,323 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:09:58,324 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:02,260 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:02,260 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:02,260 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:06,133 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:06,134 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:06,135 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:10,810 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:10,811 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:10,815 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:14,714 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:14,715 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:14,715 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:18,584 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:18,584 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:18,585 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:22,759 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:22,759 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:22,760 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:26,808 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:26,809 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:26,809 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:30,749 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:30,749 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:30,749 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:35,438 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:35,440 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:35,440 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:10:39,334 [INFO]  Logging iniciado correctamente
+2025-07-29 15:10:39,334 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:10:39,335 [INFO]  Script integracion_total iniciado correctamente
+2025-07-29 15:14:04,196 [INFO]  Logging iniciado correctamente
+2025-07-29 15:14:04,196 [INFO]  Script JammerP2_NoGui iniciado correctamente
+2025-07-29 15:14:10,989 [INFO]  Logging iniciado correctamente
+2025-07-29 15:14:10,989 [INFO]  Script JammerP2_NoGui iniciado correctamente

@@ -187,15 +187,91 @@
     cursor: not-allowed;
     opacity: 0.9;
   }
+  .jammer-label {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.jammer-radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 10px;
+}
+
+.jammer-radio-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jammer-radio-option input[type="radio"] {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #38bdf8;  /* azul celeste */
+  border-radius: 50%;
+  background-color: #1e3a5f;
+  cursor: pointer;
+  position: relative;
+}
+
+.jammer-radio-option input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+}
+
+.jammer-radio-option label {
+  margin-top: 8px;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+}
+
 
 </style>
-
-
-
+<!-- 🔷 BLOQUE 1: Título + Hora + Tipo de Jammer -->
 <div class="section">
   <h2>Configuración del sistema</h2>
   <div id="fechaHora"></div>
 
+  <form method="POST" id="form-tipo-jammer">
+    {% csrf_token %}
+    <label class="jammer-label">Tipo de Jammer</label>
+    <div class="jammer-radio-group">
+      <div class="jammer-radio-option">
+        <input type="radio" id="jammer_inteligente" name="tipo_jammer" value="1" {% if tipo_jammer == 1 %}checked{% endif %}>
+        <label for="jammer_inteligente">Inteligente</label>
+      </div>
+      <div class="jammer-radio-option">
+        <input type="radio" id="jammer_bruto" name="tipo_jammer" value="0" {% if tipo_jammer == 0 %}checked{% endif %}>
+        <label for="jammer_bruto">Bruto</label>
+      </div>
+    </div>
+
+    <!-- Botón oculto para enviar sin repetir todos los campos -->
+    <button type="submit" style="display: none;"></button>
+    <input type="hidden" name="form_tipo_jammer" value="1">
+    <input type="hidden" name="form_configuracion" value="1">
+
+  </form>
+</div>
+
+
+
+<!-- 🔷 BLOQUE 2: Formulario principal -->
+<div class="section">
   <form method="POST">
     {% csrf_token %}
 
@@ -268,6 +344,14 @@
   </form>
 </div>
 
+
+<script>
+  document.querySelectorAll('input[name="tipo_jammer"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('form-tipo-jammer').submit();
+    });
+  });
+</script>
 
 
 <script>
